@@ -1,0 +1,8 @@
+.req::after {
+    content: " *";
+    color: red;
+}
+
+table.dataTable tr.selected{
+    color: black !important;
+}

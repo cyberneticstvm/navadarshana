@@ -26,6 +26,7 @@
 
     <!-- Style css -->
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/css/mystyle.css') }}" rel="stylesheet">
 
 </head>
 
@@ -429,8 +430,6 @@
         <!--**********************************
            Support ticket button end
         ***********************************-->
-
-        @include("message")
     </div>
     <!--**********************************
         Main wrapper end
@@ -457,7 +456,7 @@
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
     <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
 
-
+    @include("message")
 
 
     <script>

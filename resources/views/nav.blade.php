@@ -15,41 +15,14 @@
                     </div>
                     <span class="nav-text">Dashboard</span>
                 </a>
-                <ul aria-expanded="false">
-                    <li><a href="index.html">Crypto</a></li>
-                    <li><a href="crm.html">CRM</a></li>
-                    <li><a href="finance.html">Finance </a></li>
-                    <li><a href="analytics.html">Analytics</a></li>
-                    <li><a href="index-3.html">Sales</a></li>
-                    <li><a href="ecommerce.html">E-commerce</a></li>
-                    <li><a href="course.html">Course</a></li>
-                    <li><a href="medical.html">Medical</a></li>
-                </ul>
+                {{
+                    Menu::new()->addClass('sub-menu collapse')->setAttribute('aria-expanded', 'false')
+                ->link(route('dashboard'), 'Finance')
+                ->link(route('dashboard'), 'Student');
+                }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <div class="menu-icon">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
-                            width="24px" fill="#5f6368">
-                            <path
-                                d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z" />
-                        </svg>
-                    </div>
-                    <span class="nav-text">Profile</span>
-                </a>
-                <ul aria-expanded="false">
-                    <li><a href="profile/overview.html">Overview</a></li>
-                    <li><a href="profile/projects.html">Projects</a></li>
-                    <li><a href="profile/projects-details.html">Projects Details</a></li>
-                    <li><a href="profile/campaigns.html">Campaigns</a></li>
-                    <li><a href="profile/documents.html">Documents</a></li>
-                    <li><a href="profile/followers.html">Followers</a></li>
-                    <li><a href="profile/activity.html">Activity</a></li>
-                </ul>
-            </li>
-            <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
-                    <div class="menu-icon">
-
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                             width="24px" fill="#5f6368">
                             <path
@@ -58,17 +31,11 @@
                     </div>
                     <span class="nav-text">Account</span>
                 </a>
-                <ul aria-expanded="false">
-                    <li><a href="account/overview.html">Overview</a></li>
-                    <li><a href="account/settings.html">Settings</a></li>
-                    <li><a href="account/security.html">Security</a></li>
-                    <li><a href="account/activity.html">Activity</a></li>
-                    <li><a href="account/billing.html">Billing</a></li>
-                    <li><a href="account/statements.html">Statements</a></li>
-                    <li><a href="account/referrals.html">Referrals</a></li>
-                    <li><a href="account/api-keys.html">Api keys</a></li>
-                    <li><a href="account/logs.html">Logs</a></li>
-                </ul>
+                {{
+                    Menu::new()->addClass('sub-menu collapse')->setAttribute('aria-expanded', 'false')
+                ->link(route('dashboard'), 'Users')
+                ->link(route('role.register'), 'Roles & Permissions');
+                }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <div class="menu-icon">
