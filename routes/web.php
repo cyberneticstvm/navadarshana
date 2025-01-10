@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -9,9 +10,9 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
+/*Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');*/
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -20,6 +21,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['web', 'auth'])->group(function () {
+    Route::prefix('/dashboard')->controller(UserController::class)->group(function () {
+        Route::get('/', 'dashboard')->name('dashboard');
+        Route::post('/update/branch', 'updateBranch')->name('user.branch.update');
+    });
+
     Route::prefix('/user')->controller(UserController::class)->group(function () {
         Route::get('/', 'index')->name('user.register');
         Route::get('/create', 'create')->name('user.create');
@@ -36,6 +42,15 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('role.edit');
         Route::post('/edit/{id}', 'update')->name('role.update');
         Route::get('/delete/{id}', 'destroy')->name('role.delete');
+    });
+
+    Route::prefix('/branch')->controller(BranchController::class)->group(function () {
+        Route::get('/', 'index')->name('branch.register');
+        Route::get('/create', 'create')->name('branch.create');
+        Route::post('/create', 'store')->name('branch.save');
+        Route::get('/edit/{id}', 'edit')->name('branch.edit');
+        Route::post('/edit/{id}', 'update')->name('branch.update');
+        Route::get('/delete/{id}', 'destroy')->name('branch.delete');
     });
 });
 

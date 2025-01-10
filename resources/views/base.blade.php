@@ -23,6 +23,8 @@
     <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/vendor/swiper/css/swiper-bundle.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('/assets/vendor/select2/css/select2.min.css') }}">
+    <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
 
     <!-- Style css -->
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
@@ -453,6 +455,9 @@
     <script src="{{ asset('/assets/vendor/datatables/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/datatables/js/jszip.min.js') }}"></script>
     <script src="{{ asset('/assets/js/plugins-init/datatables.init.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('/assets/vendor/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
     <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
 
@@ -479,7 +484,9 @@
                 jQuery(window).on('resize', function() {
                     new dzSettings(dzSettingsOptions);
                 })
-            }, 1000)
+            }, 1000);
+
+            $("#branchSelector").modal('show');
         });
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1.5,

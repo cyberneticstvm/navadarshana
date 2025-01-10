@@ -4,10 +4,14 @@
   "use strict"
   
   // single select box
-  $("#single-select").select2();
+  $(".single-select").select2({
+    placeholder: "Select",
+  });
 
   // multi select box
-  $('.multi-select').select2();
+  $('.multi-select').select2({
+    placeholder: "Select",
+  });
 
   // dropdown option groups
   $('.dropdown-groups').select2();

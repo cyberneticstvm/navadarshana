@@ -3,6 +3,21 @@
     color: red;
 }
 
-table.dataTable tr.selected{
+table.dataTable tr.selected {
     color: black !important;
+}
+
+.btn,
+.form-control,
+.form-check-input, .select2-selection--multiple, .select2-selection--single, .select2-selection__choice {
+    border-radius: 0 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+    background-color: #000;
+    color: #fff;
+}
+
+.select2-selection--single{
+    height: 2.65rem !important;
 }

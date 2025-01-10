@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Branch;
 use App\Models\User;
+use App\Models\UserBranch;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller implements HasMiddleware
 {
@@ -21,10 +25,29 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            /*new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-list'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-list'), only: ['index']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-create'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-edit'), only: ['edit', 'update']),
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-delete'), only: ['destroy']),*/];
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-delete'), only: ['destroy']),
+        ];
+    }
+
+    function dashboard()
+    {
+        $branches = Branch::whereIn('id', UserBranch::where('user_id', Auth::id())->pluck('branch_id'))->pluck('name', 'id');
+        return view('dashboard', compact('branches'));
+    }
+
+    public function updateBranch(Request $request)
+    {
+        Session::put('branch', $request->branch);
+        if (Session::has('branch')) :
+            return redirect()->route('dashboard')
+                ->withSuccess('User branch updated successfully!');
+        else :
+            return redirect()->route('dashboard')
+                ->withError('Please update branch!');
+        endif;
     }
 
     public function index()
@@ -39,7 +62,8 @@ class UserController extends Controller implements HasMiddleware
     public function create()
     {
         $roles = Role::pluck('name', 'name')->all();
-        return view('user.create', compact('roles'));
+        $branches = Branch::pluck('name', 'id');
+        return view('user.create', compact('roles', 'branches'));
     }
 
     /**
@@ -49,16 +73,26 @@ class UserController extends Controller implements HasMiddleware
     {
         $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:users,username',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:6',
             'roles' => 'required',
+            'branches' => 'required',
         ]);
         try {
-            $input = $request->all();
-            $input['password'] = Hash::make($request->password);
+            $input = $request->except(array('branches', 'roles'));
+            $input['password'] = Hash::make($input['password']);
+            $input['created_by'] = $request->user()->id;
+            $input['updated_by'] = $request->user()->id;
             $user = User::create($input);
             $user->assignRole($request->input('roles'));
+            $data = [];
+            foreach ($request->branches as $key => $br) :
+                $data[] = [
+                    'user_id' => $user->id,
+                    'branch_id' => $br,
+                ];
+            endforeach;
+            UserBranch::insert($data);
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
@@ -81,32 +115,43 @@ class UserController extends Controller implements HasMiddleware
         $user = User::findOrFail(decrypt($id));
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
-        return view('user.edit', compact('user', 'roles', 'userRole'));
+        $branches = Branch::pluck('name', 'id');
+        return view('user.edit', compact('user', 'roles', 'userRole', 'branches'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user, string $id)
+    public function update(Request $request, string $id)
     {
-        //$id = decrypt($id);
+        $id = decrypt($id);
         $request->validate([
             'name' => 'required',
-            'username' => 'required|unique:users,username,' . $id,
-            'email' => 'required|unique:users,email,' . $id,
+            'email' => 'required|email|unique:users,email,' . $id,
             'roles' => 'required',
+            'branches' => 'required',
         ]);
         try {
-            $user = User::findOrFail($id);
-            $input = $request->all();
-            if ($request->password) :
-                $input['password'] = Hash::make($request->password);
-            else :
+            $input = $request->except(array('branches', 'roles'));
+            if (!empty($input['password'])) {
+                $input['password'] = Hash::make($input['password']);
+            } else {
                 $input = Arr::except($input, array('password'));
-            endif;
+            }
+
+            $user = User::findOrFail($id);
             $user->update($input);
+            $data = [];
+            foreach ($request->branches as $key => $br) :
+                $data[] = [
+                    'user_id' => $user->id,
+                    'branch_id' => $br,
+                ];
+            endforeach;
             DB::table('model_has_roles')->where('model_id', $id)->delete();
+            DB::table('user_branches')->where('user_id', $id)->delete();
             $user->assignRole($request->input('roles'));
+            UserBranch::insert($data);
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
@@ -119,6 +164,7 @@ class UserController extends Controller implements HasMiddleware
     public function destroy(User $user, string $id)
     {
         User::findOrFail(decrypt($id))->delete();
+        UserBranch::where('user_id', decrypt($id))->delete();
         return redirect()->route('user.register')->with("success", "User deleted successfully");
     }
 }
