@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +26,10 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::prefix('/dashboard')->controller(UserController::class)->group(function () {
         Route::get('/', 'dashboard')->name('dashboard');
         Route::post('/update/branch', 'updateBranch')->name('user.branch.update');
+    });
+
+    Route::prefix('ajax')->controller(AjaxController::class)->group(function () {
+        Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
     });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {
@@ -51,6 +57,15 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('branch.edit');
         Route::post('/edit/{id}', 'update')->name('branch.update');
         Route::get('/delete/{id}', 'destroy')->name('branch.delete');
+    });
+
+    Route::prefix('/student')->controller(StudentController::class)->group(function () {
+        Route::get('/', 'index')->name('student.register');
+        Route::get('/create', 'create')->name('student.create');
+        Route::post('/create', 'store')->name('student.save');
+        Route::get('/edit/{id}', 'edit')->name('student.edit');
+        Route::post('/edit/{id}', 'update')->name('student.update');
+        Route::get('/delete/{id}', 'destroy')->name('student.delete');
     });
 });
 

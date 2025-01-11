@@ -87,7 +87,7 @@
         <!--**********************************
             Chat box start
         ***********************************-->
-        <div class="chatbox">
+        <div class="chatbox" id="notBox">
             <div class="chatbox-close"></div>
             <div class="custom-tab-1">
                 <ul class="nav nav-tabs">
@@ -460,6 +460,7 @@
     <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
     <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
+    <script src="{{ asset('/assets/js/script.js') }}"></script>
 
     @include("message")
 

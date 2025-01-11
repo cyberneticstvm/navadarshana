@@ -285,7 +285,7 @@ var NexaDash = function(){
 	
 	var handleChatbox = function() {
 		jQuery('.bell-link').on('click',function(){
-			jQuery('.chatbox').addClass('active');
+			jQuery('#notBox').addClass('active');
 		});
 		jQuery('.chatbox-close').on('click',function(){
 			jQuery('.chatbox').removeClass('active');
