@@ -418,7 +418,7 @@
         ***********************************-->
         <div class="footer">
             <div class="copyright">
-                <p>Copyright © {{ date('Y') }} Navadarshana Educations Pvt. Ltd. Developed & Maintained by <a href="https://cybernetics.me/" target="_blank">Cybernetics</a> </p>
+                <p>Copyright © {{ date('Y') }} Navadarshana Educations Pvt. Ltd. Developed & Maintained by <a href="https://cybernetics.me/" target="_blank">Cybernetics Tech.</a> </p>
             </div>
         </div>
         <!--**********************************
