@@ -36,7 +36,7 @@
                                     <tr>
                                         <td>{{ $student->id }}</td>
                                         <td><a href="javascript:void(0)" class="viewStudentDetail text-info" data-sid="{{ $student->id }}">{{ $student->name }}</a></td>
-                                        <td>{{ $student->current_status }}</td>
+                                        <td>{!! $student->currentStatus() !!}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->mobile }}</td>
                                         <td>{{ $student->address }}</td>
