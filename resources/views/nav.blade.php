@@ -50,7 +50,8 @@
                 </a>
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
-                    ->linkIfCan('branch-list', route('branch.register'), 'Branch Management')
+                    ->linkIfCan('branch-list', route('branch.register'), 'Branch Register')
+                    ->linkIfCan('batch-list', route('batch.register'), 'Batch Register')
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -66,7 +67,8 @@
                 </a>
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
-                    ->linkIfCan('student-list', route('student.register'), 'Student Management')
+                    ->linkIfCan('student-list', route('student.register'), 'Student Register')
+                    ->linkIfCan('fee-list', route('fee.register'), 'Fee Register')
                 }}
             </li>
         </ul>

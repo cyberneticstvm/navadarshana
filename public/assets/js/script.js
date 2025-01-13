@@ -15,4 +15,19 @@ $(function(){
             }
         });        
     });
+
+    $(document).on("click", ".viewStudentsForBatch", function(){
+        let bid = $(this).data('bid');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/student/batch/' + bid,
+            success: function (res) {
+                $('#studentsTblforBatch').addClass('active');
+                $(".studentsDetail").html(res);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });        
+    });
 })

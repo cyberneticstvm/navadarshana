@@ -109,4 +109,15 @@
             }
         })
     });
+
+    function validateStudentBatch() {
+        let frm = document.forms["frmStudentBatch"];
+        if (!$(".chkStudent").is(":checked")) {
+            failed({
+                'error': 'Please select at least one Student'
+            })
+            return false;
+        }
+        return true;
+    }
 </script>

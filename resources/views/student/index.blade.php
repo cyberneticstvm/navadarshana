@@ -24,11 +24,11 @@
                                         <th>Status</th>
                                         <th>Email</th>
                                         <th>Mobile</th>
-                                        <th>Address</th>
                                         <th>Photo</th>
                                         <th>Deleted</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
+                                        <th>Fee</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -39,11 +39,21 @@
                                         <td>{!! $student->currentStatus() !!}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->mobile }}</td>
-                                        <td>{{ $student->address }}</td>
                                         <td><a href="{{ ($student->photo) ? url($student->photo) : '#' }}" target="_blank">{!! ($student->photo) ? '<i class="fa fa-image text-info"></i>' : 'Na' !!}</a></td>
                                         <td>{!! $student->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('student.edit', encrypt($student->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('student.delete', encrypt($student->id)) }}" class="text-danger dlt">Delete</a></span></td>
+                                        <td>
+                                            <div class="dropdown custom-dropdown">
+                                                <div data-bs-toggle="dropdown">Fee
+                                                    <i class="fa fa-angle-down ms-3"></i>
+                                                </div>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'admission', 'student' => encrypt($student->id)]) }}">Admission Fee</a>
+                                                    <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'monthly', 'student' => encrypt($student->id)]) }}">Month Fee</a>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                     @empty
                                     @endforelse
