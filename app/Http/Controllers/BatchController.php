@@ -7,7 +7,7 @@ use App\Models\StudentBatch;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\middleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Session;
 
 class BatchController extends Controller implements HasMiddleware

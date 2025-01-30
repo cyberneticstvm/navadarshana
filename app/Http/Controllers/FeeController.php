@@ -11,7 +11,7 @@ use App\Models\StudentBatch;
 use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\middleware;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;

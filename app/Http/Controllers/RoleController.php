@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\middleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 
 class RoleController extends Controller implements HasMiddleware
