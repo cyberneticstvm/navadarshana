@@ -33,7 +33,7 @@
                 </a>
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
-                    ->linkIfCan('user-list', route('user.register'), 'Users')
+                    ->link(route('user.register'), 'Users')
                     ->link(route('role.register'), 'Roles & Permissions');
                 }}
             </li>
