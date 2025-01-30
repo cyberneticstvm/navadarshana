@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\middleware;
+use \Illuminate\Routing\Controllers\HasMiddleware;
+use \Illuminate\Routing\Controllers\middleware;
 
 class BranchController extends Controller implements HasMiddleware
 {
