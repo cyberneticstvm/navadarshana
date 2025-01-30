@@ -25,10 +25,11 @@ class UserController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            /*new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-list'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-list'), only: ['index']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-create'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-edit'), only: ['edit', 'update']),
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-delete'), only: ['destroy']),*/];
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('user-delete'), only: ['destroy']),
+        ];
     }
 
     function dashboard()

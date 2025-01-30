@@ -18,10 +18,11 @@ class RoleController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            /*new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('role-list'), only: ['index']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('role-list'), only: ['index']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('role-create'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('role-edit'), only: ['edit', 'update']),
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('role-delete'), only: ['destroy'])*/];
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('role-delete'), only: ['destroy'])
+        ];
     }
 
     public function index()
