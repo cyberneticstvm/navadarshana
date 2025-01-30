@@ -34,7 +34,7 @@
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->linkIfCan('user-list', route('user.register'), 'Users')
-                    ->linkIfCan('role-list', route('role.register'), 'Roles & Permissions');
+                    ->link(route('role.register'), 'Roles & Permissions');
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
