@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\Course;
 use App\Models\StudentBatch;
 use Exception;
 use Illuminate\Http\Request;
@@ -38,7 +39,8 @@ class BatchController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view('batch.create');
+        $courses = Course::pluck('name', 'id');
+        return view('batch.create', compact('courses'));
     }
 
     /**
@@ -52,6 +54,7 @@ class BatchController extends Controller implements HasMiddleware
             'category' => 'required',
             'admission_fee' => 'required',
             'monthly_fee' => 'required',
+            'course_id' => 'required',
         ]);
         try {
             $input = $request->all();
@@ -80,7 +83,8 @@ class BatchController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $batch = Batch::findOrFail(decrypt($id));
-        return view('batch.edit', compact('batch'));
+        $courses = Course::pluck('name', 'id');
+        return view('batch.edit', compact('batch', 'courses'));
     }
 
     /**
@@ -94,6 +98,7 @@ class BatchController extends Controller implements HasMiddleware
             'category' => 'required',
             'admission_fee' => 'required',
             'monthly_fee' => 'required',
+            'course_id' => 'required',
         ]);
         try {
             $batch = Batch::findOrFail(decrypt($id));

@@ -8,7 +8,7 @@
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">
                         Home </a>
                 </li>
-                <li class="breadcrumb-item"><a href="{{ route('branch.register') }}">Batch</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('batch.register') }}">Batch</a></li>
                 <li class="breadcrumb-item active"><a href="javascript:void(0)">Create</a></li>
             </ul>
         </div>
@@ -31,6 +31,13 @@
                                     {{ html()->text('name', old('name'))->class("form-control")->placeholder("Branch Name") }}
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label req">Course</label>
+                                    {{ html()->select($name = 'course_id', $value = $courses, NULL)->class('form-control single-select')->placeholder('Select') }}
+                                    @error('course_id')
+                                    <small class="text-danger">{{ $errors->first('course_id') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-2">

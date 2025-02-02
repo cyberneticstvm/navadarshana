@@ -11,17 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('batches', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->unsignedBigInteger('course_id');
-            $table->enum('category', ['online', 'offline', 'other']);
-            $table->date('start_date');
-            $table->decimal('admission_fee', 7, 2)->default(0);
-            $table->decimal('monthly_fee', 7, 2)->default(0);
+            $table->string('name')->unique();
             $table->unsignedBigInteger('branch_id');
             $table->foreign('branch_id')->references('id')->on('branches')->onDelete('cascade');
-            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->unique(array('name', 'branch_id'));
@@ -35,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('batches');
+        Schema::dropIfExists('courses');
     }
 };

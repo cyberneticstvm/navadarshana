@@ -51,6 +51,7 @@
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->linkIfCan('branch-list', route('branch.register'), 'Branch Register')
+                    ->linkIfCan('course-list', route('course.register'), 'Course Register')
                     ->linkIfCan('batch-list', route('batch.register'), 'Batch Register')
                 }}
             </li>

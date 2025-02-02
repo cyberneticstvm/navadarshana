@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -69,6 +70,15 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('student.edit');
         Route::post('/edit/{id}', 'update')->name('student.update');
         Route::get('/delete/{id}', 'destroy')->name('student.delete');
+    });
+
+    Route::prefix('/course')->controller(CourseController::class)->group(function () {
+        Route::get('/', 'index')->name('course.register');
+        Route::get('/create', 'create')->name('course.create');
+        Route::post('/create', 'store')->name('course.save');
+        Route::get('/edit/{id}', 'edit')->name('course.edit');
+        Route::post('/edit/{id}', 'update')->name('course.update');
+        Route::get('/delete/{id}', 'destroy')->name('course.delete');
     });
 
     Route::prefix('/batch')->controller(BatchController::class)->group(function () {

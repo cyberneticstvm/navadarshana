@@ -3,12 +3,12 @@
 <div class="content-body">
     <div class="container">
         <div class="page-titles">
-            <h5 class="dashboard_bar">Batch - <a href="{{ route('batch.create') }}">Create New</a></h5>
+            <h5 class="dashboard_bar">Course - <a href="{{ route('course.create') }}">Create New</a></h5>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">
                         Home </a>
                 </li>
-                <li class="breadcrumb-item active"><a href="javascript:void(0)">Batch</a></li>
+                <li class="breadcrumb-item active"><a href="javascript:void(0)">Course</a></li>
             </ul>
         </div>
         <div class="row mt-3">
@@ -20,22 +20,20 @@
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
-                                        <th>Name</th>
-                                        <th>Course</th>
+                                        <th>Course Name</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($batches as $key => $batch)
+                                    @forelse($courses as $key => $course)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td><a href="javascript:void(0)" class="viewStudentsForBatch text-info" data-bid="{{ $batch->id }}">{{ $batch->name }}</a></td>
-                                        <td>{{ $batch?->course?->name }}</td>
-                                        <td>{!! $batch->status() !!}</td>
-                                        <td><span class="badge badge-lg light badge-warning"><a href="{{ route('batch.edit', encrypt($batch->id)) }}" class="text-warning">Edit</a></span></td>
-                                        <td><span class="badge badge-lg light badge-danger"><a href="{{ route('batch.delete', encrypt($batch->id)) }}" class="text-danger dlt">Delete</a></span></td>
+                                        <td>{{ $course->name }}</td>
+                                        <td>{!! $course->status() !!}</td>
+                                        <td><span class="badge badge-lg light badge-warning"><a href="{{ route('course.edit', encrypt($course->id)) }}" class="text-warning">Edit</a></span></td>
+                                        <td><span class="badge badge-lg light badge-danger"><a href="{{ route('course.delete', encrypt($course->id)) }}" class="text-danger dlt">Delete</a></span></td>
                                     </tr>
                                     @empty
                                     @endforelse
