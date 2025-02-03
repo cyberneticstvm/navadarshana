@@ -50,7 +50,7 @@
                                                 </div>
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'admission', 'student' => encrypt($student->id)]) }}">Admission Fee</a>
-                                                    <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'monthly', 'student' => encrypt($student->id)]) }}">Month Fee</a>
+                                                    <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'monthly', 'student' => encrypt($student->id)]) }}">Batch Fee</a>
                                                 </div>
                                             </div>
                                         </td>

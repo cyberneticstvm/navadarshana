@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class StudentBatch extends Model
+class Topic extends Model
 {
     use SoftDeletes;
 
@@ -16,13 +16,8 @@ class StudentBatch extends Model
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
 
-    public function student()
+    public function module()
     {
-        return $this->belongsTo(Student::class, 'student_id', 'id');
-    }
-
-    public function batch()
-    {
-        return $this->belongsTo(Batch::class, 'batch_id', 'id');
+        return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 }

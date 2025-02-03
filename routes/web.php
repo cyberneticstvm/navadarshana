@@ -5,9 +5,13 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\SyllabusController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +37,11 @@ Route::middleware(['web', 'auth'])->group(function () {
 
     Route::prefix('ajax')->controller(AjaxController::class)->group(function () {
         Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
-        Route::get('/student/batch/{id}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
+        Route::get('/student/batch/{id}/{action}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
+        Route::get('/course/syllabus/{id}/{action}', 'getSyllabusForCourse')->name('get.syllabus.for.course');
+        Route::get('/syllabus/subject/{id}/{action}', 'getSubjectsForSyllabus')->name('get.subjects.for.syllabus');
+        Route::get('/subject/module/{id}/{action}', 'getModulesForSubject')->name('get.modules.for.subject');
+        Route::get('/module/topic/{id}/{action}', 'getTopicsForModule')->name('get.topics.for.module');
     });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {
@@ -79,6 +87,56 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('course.edit');
         Route::post('/edit/{id}', 'update')->name('course.update');
         Route::get('/delete/{id}', 'destroy')->name('course.delete');
+
+        Route::post('/syllabus/save', 'courseSyllabusSave')->name('course.syllabus.save');
+        Route::get('/syllabus/remove/{id}', 'courseSyllabusRemove')->name('course.syllabus.remove');
+        Route::get('/syllabus/restore/{id}', 'courseSyllabusRestore')->name('course.syllabus.restore');
+    });
+
+    Route::prefix('/syllabus')->controller(SyllabusController::class)->group(function () {
+        Route::get('/', 'index')->name('syllabus.register');
+        Route::get('/create', 'create')->name('syllabus.create');
+        Route::post('/create', 'store')->name('syllabus.save');
+        Route::get('/edit/{id}', 'edit')->name('syllabus.edit');
+        Route::post('/edit/{id}', 'update')->name('syllabus.update');
+        Route::get('/delete/{id}', 'destroy')->name('syllabus.delete');
+
+        Route::post('/subject/save', 'syllabusSubjectSave')->name('syllabus.subject.save');
+        Route::get('/subject/remove/{id}', 'syllabusSubjectRemove')->name('syllabus.subject.remove');
+        Route::get('/subject/restore/{id}', 'syllabusSubjectRestore')->name('syllabus.subject.restore');
+    });
+
+    Route::prefix('/subject')->controller(SubjectController::class)->group(function () {
+        Route::get('/', 'index')->name('subject.register');
+        Route::get('/create', 'create')->name('subject.create');
+        Route::post('/create', 'store')->name('subject.save');
+        Route::get('/edit/{id}', 'edit')->name('subject.edit');
+        Route::post('/edit/{id}', 'update')->name('subject.update');
+        Route::get('/delete/{id}', 'destroy')->name('subject.delete');
+
+        Route::get('/module/remove/{id}', 'subjectModuleRemove')->name('subject.module.remove');
+        Route::get('/module/restore/{id}', 'subjectModuleRestore')->name('subject.module.restore');
+    });
+
+    Route::prefix('/module')->controller(ModuleController::class)->group(function () {
+        Route::get('/', 'index')->name('module.register');
+        Route::get('/create', 'create')->name('module.create');
+        Route::post('/create', 'store')->name('module.save');
+        Route::get('/edit/{id}', 'edit')->name('module.edit');
+        Route::post('/edit/{id}', 'update')->name('module.update');
+        Route::get('/delete/{id}', 'destroy')->name('module.delete');
+
+        Route::get('/topic/remove/{id}', 'moduleTopicRemove')->name('module.topic.remove');
+        Route::get('/topic/restore/{id}', 'moduleTopicRestore')->name('module.topic.restore');
+    });
+
+    Route::prefix('/topic')->controller(TopicController::class)->group(function () {
+        Route::get('/', 'index')->name('topic.register');
+        Route::get('/create', 'create')->name('topic.create');
+        Route::post('/create', 'store')->name('topic.save');
+        Route::get('/edit/{id}', 'edit')->name('topic.edit');
+        Route::post('/edit/{id}', 'update')->name('topic.update');
+        Route::get('/delete/{id}', 'destroy')->name('topic.delete');
     });
 
     Route::prefix('/batch')->controller(BatchController::class)->group(function () {
@@ -88,7 +146,10 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('batch.edit');
         Route::post('/edit/{id}', 'update')->name('batch.update');
         Route::get('/delete/{id}', 'destroy')->name('batch.delete');
+
         Route::post('/student/save', 'save')->name('batch.student.save');
+        Route::get('/student/remove/{id}', 'batchStudentRemove')->name('batch.student.remove');
+        Route::get('/student/restore/{id}', 'batchStudentRestore')->name('batch.student.restore');
     });
 
     Route::prefix('/fee')->controller(FeeController::class)->group(function () {

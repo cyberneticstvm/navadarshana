@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\Course;
+use App\Models\CourseSyllabus;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -45,7 +47,7 @@ class CourseController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:subjects,name',
         ]);
         try {
             $input = $request->all();
@@ -83,7 +85,7 @@ class CourseController extends Controller implements HasMiddleware
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:subjects,name,' . decrypt($id),
         ]);
         try {
             $course = Course::findOrFail(decrypt($id));
@@ -104,7 +106,44 @@ class CourseController extends Controller implements HasMiddleware
     {
         Course::findOrFail(decrypt($id))->delete();
         Batch::where('course_id', decrypt($id))->delete();
+        CourseSyllabus::where('course_id', decrypt($id))->delete();
         return redirect()->route('course.register')
             ->with('success', 'Course deleted successfully');
+    }
+
+    public function courseSyllabusSave(Request $request)
+    {
+        $request->validate([
+            'syllabus_id' => 'required',
+        ]);
+        try {
+            CourseSyllabus::insert([
+                'course_id' => decrypt($request->course_id),
+                'syllabus_id' => $request->syllabus_id,
+                'created_by' => $request->user()->id,
+                'updated_by' => $request->user()->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        } catch (Exception $e) {
+            return redirect()->back()->with("error", $e->getMessage());
+        }
+
+        return redirect()->route('course.register')
+            ->with('success', 'Syllabus added successfully');
+    }
+
+    public function courseSyllabusRemove(String $id)
+    {
+        CourseSyllabus::findOrFail(decrypt($id))->delete();
+        return redirect()->route('course.register')
+            ->with('success', 'Syllabus removed successfully');
+    }
+
+    public function courseSyllabusRestore(String $id)
+    {
+        CourseSyllabus::withTrashed()->findOrFail(decrypt($id))->restore();
+        return redirect()->route('course.register')
+            ->with('success', 'Syllabus restored successfully');
     }
 }

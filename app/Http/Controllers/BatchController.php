@@ -140,8 +140,17 @@ class BatchController extends Controller implements HasMiddleware
             ->with('success', 'Student Batch added successfully');
     }
 
-    public function delete(String $id)
+    public function batchStudentRemove(String $id)
     {
-        //
+        StudentBatch::findOrFail(decrypt($id))->delete();
+        return redirect()->route('batch.register')
+            ->with('success', 'Student removed successfully');
+    }
+
+    public function batchStudentRestore(String $id)
+    {
+        StudentBatch::withTrashed()->findOrFail(decrypt($id))->restore();
+        return redirect()->route('batch.register')
+            ->with('success', 'Student restored successfully');
     }
 }

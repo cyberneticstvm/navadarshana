@@ -52,6 +52,22 @@ class DatabaseSeeder extends Seeder
             'fee-create',
             'fee-edit',
             'fee-delete',
+            'syllabus-list',
+            'syllabus-create',
+            'syllabus-edit',
+            'syllabus-delete',
+            'subject-list',
+            'subject-create',
+            'subject-edit',
+            'subject-delete',
+            'module-list',
+            'module-create',
+            'module-edit',
+            'module-delete',
+            'topic-list',
+            'topic-create',
+            'topic-edit',
+            'topic-delete',
         ];
 
         foreach ($permissions as $permission) {
