@@ -17,6 +17,24 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
+    function getDropDown(Request $request)
+    {
+        $items = collect();
+        switch ($request->give):
+            case 'subject';
+                if ($request->take == 'module')
+                    $items = Module::where('subject_id', $request->typeId)->get();
+                break;
+            case 'module';
+                if ($request->take == 'topic')
+                    $items = Topic::where('module_id', $request->typeId)->get();
+                break;
+        endswitch;
+        return response()->json([
+            'items' => $items,
+        ]);
+    }
+
     function getStudentDetails(String $studentId)
     {
         $student = Student::findOrFail($studentId);

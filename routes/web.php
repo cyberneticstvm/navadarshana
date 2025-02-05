@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\ModuleController;
+use App\Http\Controllers\NotesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
@@ -34,8 +35,13 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/', 'dashboard')->name('dashboard');
         Route::post('/update/branch', 'updateBranch')->name('user.branch.update');
     });
+});
+
+Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('ajax')->controller(AjaxController::class)->group(function () {
+        Route::get('/get/ddl', 'getDropDown')->name('get.ddl');
+
         Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
         Route::get('/student/batch/{id}/{action}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
         Route::get('/course/syllabus/{id}/{action}', 'getSyllabusForCourse')->name('get.syllabus.for.course');
@@ -137,6 +143,15 @@ Route::middleware(['web', 'auth'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('topic.edit');
         Route::post('/edit/{id}', 'update')->name('topic.update');
         Route::get('/delete/{id}', 'destroy')->name('topic.delete');
+    });
+
+    Route::prefix('/notes')->controller(NotesController::class)->group(function () {
+        Route::get('/', 'index')->name('notes.register');
+        Route::get('/create', 'create')->name('notes.create');
+        Route::post('/create', 'store')->name('notes.save');
+        Route::get('/edit/{id}', 'edit')->name('notes.edit');
+        Route::post('/edit/{id}', 'update')->name('notes.update');
+        Route::get('/delete/{id}', 'destroy')->name('notes.delete');
     });
 
     Route::prefix('/batch')->controller(BatchController::class)->group(function () {

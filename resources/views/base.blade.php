@@ -25,6 +25,7 @@
     <link href="{{ asset('/assets/vendor/swiper/css/swiper-bundle.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/assets/vendor/select2/css/select2.min.css') }}">
     <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/assets/vendor/summernote/summernote-bs5.css') }}" rel="stylesheet">
 
     <!-- Style css -->
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
@@ -444,10 +445,18 @@
     <script src="{{ asset('/assets/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/chart.js/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    @if(Route::current()->getName() == 'dashboard')
     <script src="{{ asset('/assets/vendor/apexchart/apexchart.js') }}"></script>
     <script src="{{ asset('/assets/vendor/peity/jquery.peity.min.js') }}"></script>
-    <!-- Dashboard 1 -->
     <script src="{{ asset('/assets/js/dashboard/ecommerce.js') }}"></script>
+    <script>
+        $(function() {
+            $("#branchSelector").modal('show');
+        })
+    </script>
+    @endif
+    <!-- Dashboard 1 -->
+
     <script src="{{ asset('/assets/vendor/draggable/draggable.js') }}"></script>
     <script src="{{ asset('/assets/vendor/swiper/js/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
@@ -460,56 +469,21 @@
     <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
     <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
+    @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
+    <script src="{{ asset('/assets/vendor/summernote/summernote-bs5.js') }}"></script>
+    <script>
+        $(function() {
+            $('.summernote').summernote({
+                placeholder: 'Please enter content here',
+                height: 150
+            });
+        })
+    </script>
+    @endif
     <script src="{{ asset('/assets/js/script.js') }}"></script>
 
+
     @include("message")
-
-
-    <script>
-        jQuery(document).ready(function() {
-            setTimeout(function() {
-                var dzSettingsOptions = {
-                    typography: "Inter, sans-serif",
-                    version: "light",
-                    layout: "horizontal",
-                    primary: "color_1",
-                    headerBg: "color_4",
-                    navheaderBg: "color_4",
-                    sidebarBg: "color_1",
-                    sidebarStyle: "full",
-                    sidebarPosition: "fixed",
-                    headerPosition: "fixed",
-                    containerLayout: "full",
-                };
-                new dzSettings(dzSettingsOptions);
-                jQuery(window).on('resize', function() {
-                    new dzSettings(dzSettingsOptions);
-                })
-            }, 1000);
-
-            $("#branchSelector").modal('show');
-        });
-        var swiper = new Swiper(".mySwiper", {
-            slidesPerView: 1.5,
-            spaceBetween: 15,
-            navigation: {
-                nextEl: "",
-                prevEl: "",
-            },
-            breakpoints: {
-                // when window width is <= 499px
-                1199: {
-                    slidesPerView: 2.5,
-                    spaceBetweenSlides: 15
-                },
-                // when window width is <= 999px
-                1600: {
-                    slidesPerView: 1.5,
-                    spaceBetweenSlides: 15
-                }
-            },
-        });
-    </script>
 </body>
 
 </html>

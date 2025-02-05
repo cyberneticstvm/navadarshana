@@ -1406,8 +1406,8 @@
             {{ html()->form('POST', route('user.branch.update'))->open() }}
             <div class="modal-header">
                 <h5 class="modal-title">Select Branch</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal">
-                </button>
+                <!--<button type="button" class="btn-close" data-bs-dismiss="modal">
+                </button>-->
             </div>
             <div class="modal-body">
                 <div class="row">

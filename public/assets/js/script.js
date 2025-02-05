@@ -1,6 +1,47 @@
 $(function(){
     "use strict"
 
+    setTimeout(function () {
+        var dzSettingsOptions = {
+            typography: "Inter, sans-serif",
+            version: "light",
+            layout: "horizontal",
+            primary: "color_1",
+            headerBg: "color_4",
+            navheaderBg: "color_4",
+            sidebarBg: "color_1",
+            sidebarStyle: "full",
+            sidebarPosition: "fixed",
+            headerPosition: "fixed",
+            containerLayout: "full",
+        };
+        new dzSettings(dzSettingsOptions);
+        jQuery(window).on('resize', function () {
+            new dzSettings(dzSettingsOptions);
+        })
+    }, 1000);
+    
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1.5,
+        spaceBetween: 15,
+        navigation: {
+            nextEl: "",
+            prevEl: "",
+        },
+        breakpoints: {
+            // when window width is <= 499px
+            1199: {
+                slidesPerView: 2.5,
+                spaceBetweenSlides: 15
+            },
+            // when window width is <= 999px
+            1600: {
+                slidesPerView: 1.5,
+                spaceBetweenSlides: 15
+            }
+        },
+    });
+
     $(document).on("click", ".viewStudentDetail", function(){
         let sid = $(this).data('sid');
         $.ajax({
@@ -99,6 +140,37 @@ $(function(){
                 console.log(err)
             }
         });        
+    });
+
+    $(document).on("change", ".selChange", function(){
+        let dis = $(this);
+        let typeId = dis.val();
+        let give = dis.data('give');
+        let take = dis.data('take');
+        $.ajax({
+            type: 'GET',
+            data: {"typeId": typeId, "give": give, "take": take},
+            url: '/ajax/get/ddl',
+            success: function (res) {
+                var xdata = $.map(res.items, function (obj) {
+                    obj.text = obj.name || obj.id;
+                    return obj;
+                });
+                if(take == 'module'){
+                    $('.selModule').select2({
+                        data: xdata,
+                    });
+                }                   
+                if(take == 'topic'){
+                    $('.selTopic').select2({
+                        data: xdata,
+                    });
+                }
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });   
     });
 });
 

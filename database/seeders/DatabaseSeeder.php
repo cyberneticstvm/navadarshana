@@ -68,6 +68,10 @@ class DatabaseSeeder extends Seeder
             'topic-create',
             'topic-edit',
             'topic-delete',
+            'notes-list',
+            'notes-create',
+            'notes-edit',
+            'notes-delete',
         ];
 
         foreach ($permissions as $permission) {
