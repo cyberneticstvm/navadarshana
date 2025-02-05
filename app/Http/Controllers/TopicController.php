@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Module;
+use App\Models\Note;
 use App\Models\Topic;
 use Exception;
 use Illuminate\Http\Request;
@@ -102,7 +103,7 @@ class TopicController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         Topic::findOrFail(decrypt($id))->delete();
-        // Notes
+        Note::where('topic_id', decrypt($id))->delete();
         return redirect()->route('topic.register')
             ->with('success', 'Topic deleted successfully');
     }

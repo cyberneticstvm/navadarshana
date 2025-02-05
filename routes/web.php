@@ -152,6 +152,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('notes.edit');
         Route::post('/edit/{id}', 'update')->name('notes.update');
         Route::get('/delete/{id}', 'destroy')->name('notes.delete');
+
+        Route::get('/view/{id}', 'show')->name('notes.show');
     });
 
     Route::prefix('/batch')->controller(BatchController::class)->group(function () {

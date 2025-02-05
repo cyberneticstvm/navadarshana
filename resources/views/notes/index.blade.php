@@ -33,7 +33,7 @@
                                     @forelse($notes as $key => $note)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $note->title }}</td>
+                                        <td><a href="{{ route('notes.show', encrypt($note->id)) }}">{{ $note->title }}</a></td>
                                         <td>{{ $note->subject->name }}</td>
                                         <td>{{ $note->module->name }}</td>
                                         <td>{{ $note->topic->name }}</td>

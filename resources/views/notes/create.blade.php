@@ -66,7 +66,7 @@
                             </div>
                             <div class="row">
                                 <div class="mb-3 col-md-6">
-                                    <label class="form-label">Attachments <small>(Multiple selection enabled)</small></label>
+                                    <label class="form-label">Attachments <small>(Multiple selection enabled, allowed types are .pdf and .docx)</small></label>
                                     {{ html()->file('attachments[]')->class("form-control")->multiple() }}
                                     @error('attachments')
                                     <small class="text-danger">{{ $errors->first('attachments') }}</small>

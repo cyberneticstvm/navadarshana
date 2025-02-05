@@ -68,7 +68,7 @@ class StudentController extends Controller implements HasMiddleware
                 $path = '/student/photos/' . Session::get('branch') . '/' . $student->id;
                 $fname = time() . '_' . $photo->getClientOriginalName();
                 $photo->storeAs($path, $fname, 'public');
-                $url = '/public/storage' . $path . '/' . $fname;
+                $url = '/storage' . $path . '/' . $fname;
                 $student->update([
                     'photo' => $url,
                 ]);
@@ -123,7 +123,7 @@ class StudentController extends Controller implements HasMiddleware
                 $path = '/student/photos/' . Session::get('branch') . '/' . $student->id;
                 $fname = time() . '_' . $photo->getClientOriginalName();
                 $photo->storeAs($path, $fname, 'public');
-                $url = '/public/storage' . $path . '/' . $fname;
+                $url = '/storage' . $path . '/' . $fname;
                 $input['photo'] = $url;
             endif;
             $student->update($input);
