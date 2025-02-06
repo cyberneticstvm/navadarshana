@@ -26,13 +26,6 @@
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label req">Course</label>
-                                    {{ html()->select($name = 'course_id', $value = $courses, NULL)->class('form-control single-select')->placeholder('Select') }}
-                                    @error('course_id')
-                                    <small class="text-danger">{{ $errors->first('course_id') }}</small>
-                                    @enderror
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col text-end">

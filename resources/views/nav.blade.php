@@ -86,7 +86,6 @@
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->linkIfCan('syllabus-list', route('syllabus.register'), 'Syllabus Register')
-                    ->linkIfCan('subject-list', route('subject.register'), 'Subject Register')
                     ->linkIfCan('module-list', route('module.register'), 'Module Register')
                     ->linkIfCan('topic-list', route('topic.register'), 'Topic Register')
                 }}

@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('syllabus_id');
             $table->string('name');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->unique(['subject_id', 'name']);
+            $table->foreign('syllabus_id')->references('id')->on('syllabi')->onDelete('cascade');
+            $table->unique(['syllabus_id', 'name']);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -27,10 +27,10 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label req">Subject</label>
-                                    {{ html()->select($name = 'subject_id', $value = $subjects, NULL)->class('form-control single-select')->placeholder('Select') }}
-                                    @error('subject_id')
-                                    <small class="text-danger">{{ $errors->first('subject_id') }}</small>
+                                    <label class="form-label req">Syllabus</label>
+                                    {{ html()->select($name = 'syllabus_id', $value = $syllabuses, NULL)->class('form-control single-select')->placeholder('Select') }}
+                                    @error('syllabus_id')
+                                    <small class="text-danger">{{ $errors->first('syllabus_id') }}</small>
                                     @enderror
                                 </div>
                             </div>

@@ -21,8 +21,7 @@
                                     <tr>
                                         <th>SL No</th>
                                         <th>Name</th>
-                                        <th>Topics</th>
-                                        <th>Subject</th>
+                                        <th>Syllabus</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -33,8 +32,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $module->name }}</td>
-                                        <td><a href="javascript:void(0)" class="viewTopicsForModule text-info" data-mid="{{ $module->id }}" data-action="view">View</a></td>
-                                        <td>{{ $module?->subject?->name }}</td>
+                                        <td>{{ $module?->syllabus?->name }}</td>
                                         <td>{!! $module->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('module.edit', encrypt($module->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('module.delete', encrypt($module->id)) }}" class="text-danger dlt">Delete</a></span></td>

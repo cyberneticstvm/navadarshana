@@ -44,9 +44,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
         Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
         Route::get('/student/batch/{id}/{action}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
-        Route::get('/course/syllabus/{id}/{action}', 'getSyllabusForCourse')->name('get.syllabus.for.course');
-        Route::get('/syllabus/subject/{id}/{action}', 'getSubjectsForSyllabus')->name('get.subjects.for.syllabus');
-        Route::get('/subject/module/{id}/{action}', 'getModulesForSubject')->name('get.modules.for.subject');
+        Route::get('/syllabus/module/{id}/{action}', 'getModulesForSyllabus')->name('get.modules.for.syllabus');
         Route::get('/module/topic/{id}/{action}', 'getTopicsForModule')->name('get.topics.for.module');
     });
 
@@ -93,10 +91,6 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('course.edit');
         Route::post('/edit/{id}', 'update')->name('course.update');
         Route::get('/delete/{id}', 'destroy')->name('course.delete');
-
-        Route::post('/syllabus/save', 'courseSyllabusSave')->name('course.syllabus.save');
-        Route::get('/syllabus/remove/{id}', 'courseSyllabusRemove')->name('course.syllabus.remove');
-        Route::get('/syllabus/restore/{id}', 'courseSyllabusRestore')->name('course.syllabus.restore');
     });
 
     Route::prefix('/syllabus')->controller(SyllabusController::class)->group(function () {
@@ -107,21 +101,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::post('/edit/{id}', 'update')->name('syllabus.update');
         Route::get('/delete/{id}', 'destroy')->name('syllabus.delete');
 
-        Route::post('/subject/save', 'syllabusSubjectSave')->name('syllabus.subject.save');
-        Route::get('/subject/remove/{id}', 'syllabusSubjectRemove')->name('syllabus.subject.remove');
-        Route::get('/subject/restore/{id}', 'syllabusSubjectRestore')->name('syllabus.subject.restore');
-    });
-
-    Route::prefix('/subject')->controller(SubjectController::class)->group(function () {
-        Route::get('/', 'index')->name('subject.register');
-        Route::get('/create', 'create')->name('subject.create');
-        Route::post('/create', 'store')->name('subject.save');
-        Route::get('/edit/{id}', 'edit')->name('subject.edit');
-        Route::post('/edit/{id}', 'update')->name('subject.update');
-        Route::get('/delete/{id}', 'destroy')->name('subject.delete');
-
-        Route::get('/module/remove/{id}', 'subjectModuleRemove')->name('subject.module.remove');
-        Route::get('/module/restore/{id}', 'subjectModuleRestore')->name('subject.module.restore');
+        Route::post('/module/save', 'save')->name('syllabus.module.save');
+        Route::get('/module/remove/{id}', 'syllabusModuleRemove')->name('syllabus.module.remove');
+        Route::get('/module/restore/{id}', 'syllabusModuleRestore')->name('syllabus.module.restore');
     });
 
     Route::prefix('/module')->controller(ModuleController::class)->group(function () {

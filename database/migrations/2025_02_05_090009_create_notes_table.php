@@ -16,12 +16,12 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->longText('notes')->nullable();
             $table->text('remarks')->nullable();
-            $table->unsignedBigInteger('subject_id');
+            $table->unsignedBigInteger('syllabus_id');
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('topic_id');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('syllabus_id')->references('id')->on('syllabi')->onDelete('cascade');
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->timestamps();

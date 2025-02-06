@@ -27,10 +27,10 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
-                                    <label class="form-label req">Subject</label>
-                                    {{ html()->select($name = 'subject_id', $value = $subjects, NULL)->class('form-control single-select selSubject selChange')->attribute('data-give', 'subject')->attribute('data-take', 'module')->placeholder('Select') }}
-                                    @error('subject_id')
-                                    <small class="text-danger">{{ $errors->first('subject_id') }}</small>
+                                    <label class="form-label req">Syllabus</label>
+                                    {{ html()->select($name = 'syllabus_id', $value = $syllabuses, NULL)->class('form-control single-select selSyllabus selChange')->attribute('data-give', 'syllabus')->attribute('data-take', 'module')->placeholder('Select') }}
+                                    @error('syllabus_id')
+                                    <small class="text-danger">{{ $errors->first('syllabus_id') }}</small>
                                     @enderror
                                 </div>
                                 <div class="col-md-3">
@@ -45,13 +45,6 @@
                                     {{ html()->select($name = 'topic_id', NULL, NULL)->class('form-control single-select selTopic')->placeholder('Select') }}
                                     @error('topic_id')
                                     <small class="text-danger">{{ $errors->first('topic_id') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="mb-3 col-md-9">
-                                    <label class="form-label req">Batches <small>(Multiple selection enabled)</small></label>
-                                    {{ html()->select($name = 'batches[]', $value = $batches, old('batches'))->class('form-control multi-select')->multiple() }}
-                                    @error('batches')
-                                    <small class="text-danger">{{ $errors->first('batches') }}</small>
                                     @enderror
                                 </div>
                             </div>

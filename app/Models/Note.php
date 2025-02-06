@@ -26,14 +26,9 @@ class Note extends Model
         return $this->belongsTo(Module::class, 'module_id', 'id');
     }
 
-    public function subject()
+    public function syllabus()
     {
-        return $this->belongsTo(subject::class, 'subject_id', 'id');
-    }
-
-    public function batches()
-    {
-        return $this->hasMany(NoteBatch::class, 'note_id', 'id');
+        return $this->belongsTo(Syllabus::class, 'subject_id', 'id');
     }
 
     public function attachments()

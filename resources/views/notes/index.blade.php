@@ -21,7 +21,7 @@
                                     <tr>
                                         <th>SL No</th>
                                         <th>Title</th>
-                                        <th>Subject</th>
+                                        <th>Syllabus</th>
                                         <th>Module</th>
                                         <th>Topic</th>
                                         <th>Status</th>
@@ -34,7 +34,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td><a href="{{ route('notes.show', encrypt($note->id)) }}">{{ $note->title }}</a></td>
-                                        <td>{{ $note->subject->name }}</td>
+                                        <td>{{ $note->syllabus->name }}</td>
                                         <td>{{ $note->module->name }}</td>
                                         <td>{{ $note->topic->name }}</td>
                                         <td>{!! $note->status() !!}</td>

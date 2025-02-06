@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Subject;
+use App\Models\Syllabus;
 use App\Models\Topic;
 use Exception;
 use Illuminate\Http\Request;
@@ -35,8 +36,8 @@ class ModuleController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $subjects = Subject::pluck('name', 'id');
-        return view('module.create', compact('subjects'));
+        $syllabuses = Syllabus::pluck('name', 'id');
+        return view('module.create', compact('syllabuses'));
     }
 
     /**
@@ -73,8 +74,8 @@ class ModuleController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $module = Module::findOrFail(decrypt($id));
-        $subjects = Subject::pluck('name', 'id');
-        return view('module.edit', compact('module', 'subjects'));
+        $syllabuses = Syllabus::pluck('name', 'id');
+        return view('module.edit', compact('module', 'syllabuses'));
     }
 
     /**

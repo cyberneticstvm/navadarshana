@@ -16,13 +16,13 @@ class Module extends Model
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
 
-    public function subject()
+    public function syllabus()
     {
-        return $this->belongsTo(Subject::class, 'subject_id', 'id');
+        return $this->belongsTo(Syllabus::class, 'syllabus_id', 'id');
     }
 
     public function topics()
     {
-        return $this->hasMany(Topic::class, 'topic_id', 'id');
+        return $this->hasMany(Topic::class, 'module_id', 'id');
     }
 }

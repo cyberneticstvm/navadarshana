@@ -8,6 +8,7 @@ use App\Models\Note;
 use App\Models\NoteAttachment;
 use App\Models\NoteBatch;
 use App\Models\Subject;
+use App\Models\Syllabus;
 use App\Models\Topic;
 use Carbon\Carbon;
 use Exception;
@@ -42,9 +43,8 @@ class NotesController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
-        $subjects = Subject::pluck('name', 'id');
-        return view('notes.create', compact('subjects', 'batches'));
+        $syllabuses = Syllabus::pluck('name', 'id');
+        return view('notes.create', compact('syllabuses'));
     }
 
     /**
@@ -54,32 +54,19 @@ class NotesController extends Controller implements HasMiddleware
     {
         $request->validate([
             'title' => 'required',
-            'subject_id' => 'required',
+            'syllabus_id' => 'required',
             'module_id' => 'required',
             'topic_id' => 'required',
-            'batches' => 'required',
             'notes' => 'required',
             'attachments' => 'sometimes|mimes:doc,docx,pdf'
         ]);
         try {
-            $input = $request->except(array('batches', 'attachments'));
+            $input = $request->except(array('attachments'));
             $input['created_by'] = $request->user()->id;
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request) {
-                $batches = [];
                 $files = [];
                 $note = Note::create($input);
-                foreach ($request->batches as $key => $batch):
-                    $batches[] = [
-                        'note_id' => $note->id,
-                        'batch_id' => $batch,
-                        'created_by' => $request->user()->id,
-                        'updated_by' => $request->user()->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ];
-                endforeach;
-                NoteBatch::insert($batches);
                 if ($request->file('attachments')):
                     $attachments = $request->file('attachments');
                     $path = '/material/notes/' . $note->id;
@@ -112,8 +99,7 @@ class NotesController extends Controller implements HasMiddleware
     public function show(string $id)
     {
         $note = Note::findOrFail(decrypt($id));
-        $batches = Batch::whereIn('id', NoteBatch::where('note_id', $note->id)->pluck('batch_id'))->pluck('name')->implode('<br/>');
-        return view('notes.view', compact('note', 'batches'));
+        return view('notes.view', compact('note'));
     }
 
     /**
@@ -122,11 +108,10 @@ class NotesController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $note = Note::findOrFail(decrypt($id));
-        $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
-        $subjects = Subject::pluck('name', 'id');
-        $modules = Module::where('subject_id', $note->subject_id)->pluck('name', 'id');
+        $syllabuses = Syllabus::pluck('name', 'id');
+        $modules = Module::where('syllabus_id', $note->syllabus_id)->pluck('name', 'id');
         $topics = Topic::where('module_id', $note->module_id)->pluck('name', 'id');
-        return view('notes.edit', compact('subjects', 'batches', 'modules', 'topics', 'note'));
+        return view('notes.edit', compact('syllabuses', 'modules', 'topics', 'note'));
     }
 
     /**
@@ -136,10 +121,9 @@ class NotesController extends Controller implements HasMiddleware
     {
         $request->validate([
             'title' => 'required',
-            'subject_id' => 'required',
+            'syllabus_id' => 'required',
             'module_id' => 'required',
             'topic_id' => 'required',
-            'batches' => 'required',
             'notes' => 'required',
             'attachments' => 'sometimes|mimes:doc,docx,pdf'
         ]);
@@ -148,21 +132,8 @@ class NotesController extends Controller implements HasMiddleware
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request, $id) {
                 $id = decrypt($id);
-                $batches = [];
                 $files = [];
                 Note::findOrFail($id)->update($input);
-                foreach ($request->batches as $key => $batch):
-                    $batches[] = [
-                        'note_id' => $id,
-                        'batch_id' => $batch,
-                        'created_by' => $request->user()->id,
-                        'updated_by' => $request->user()->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ];
-                endforeach;
-                NoteBatch::where('note_id', $id)->delete();
-                NoteBatch::insert($batches);
                 if ($request->file('attachments')):
                     $attachments = $request->file('attachments');
                     $path = '/material/notes/' . $id;
@@ -196,7 +167,6 @@ class NotesController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         Note::findOrFail(decrypt($id))->delete();
-        NoteBatch::where('note_id', ($id))->delete();
         NoteAttachment::where('note_id', decrypt($id))->delete();
         return redirect()->route('notes.register')
             ->with('success', 'Note deleted successfully');

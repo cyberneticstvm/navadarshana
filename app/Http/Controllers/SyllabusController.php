@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\SyllabiModule;
 use App\Models\Syllabus;
 use App\Models\SyllabusSubject;
 use Carbon\Carbon;
@@ -106,43 +107,25 @@ class SyllabusController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         Syllabus::findOrFail(decrypt($id))->delete();
-        SyllabusSubject::where('syllabus_id', decrypt($id))->delete();
         return redirect()->route('syllabus.register')
             ->with('success', 'Syllabus deleted successfully');
     }
 
-    public function syllabusSubjectSave(Request $request)
+    public function save()
     {
-        $request->validate([
-            'subject_id' => 'required',
-        ]);
-        try {
-            syllabus::insert([
-                'syllabus_id' => decrypt($request->syllabus_id),
-                'subject_id' => $request->subject_id,
-                'created_by' => $request->user()->id,
-                'updated_by' => $request->user()->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        } catch (Exception $e) {
-            return redirect()->back()->with("error", $e->getMessage());
-        }
-
-        return redirect()->route('syllabus.register')
-            ->with('success', 'Subject added successfully');
+        //
     }
 
-    public function syllabusSubjectRemove(String $id)
+    public function syllabusModuleRemove(String $id)
     {
-        SyllabusSubject::findOrFail(decrypt($id))->delete();
+        SyllabiModule::findOrFail(decrypt($id))->delete();
         return redirect()->route('syllabus.register')
             ->with('success', 'Subject removed successfully');
     }
 
-    public function syllabusSubjectRestore(String $id)
+    public function syllabusModuleRestore(String $id)
     {
-        SyllabusSubject::withTrashed()->findOrFail(decrypt($id))->restore();
+        SyllabiModule::withTrashed()->findOrFail(decrypt($id))->restore();
         return redirect()->route('syllabus.register')
             ->with('success', 'Subject restored successfully');
     }

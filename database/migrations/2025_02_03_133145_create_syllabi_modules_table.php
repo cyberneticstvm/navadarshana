@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('syllabus_subjects', function (Blueprint $table) {
+        Schema::create('syllabi_modules', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('syllabus_id');
-            $table->unsignedBigInteger('subject_id');
-            $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('updated_by');
+            $table->unsignedBigInteger('module_id');
             $table->foreign('syllabus_id')->references('id')->on('syllabi')->onDelete('cascade');
-            $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->unique(['syllabus_id', 'subject_id']);
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+            $table->unique(['syllabus_id', 'module_id']);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('syllabus_subjects');
+        Schema::dropIfExists('syllabi_modules');
     }
 };

@@ -10,6 +10,7 @@ use App\Models\Student;
 use App\Models\StudentBatch;
 use App\Models\Subject;
 use App\Models\SubjectModule;
+use App\Models\SyllabiModule;
 use App\Models\Syllabus;
 use App\Models\SyllabusSubject;
 use App\Models\Topic;
@@ -21,9 +22,9 @@ class AjaxController extends Controller
     {
         $items = collect();
         switch ($request->give):
-            case 'subject';
+            case 'syllabus';
                 if ($request->take == 'module')
-                    $items = Module::where('subject_id', $request->typeId)->get();
+                    $items = Module::where('syllabus_id', $request->typeId)->get();
                 break;
             case 'module';
                 if ($request->take == 'topic')
@@ -82,94 +83,41 @@ class AjaxController extends Controller
         echo $op;
     }
 
-    function getSyllabusForCourse(String $courseId, String $action)
-    {
-        $course = Course::findOrFail($courseId);
-        if ($action == 'add'):
-            $pending = Syllabus::whereNotIn('id', CourseSyllabus::where('course_id', $courseId)->pluck('syllabus_id'))->get();
-            $op = "<input type='hidden' name='course_id' value=" . encrypt($courseId) . ">";
-            $op .= "<h5 class='mt-3 ms-2'>" . $course->name . "</h5>";
-            $op .= "<div class='mt-3 ms-2 mb-3'><select name='syllabus_id' class='form-control modal-select' required><option value=''>Select Syllabus</option>";
-            foreach ($pending as $key => $syllabus):
-                $op .= "<option value='" . $syllabus->id . "'>" . $syllabus->name . "</option>";
-            endforeach;
-            $op .= "</select></div>";
-        else:
-            $active = CourseSyllabus::withTrashed()->where('course_id', $courseId)->get();
-            $op = "<h5 class='m-3'>Active Syllabuses - " . $course->name . "</h5>";
-            $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>SL No</th><th>Syllabus</th><th>Action</th></tr><tbody>";
-            foreach ($active as $key => $item):
-                $key = $key + 1;
-                $op .= "<tr>";
-                $op .= "<td>{$key}</td>";
-                $op .= "<td>{$item->syllabus->name}</td>";
-                if ($item->deleted_at):
-                    $op .= "<td><a href='/course/syllabus/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
-                else:
-                    $op .= "<td class='text-center'><a href='/course/syllabus/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
-                endif;
-                $op .= "</tr>";
-            endforeach;
-            $op .= "</tbody></tr></thead>";
-            $op .= "</table></div>";
-        endif;
-        echo $op;
-    }
-
-    function getSubjectsForSyllabus(String $syllabusId, String $action)
+    function getModulesForSyllabus(String $syllabusId, String $action)
     {
         $syllabus = Syllabus::findOrFail($syllabusId);
         if ($action == 'add'):
-            $pending = Subject::whereNotIn('id', SyllabusSubject::where('syllabus_id', $syllabusId)->pluck('subject_id'))->get();
-            $op = "<input type='hidden' name='syllabus_id' value=" . encrypt($syllabusId) . ">";
-            $op .= "<h5 class='mt-3 ms-2'>" . $syllabus->name . "</h5>";
-            $op .= "<div class='mt-3 ms-2 mb-3'><select name='subject_id' class='form-control modal-select' required><option value=''>Select Subject</option>";
-            foreach ($pending as $key => $subject):
-                $op .= "<option value='" . $subject->id . "'>" . $subject->name . "</option>";
+            $modules = Module::whereNotIn('id', SyllabiModule::where('syllabus_id', $syllabus->id)->pluck('module_id'))->latest()->get();
+            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Select</th></tr><tbody>";
+            foreach ($modules as $key => $item):
+                $op .= "<tr>";
+                $op .= "<td>{$item->id}</td>";
+                $op .= "<td>{$item->name}</td>";
+                $op .= "<td><input type='checkbox' class='chkModule' name='modules[]' value='{$item->id}'></td>";
+                $op .= "</tr>";
             endforeach;
-            $op .= "</select></div>";
+            $op .= "<tr><input type='hidden' name='syllabus_id' value=" . encrypt($syllabus->id) . "></tr>";
+            $op .= "</tbody></tr></thead>";
+            $op .= "</table></div>";
         else:
-            $active = SyllabusSubject::withTrashed()->where('syllabus_id', $syllabusId)->get();
-            $op = "<h5 class='m-3'>Active Subjects - " . $syllabus->name . "</h5>";
-            $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>SL No</th><th>Subject</th><th>Action</th></tr><tbody>";
+            $active = SyllabiModule::withTrashed()->where('syllabus_id', $syllabusId)->get();
+            $op = "<h5 class='m-3'>Active Modules - " . $syllabus->name . "</h5>";
+            $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>SL No</th><th>Module</th><th>Action</th></tr><tbody>";
             foreach ($active as $key => $item):
                 $key = $key + 1;
                 $op .= "<tr>";
                 $op .= "<td>{$key}</td>";
-                $op .= "<td>{$item->subject->name}</td>";
+                $op .= "<td>{$item->name}</td>";
                 if ($item->deleted_at):
-                    $op .= "<td><a href='/syllabus/subject/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
+                    $op .= "<td><a href='/syllabus/module/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
                 else:
-                    $op .= "<td class='text-center'><a href='/syllabus/subject/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
+                    $op .= "<td class='text-center'><a href='/syllabus/module/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
                 endif;
                 $op .= "</tr>";
             endforeach;
             $op .= "</tbody></tr></thead>";
             $op .= "</table></div>";
         endif;
-        echo $op;
-    }
-
-    function getModulesForSubject(String $subjectId, String $action)
-    {
-        $subject = Subject::findOrFail($subjectId);
-        $active = Module::withTrashed()->where('subject_id', $subjectId)->get();
-        $op = "<h5 class='m-3'>Active Modules - " . $subject->name . "</h5>";
-        $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>SL No</th><th>Module</th><th>Action</th></tr><tbody>";
-        foreach ($active as $key => $item):
-            $key = $key + 1;
-            $op .= "<tr>";
-            $op .= "<td>{$key}</td>";
-            $op .= "<td>{$item->name}</td>";
-            if ($item->deleted_at):
-                $op .= "<td><a href='/subject/module/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
-            else:
-                $op .= "<td class='text-center'><a href='/subject/module/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
-            endif;
-            $op .= "</tr>";
-        endforeach;
-        $op .= "</tbody></tr></thead>";
-        $op .= "</table></div>";
         echo $op;
     }
 

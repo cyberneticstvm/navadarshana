@@ -21,6 +21,7 @@
                                     <tr>
                                         <th>SL No</th>
                                         <th>Name</th>
+                                        <th>Syllabus</th>
                                         <th>Module</th>
                                         <th>Status</th>
                                         <th>Edit</th>
@@ -32,6 +33,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $topic->name }}</td>
+                                        <td>{{ $topic->module->syllabus->name }}</td>
                                         <td>{{ $topic->module->name }}</td>
                                         <td>{!! $topic->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('topic.edit', encrypt($topic->id)) }}" class="text-warning">Edit</a></span></td>

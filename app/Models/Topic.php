@@ -20,4 +20,9 @@ class Topic extends Model
     {
         return $this->belongsTo(Module::class, 'module_id', 'id');
     }
+
+    public function notes()
+    {
+        return $this->hasMany(Note::class, 'topic_id', 'id');
+    }
 }
