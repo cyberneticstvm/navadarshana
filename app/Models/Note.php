@@ -28,7 +28,7 @@ class Note extends Model
 
     public function syllabus()
     {
-        return $this->belongsTo(Syllabus::class, 'subject_id', 'id');
+        return $this->belongsTo(Syllabus::class, 'syllabus_id', 'id');
     }
 
     public function attachments()

@@ -58,7 +58,10 @@ class NotesController extends Controller implements HasMiddleware
             'module_id' => 'required',
             'topic_id' => 'required',
             'notes' => 'required',
-            'attachments' => 'sometimes|mimes:doc,docx,pdf'
+            'attachments.*' => [
+                'sometimes',
+                'mimes:pdf,doc,docx,txt,xls,xlsx',
+            ],
         ]);
         try {
             $input = $request->except(array('attachments'));
@@ -125,10 +128,13 @@ class NotesController extends Controller implements HasMiddleware
             'module_id' => 'required',
             'topic_id' => 'required',
             'notes' => 'required',
-            'attachments' => 'sometimes|mimes:doc,docx,pdf'
+            'attachments.*' => [
+                'sometimes',
+                'mimes:pdf,doc,docx,txt,xls,xlsx',
+            ],
         ]);
         try {
-            $input = $request->except(array('batches', 'attachments'));
+            $input = $request->except(array('attachments'));
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request, $id) {
                 $id = decrypt($id);
