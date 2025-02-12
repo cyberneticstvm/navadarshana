@@ -20,10 +20,10 @@
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
-                                        <th>Title</th>
                                         <th>Syllabus</th>
                                         <th>Module</th>
                                         <th>Topic</th>
+                                        <th>Title</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -33,10 +33,10 @@
                                     @forelse($notes as $key => $note)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td><a href="{{ route('notes.show', encrypt($note->id)) }}">{{ $note->title }}</a></td>
                                         <td>{{ $note->syllabus->name }}</td>
                                         <td>{{ $note->module->name }}</td>
                                         <td>{{ $note->topic->name }}</td>
+                                        <td><a href="{{ route('notes.show', encrypt($note->id)) }}">{{ $note->title }}</a></td>
                                         <td>{!! $note->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('notes.edit', encrypt($note->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('notes.delete', encrypt($note->id)) }}" class="text-danger dlt">Delete</a></span></td>
