@@ -135,8 +135,6 @@ class NotesController extends Controller implements HasMiddleware
         ]);
         try {
             $input = $request->except(array('attachments', 'files'));
-            dd($request);
-            die;
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request, $id) {
                 $id = decrypt($id);
