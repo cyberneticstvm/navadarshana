@@ -48,4 +48,28 @@
         </div>
     </div>
 </div>
+<!--**********************************
+            Chat box start
+        ***********************************-->
+<div class="chatbox" id="syllabusTblforCourse">
+    <div class="chatbox-close"></div>
+    <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
+        <div class="card-header chat-list-header text-center">
+            <h5>Syllabus</h5>
+        </div>
+        {{ html()->form('POST', route('course.syllabus.save'))->open() }}
+        <div class="card-body contacts_body p-0 dz-scroll syllabusDetail" id="DZ_W_Contacts_Body"></div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col text-end">
+                    {{ html()->submit("Add to Course")->class("btn btn-submit btn-outline-primary") }}
+                </div>
+            </div>
+        </div>
+        {{ html()->form()->close() }}
+    </div>
+</div>
+<!--**********************************
+            Chat box End
+        ***********************************-->
 @endsection
