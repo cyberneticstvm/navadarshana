@@ -64,14 +64,14 @@ class NotesController extends Controller implements HasMiddleware
             ],
         ]);
         try {
-            $input = $request->except(array('attachments'));
+            $input = $request->except(array('attachments', 'files'));
             $input['created_by'] = $request->user()->id;
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request) {
                 $files = [];
                 $note = Note::create($input);
                 if ($request->file('attachments')):
-                    $attachments = $request->file('attachments', 'files');
+                    $attachments = $request->file('attachments');
                     $path = '/material/notes/' . $note->id;
                     foreach ($attachments as $key => $attachment):
                         $fname = time() . '_' . $attachment->getClientOriginalName();
@@ -135,6 +135,8 @@ class NotesController extends Controller implements HasMiddleware
         ]);
         try {
             $input = $request->except(array('attachments', 'files'));
+            dd($request);
+            die;
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request, $id) {
                 $id = decrypt($id);
