@@ -83,6 +83,39 @@ class AjaxController extends Controller
         echo $op;
     }
 
+    function getSyllabusDetailsForCourse(String $courseId, String $action)
+    {
+        if ($action == 'add'):
+            $students = Syllabus::whereNotIn('id', CourseSyllabus::where('course_id', $courseId)->pluck('syllabus_id'))->latest()->get();
+            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Select</th></tr><tbody>";
+            foreach ($students as $key => $item):
+                $op .= "<tr>";
+                $op .= "<td>{$item->id}</td>";
+                $op .= "<td>{$item->name}</td>";
+                $op .= "<td><input type='checkbox' class='chkSyllabus' name='syllabuses[]' value='{$item->id}'></td>";
+                $op .= "</tr>";
+            endforeach;
+            $op .= "<tr><input type='hidden' name='course_id' value=" . encrypt($courseId) . "></tr>";
+            $op .= "</tbody></tr></thead>";
+            $op .= "</table></div>";
+        else:
+            $active = CourseSyllabus::withTrashed()->where('course_id', $courseId)->get();
+            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Action</th></tr><tbody>";
+            foreach ($active as $key => $item):
+                $op .= "<tr>";
+                $op .= "<td>{$item->id}</td>";
+                $op .= "<td>{$item->syllabus->name}</td>";
+                if ($item->deleted_at):
+                    $op .= "<td><a href='/course/syllabus/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
+                else:
+                    $op .= "<td class='text-center'><a href='/course/syllabus/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
+                endif;
+                $op .= "</tr>";
+            endforeach;
+        endif;
+        echo $op;
+    }
+
     function getModulesForSyllabus(String $syllabusId, String $action)
     {
         $syllabus = Syllabus::findOrFail($syllabusId);

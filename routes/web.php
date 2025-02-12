@@ -44,6 +44,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
         Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
         Route::get('/student/batch/{id}/{action}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
+        Route::get('/course/syllabus/{id}/{action}', 'getSyllabusDetailsForCourse')->name('get.syllabus.details.for.course');
         Route::get('/syllabus/module/{id}/{action}', 'getModulesForSyllabus')->name('get.modules.for.syllabus');
         Route::get('/module/topic/{id}/{action}', 'getTopicsForModule')->name('get.topics.for.module');
     });

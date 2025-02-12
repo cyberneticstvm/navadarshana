@@ -74,6 +74,23 @@ $(function(){
         });        
     });
 
+    $(document).on("click", ".viewSyllabusForCourse", function(){
+        let cid = $(this).data('cid');
+        let action = $(this).data('action');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/course/syllabus/' + cid+ '/' + action,
+            success: function (res) {
+                $('#syllabusTblforCourse').addClass('active');
+                $(".syllabusDetail").html(res);
+                showFooter(action);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });        
+    });
+
     $(document).on("click", ".viewModulesForSyllabus", function(){
         let sid = $(this).data('sid');
         let action = $(this).data('action');
