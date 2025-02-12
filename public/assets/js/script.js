@@ -74,7 +74,7 @@ $(function(){
         });        
     });
 
-    $(document).on("click", ".viewSyllabusForCourse", function(){
+    $(document).on("click", ".viewSyllabusForCourse", function(){alert('sdf')
         let cid = $(this).data('cid');
         let action = $(this).data('action');
         $.ajax({
