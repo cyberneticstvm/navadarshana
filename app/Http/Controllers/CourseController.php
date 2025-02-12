@@ -47,7 +47,7 @@ class CourseController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:subjects,name',
+            'name' => 'required|unique:courses,name',
         ]);
         try {
             $input = $request->all();
@@ -85,7 +85,7 @@ class CourseController extends Controller implements HasMiddleware
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|unique:subjects,name,' . decrypt($id),
+            'name' => 'required|unique:courses,name,' . decrypt($id),
         ]);
         try {
             $course = Course::findOrFail(decrypt($id));
@@ -106,12 +106,12 @@ class CourseController extends Controller implements HasMiddleware
     {
         Course::findOrFail(decrypt($id))->delete();
         Batch::where('course_id', decrypt($id))->delete();
-        CourseSyllabus::where('course_id', decrypt($id))->delete();
+        //Courses::where('course_id', decrypt($id))->delete();
         return redirect()->route('course.register')
             ->with('success', 'Course deleted successfully');
     }
 
-    public function courseSyllabusSave(Request $request)
+    /*public function courseSyllabusSave(Request $request)
     {
         $request->validate([
             'syllabus_id' => 'required',
@@ -145,5 +145,5 @@ class CourseController extends Controller implements HasMiddleware
         CourseSyllabus::withTrashed()->findOrFail(decrypt($id))->restore();
         return redirect()->route('course.register')
             ->with('success', 'Syllabus restored successfully');
-    }
+    }*/
 }
