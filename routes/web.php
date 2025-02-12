@@ -94,8 +94,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/delete/{id}', 'destroy')->name('course.delete');
 
         Route::post('/syllabus/save', 'save')->name('course.syllabus.save');
-        Route::get('/syllabus/remove/{id}', 'syllabusModuleRemove')->name('course.syllabus.remove');
-        Route::get('/syllabus/restore/{id}', 'syllabusModuleRestore')->name('course.syllabus.restore');
+        Route::get('/syllabus/remove/{id}', 'courseSyllabusRemove')->name('course.syllabus.remove');
+        Route::get('/syllabus/restore/{id}', 'courseSyllabusRestore')->name('course.syllabus.restore');
     });
 
     Route::prefix('/syllabus')->controller(SyllabusController::class)->group(function () {

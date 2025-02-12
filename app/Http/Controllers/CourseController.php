@@ -111,26 +111,26 @@ class CourseController extends Controller implements HasMiddleware
             ->with('success', 'Course deleted successfully');
     }
 
-    public function courseSyllabusSave(Request $request)
+    public function save(Request $request)
     {
-        $request->validate([
-            'syllabus_id' => 'required',
-        ]);
         try {
-            CourseSyllabus::insert([
-                'course_id' => decrypt($request->course_id),
-                'syllabus_id' => $request->syllabus_id,
-                'created_by' => $request->user()->id,
-                'updated_by' => $request->user()->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
+            $data = [];
+            foreach ($request->syllabuses as $key => $syllabus):
+                $data[] = [
+                    'course_id' => decrypt($request->course_id),
+                    'syllabus_id' => $syllabus[$key],
+                    'created_by' => $request->user()->id,
+                    'updated_by' => $request->user()->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            endforeach;
+            CourseSyllabus::insert($data);
         } catch (Exception $e) {
-            return redirect()->back()->with("error", $e->getMessage());
+            return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
-
         return redirect()->route('course.register')
-            ->with('success', 'Syllabus added successfully');
+            ->with('success', 'Course Syllabuses added successfully');
     }
 
     public function courseSyllabusRemove(String $id)

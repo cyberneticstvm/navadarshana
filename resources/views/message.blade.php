@@ -120,4 +120,15 @@
         }
         return true;
     }
+
+    function validateCourseSyllabus() {
+        let frm = document.forms["frmCourseSyllabus"];
+        if (!$(".chkSyllabus").is(":checked")) {
+            failed({
+                'error': 'Please select at least one Syllabus'
+            })
+            return false;
+        }
+        return true;
+    }
 </script>

@@ -57,12 +57,12 @@
         <div class="card-header chat-list-header text-center">
             <h5>Syllabus</h5>
         </div>
-        {{ html()->form('POST', route('course.syllabus.save'))->open() }}
+        {{ html()->form('POST', route('course.syllabus.save'))->attribute('name', 'frmCourseSyllabus')->open() }}
         <div class="card-body contacts_body p-0 dz-scroll syllabusDetail" id="DZ_W_Contacts_Body"></div>
         <div class="card-footer">
             <div class="row">
                 <div class="col text-end">
-                    {{ html()->submit("Add to Course")->class("btn btn-submit btn-outline-primary") }}
+                    {{ html()->submit("Add to Course")->attribute('onclick', 'return validateCourseSyllabus()')->class("btn btn-submit btn-outline-primary") }}
                 </div>
             </div>
         </div>
