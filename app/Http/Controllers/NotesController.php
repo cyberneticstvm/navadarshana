@@ -71,7 +71,7 @@ class NotesController extends Controller implements HasMiddleware
                 $files = [];
                 $note = Note::create($input);
                 if ($request->file('attachments')):
-                    $attachments = $request->file('attachments');
+                    $attachments = $request->file('attachments', 'files');
                     $path = '/material/notes/' . $note->id;
                     foreach ($attachments as $key => $attachment):
                         $fname = time() . '_' . $attachment->getClientOriginalName();
@@ -133,36 +133,36 @@ class NotesController extends Controller implements HasMiddleware
                 'mimes:pdf,doc,docx,txt,xls,xlsx',
             ],
         ]);
-        //try {
-        $input = $request->except(array('attachments'));
-        $input['updated_by'] = $request->user()->id;
-        DB::transaction(function () use ($input, $request, $id) {
-            $id = decrypt($id);
-            $files = [];
-            Note::findOrFail($id)->update($input);
-            if ($request->file('attachments')):
-                $attachments = $request->file('attachments');
-                $path = '/material/notes/' . $id;
-                foreach ($attachments as $key => $attachment):
-                    $fname = time() . '_' . $attachment->getClientOriginalName();
-                    $attachment->storeAs($path, $fname, 'public');
-                    $url = '/storage' . $path . '/' . $fname;
-                    $files[] = [
-                        'note_id' => $id,
-                        'attachment' => $url,
-                        'created_by' => $request->user()->id,
-                        'updated_by' => $request->user()->id,
-                        'created_at' => Carbon::now(),
-                        'updated_at' => Carbon::now(),
-                    ];
-                endforeach;
-                NoteAttachment::where('note_id', $id)->delete();
-                NoteAttachment::insert($files);
-            endif;
-        });
-        /*} catch (Exception $e) {
+        try {
+            $input = $request->except(array('attachments', 'files'));
+            $input['updated_by'] = $request->user()->id;
+            DB::transaction(function () use ($input, $request, $id) {
+                $id = decrypt($id);
+                $files = [];
+                Note::findOrFail($id)->update($input);
+                if ($request->file('attachments')):
+                    $attachments = $request->file('attachments');
+                    $path = '/material/notes/' . $id;
+                    foreach ($attachments as $key => $attachment):
+                        $fname = time() . '_' . $attachment->getClientOriginalName();
+                        $attachment->storeAs($path, $fname, 'public');
+                        $url = '/storage' . $path . '/' . $fname;
+                        $files[] = [
+                            'note_id' => $id,
+                            'attachment' => $url,
+                            'created_by' => $request->user()->id,
+                            'updated_by' => $request->user()->id,
+                            'created_at' => Carbon::now(),
+                            'updated_at' => Carbon::now(),
+                        ];
+                    endforeach;
+                    NoteAttachment::where('note_id', $id)->delete();
+                    NoteAttachment::insert($files);
+                endif;
+            });
+        } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
-        }*/
+        }
         return redirect()->route('notes.register')
             ->with('success', 'Note updated successfully');
     }
