@@ -33,9 +33,9 @@
                                     @forelse($notes as $key => $note)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $note->syllabus->name }}</td>
-                                        <td>{{ $note->module->name }}</td>
-                                        <td>{{ $note->topic->name }}</td>
+                                        <td>{{ $note?->syllabus?->name }}</td>
+                                        <td>{{ $note?->module?->name }}</td>
+                                        <td>{{ $note?->topic?->name }}</td>
                                         <td><a href="{{ route('notes.show', encrypt($note->id)) }}">{{ $note->title }}</a></td>
                                         <td>{!! $note->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('notes.edit', encrypt($note->id)) }}" class="text-warning">Edit</a></span></td>
