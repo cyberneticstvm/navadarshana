@@ -30,8 +30,8 @@
                                     @forelse($syllabuses as $key => $syllabus)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $syllabus->name }}</td>
-                                        <td>{!! $syllabus->status() !!}</td>
+                                        <td>{{ $syllabus?->name }}</td>
+                                        <td>{!! $syllabus?->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('syllabus.edit', encrypt($syllabus->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('syllabus.delete', encrypt($syllabus->id)) }}" class="text-danger dlt">Delete</a></span></td>
                                     </tr>
