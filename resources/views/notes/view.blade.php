@@ -23,8 +23,8 @@
                                             <h3 class="fw-semibold mb-1">{{ $note->title }}</h3>
                                             <ul class="d-flex flex-wrap fs-6 align-items-center">
                                                 <li class="me-3 d-inline-flex align-items-center">Created On: {{ $note->created_at->format('d.M.Y') }}</li>
-                                                <li class="me-3 d-inline-flex align-items-center">Syllabus: {{ $note->syllabus->name }}</li>
-                                                <li class="me-3 d-inline-flex align-items-center">Module: {{ $note->module->name }}</li>
+                                                <li class="me-3 d-inline-flex align-items-center">Syllabus: {{ $note?->syllabus?->name }}</li>
+                                                <li class="me-3 d-inline-flex align-items-center">Module: {{ $note?->module?->name }}</li>
                                                 <li class="me-3 d-inline-flex align-items-center">Topic: {{ $note->topic->name }}</li>
                                             </ul>
                                             <p>Active Courses: </p>
