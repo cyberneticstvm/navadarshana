@@ -25,7 +25,7 @@
                                                 <li class="me-3 d-inline-flex align-items-center">Created On: {{ $note->created_at->format('d.M.Y') }}</li>
                                                 <li class="me-3 d-inline-flex align-items-center">Syllabus: {{ $note?->syllabus?->name }}</li>
                                                 <li class="me-3 d-inline-flex align-items-center">Module: {{ $note?->module?->name }}</li>
-                                                <li class="me-3 d-inline-flex align-items-center">Topic: {{ $note->topic->name }}</li>
+                                                <li class="me-3 d-inline-flex align-items-center">Topic: {{ $note?->topic?->name }}</li>
                                             </ul>
                                             <p>Active Courses: </p>
 
