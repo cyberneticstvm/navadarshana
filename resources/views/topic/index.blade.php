@@ -32,9 +32,9 @@
                                     @forelse($topics as $key => $topic)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $topic->name }}</td>
-                                        <td>{{ $topic->module->syllabus->name }}</td>
-                                        <td>{{ $topic->module->name }}</td>
+                                        <td>{{ $topic?->name }}</td>
+                                        <td>{{ $topic?->module?->syllabus?->name }}</td>
+                                        <td>{{ $topic?->module?->name }}</td>
                                         <td>{!! $topic->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('topic.edit', encrypt($topic->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('topic.delete', encrypt($topic->id)) }}" class="text-danger dlt">Delete</a></span></td>
