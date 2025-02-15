@@ -4,7 +4,10 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FeeController;
+use App\Http\Controllers\HeadController;
+use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\ProfileController;
@@ -163,6 +166,33 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('fee.edit');
         Route::post('/edit/{id}', 'update')->name('fee.update');
         Route::get('/delete/{id}', 'destroy')->name('fee.delete');
+    });
+
+    Route::prefix('/head')->controller(HeadController::class)->group(function () {
+        Route::get('/', 'index')->name('head.register');
+        Route::get('/create', 'create')->name('head.create');
+        Route::post('/create', 'store')->name('head.save');
+        Route::get('/edit/{id}', 'edit')->name('head.edit');
+        Route::post('/edit/{id}', 'update')->name('head.update');
+        Route::get('/delete/{id}', 'destroy')->name('head.delete');
+    });
+
+    Route::prefix('/income')->controller(IncomeController::class)->group(function () {
+        Route::get('/', 'index')->name('income.register');
+        Route::get('/create', 'create')->name('income.create');
+        Route::post('/create', 'store')->name('income.save');
+        Route::get('/edit/{id}', 'edit')->name('income.edit');
+        Route::post('/edit/{id}', 'update')->name('income.update');
+        Route::get('/delete/{id}', 'destroy')->name('income.delete');
+    });
+
+    Route::prefix('/expense')->controller(ExpenseController::class)->group(function () {
+        Route::get('/', 'index')->name('expense.register');
+        Route::get('/create', 'create')->name('expense.create');
+        Route::post('/create', 'store')->name('expense.save');
+        Route::get('/edit/{id}', 'edit')->name('expense.edit');
+        Route::post('/edit/{id}', 'update')->name('expense.update');
+        Route::get('/delete/{id}', 'destroy')->name('expense.delete');
     });
 });
 

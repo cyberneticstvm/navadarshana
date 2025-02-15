@@ -68,6 +68,18 @@ class DatabaseSeeder extends Seeder
             'notes-create',
             'notes-edit',
             'notes-delete',
+            'head-list',
+            'head-create',
+            'head-edit',
+            'head-delete',
+            'income-list',
+            'income-create',
+            'income-edit',
+            'income-delete',
+            'expense-list',
+            'expense-create',
+            'expense-edit',
+            'expense-delete',
         ];
 
         foreach ($permissions as $permission) {

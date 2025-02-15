@@ -356,7 +356,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-body px-0 py-2">
-                                                <a href="{{ route('dashboard') }}" class="dropdown-item ai-icon ">
+                                                <a href="{{ route('user.edit', encrypt(Auth::user()->id)) }}" class="dropdown-item ai-icon ">
                                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                                                         xmlns="http://www.w3.org/2000/svg">
                                                         <path fill-rule="evenodd" clip-rule="evenodd"

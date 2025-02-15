@@ -57,6 +57,21 @@
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <div class="menu-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.75 10.75V19.25H8.25V10.75H3.75ZM9.75 4.75V19.25H14.25V4.75H9.75ZM15.75 12.75V19.25H20.25V12.75H15.75ZM20.25 20.75H3.75C3.3375 20.75 2.98438 20.6031 2.69063 20.3094C2.39688 20.0156 2.25 19.6625 2.25 19.25V10.75C2.25 10.3375 2.39688 9.98438 2.69063 9.69063C2.98438 9.39687 3.3375 9.25 3.75 9.25H8.25V4.75C8.25 4.3375 8.39687 3.98438 8.69063 3.69063C8.98438 3.39688 9.3375 3.25 9.75 3.25H14.25C14.6625 3.25 15.0156 3.39688 15.3094 3.69063C15.6031 3.98438 15.75 4.3375 15.75 4.75V11.25H20.25C20.6625 11.25 21.0156 11.3969 21.3094 11.6906C21.6031 11.9844 21.75 12.3375 21.75 12.75V19.25C21.75 19.6625 21.6031 20.0156 21.3094 20.3094C21.0156 20.6031 20.6625 20.75 20.25 20.75Z" fill="#6F767E"></path>
+                        </svg>
+                    </div>
+                    <span class="nav-text">Finance</span>
+                </a>
+                {{
+                    Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
+                    ->linkIfCan('head-list', route('head.register'), 'Head Register')
+                    ->linkIfCan('income-list', route('income.register'), 'Income Register')
+                    ->linkIfCan('expense-list', route('expense.register'), 'Expense Register')
+                }}
+            </li>
+            <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                    <div class="menu-icon">
 
                         <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960"
                             width="24px" fill="#5f6368">
