@@ -107,6 +107,11 @@ class RoleController extends Controller implements HasMiddleware
      */
     public function destroy(string $id)
     {
+        $role = DB::table("roles")->where('id', decrypt($id))->first();
+        if (in_array($role->name, array('Administrator', 'Student'))):
+            return redirect()->route('role.register')
+                ->with('error', 'Action not allowed for basic required roles');
+        endif;
         DB::table("roles")->where('id', decrypt($id))->delete();
         return redirect()->route('role.register')
             ->with('success', 'Role deleted successfully');

@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="mb-3 col-md-5">
                                     <label class="form-label req">Student Name</label>
-                                    {{ html()->text('name', $student->name)->class("form-control")->placeholder("Student Name") }}
+                                    {{ html()->text('name', $student->name)->class("form-control")->attribute('readonly', 'true')->placeholder("Student Name") }}
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="mb-3 col-md-3">
                                     <label class="form-label req">Email</label>
-                                    {{ html()->email('email', $student->email)->class("form-control")->placeholder("Email") }}
+                                    {{ html()->email('email', $student->email)->class("form-control")->attribute('readonly', 'true')->placeholder("Email") }}
                                     @error('email')
                                     <small class="text-danger">{{ $errors->first('email') }}</small>
                                     @enderror

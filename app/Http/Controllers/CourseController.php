@@ -118,7 +118,7 @@ class CourseController extends Controller implements HasMiddleware
             foreach ($request->syllabuses as $key => $syllabus):
                 $data[] = [
                     'course_id' => decrypt($request->course_id),
-                    'syllabus_id' => $syllabus[$key],
+                    'syllabus_id' => $syllabus,
                     'created_by' => $request->user()->id,
                     'updated_by' => $request->user()->id,
                     'created_at' => Carbon::now(),

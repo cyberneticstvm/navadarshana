@@ -3,11 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\User;
+use App\Models\UserBranch;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
 
 class StudentController extends Controller implements HasMiddleware
 {
@@ -62,17 +68,35 @@ class StudentController extends Controller implements HasMiddleware
             $input['current_status'] = 'active';
             $input['created_by'] = $request->user()->id;
             $input['updated_by'] = $request->user()->id;
-            $student = Student::create($input);
-            if ($request->file('photo')):
-                $photo = $request->file('photo');
-                $path = '/student/photos/' . Session::get('branch') . '/' . $student->id;
-                $fname = time() . '_' . $photo->getClientOriginalName();
-                $photo->storeAs($path, $fname, 'public');
-                $url = '/storage' . $path . '/' . $fname;
-                $student->update([
-                    'photo' => $url,
+            DB::transaction(function () use ($input, $request) {
+                $student = Student::create($input);
+                if ($request->file('photo')):
+                    $photo = $request->file('photo');
+                    $path = '/student/photos/' . Session::get('branch') . '/' . $student->id;
+                    $fname = time() . '_' . $photo->getClientOriginalName();
+                    $photo->storeAs($path, $fname, 'public');
+                    $url = '/storage' . $path . '/' . $fname;
+                    $student->update([
+                        'photo' => $url,
+                    ]);
+                endif;
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->mobile),
+                    'student_id' => $student->id,
+                    'created_by' => $request->user()->id,
+                    'updated_by' => $request->user()->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ]);
-            endif;
+                $role = Role::where('name', 'Student')->first();
+                $user->assignRole([$role->id]);
+                UserBranch::create([
+                    'user_id' => $user->id,
+                    'branch_id' => Session::get('branch'),
+                ]);
+            });
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }

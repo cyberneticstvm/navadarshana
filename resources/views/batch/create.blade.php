@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="mb-3 col-md-4">
                                     <label class="form-label req">Batch Name</label>
-                                    {{ html()->text('name', old('name'))->class("form-control")->placeholder("Branch Name") }}
+                                    {{ html()->text('name', old('name'))->class("form-control")->placeholder("Batch Name") }}
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
                                     @enderror
@@ -55,7 +55,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 col-md-2">
-                                    <label class="form-label req">Monthly Fee</label>
+                                    <label class="form-label req">Batch Fee</label>
                                     {{ html()->number('monthly_fee', old('monthly_fee'), '1', '', '1')->class("form-control")->placeholder("0.00") }}
                                     @error('monthly_fee')
                                     <small class="text-danger">{{ $errors->first('monthly_fee') }}</small>

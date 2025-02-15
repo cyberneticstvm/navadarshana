@@ -89,6 +89,7 @@ class DatabaseSeeder extends Seeder
             'updated_by' => $user->id,
         ]);
 
+        Role::create(['name' => 'Student']);
         $role = Role::create(['name' => 'Administrator']);
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);

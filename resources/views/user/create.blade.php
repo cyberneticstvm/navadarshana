@@ -54,13 +54,6 @@
                                     <small class="text-danger">{{ $errors->first('roles') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Student <small>(Select student if role is Student)</small></label>
-                                    {{ html()->select($name = 'student_id', $value = [], NULL)->class('form-control single-select')->placeholder('Select') }}
-                                    @error('student_id')
-                                    <small class="text-danger">{{ $errors->first('student_id') }}</small>
-                                    @enderror
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col text-end">

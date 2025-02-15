@@ -129,7 +129,7 @@ class BatchController extends Controller implements HasMiddleware
             foreach ($request->students as $key => $student):
                 $data[] = [
                     'batch_id' => decrypt($request->batch_id),
-                    'student_id' => $student[$key],
+                    'student_id' => $student,
                 ];
             endforeach;
             StudentBatch::insert($data);
