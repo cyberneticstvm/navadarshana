@@ -90,7 +90,7 @@ class ApiController extends Controller
 
     function getStudentNotes(Request $request)
     {
-        $notes = Note::where('topic_id', $request->json('topic_id'))->orderBy('title')->get();
+        $notes = Note::where('topic_id', $request->json('topic_id'))->latest()->get();
         if ($notes->isNotEmpty()):
             return response()->json([
                 'status' => true,
