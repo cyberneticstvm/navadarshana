@@ -20,7 +20,7 @@ class ApiController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid Credentials',
-            ], 500);
+            ], 401);
         endif;
     }
 }
