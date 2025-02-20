@@ -35,7 +35,7 @@ class ApiController extends Controller
     function getStudentSyllabuses(Request $request)
     {
         $syllabuses = Syllabus::orderBy('name')->get();
-        if (!isEmpty($syllabuses)):
+        if ($syllabuses->isNotEmpty()):
             return response()->json([
                 'status' => true,
                 'syllabuses' => $syllabuses,
@@ -53,7 +53,7 @@ class ApiController extends Controller
     function getStudentModules(Request $request)
     {
         $modules = Module::where('syllabus_id', $request->json('syllabus_id'))->orderBy('name')->get();
-        if (!isEmpty($modules)):
+        if ($modules->isNotEmpty()):
             return response()->json([
                 'status' => true,
                 'modules' => $modules,
