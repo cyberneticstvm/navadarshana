@@ -12,4 +12,5 @@ Route::prefix('student')->controller(ApiController::class)->group(function () {
     Route::post('/authenticate', 'authenicate')->name('user.authenticate');
     Route::post('/syllabuses', 'getStudentSyllabuses')->name('student.syllabuses');
     Route::post('/modules', 'getStudentModules')->name('student.modules');
+    Route::post('/topics', 'getStudentTopics')->name('student.topics');
 });

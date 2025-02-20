@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use App\Models\Syllabus;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -63,6 +64,24 @@ class ApiController extends Controller
             return response()->json([
                 'status' => false,
                 'modules' => null,
+                'message' => 'No records found',
+            ], 404);
+        endif;
+    }
+
+    function getStudentTopics(Request $request)
+    {
+        $topics = Topic::where('module_id', $request->json('module_id'))->orderBy('name')->get();
+        if ($topics->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'topics' => $topics,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'topics' => null,
                 'message' => 'No records found',
             ], 404);
         endif;
