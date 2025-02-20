@@ -29,6 +29,11 @@ class ValidateRequest
                 ], 500);
             }
         }
-        return $next($request);
+        return response()->json([
+            'status' => false,
+            'message' => 'Invalid Authentication Token',
+            'token' => $token . ' - ' . $headers['authorization'],
+        ], 500);
+        //return $next($request);
     }
 }
