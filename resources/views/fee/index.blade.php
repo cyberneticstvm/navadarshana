@@ -40,7 +40,7 @@
                                         <td>{{ $fee->student->name }}</td>
                                         <td>{{ $fee->batch->name }}</td>
                                         <td>{{ $fee->amount }}</td>
-                                        <td>{{ ucfirst($fee->category) }}</td>
+                                        <td>{{ ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category) }}</td>
                                         <td>{{ ucfirst($fee->type) }}</td>
                                         <td class="text-center"><i class="fa-regular fa-file-pdf fa-xl text-danger"></i></td>
                                         <td>{!! $fee->status() !!}</td>
