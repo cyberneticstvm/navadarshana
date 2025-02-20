@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Module;
+use App\Models\Note;
 use App\Models\Syllabus;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -82,6 +83,24 @@ class ApiController extends Controller
             return response()->json([
                 'status' => false,
                 'topics' => null,
+                'message' => 'No records found',
+            ], 404);
+        endif;
+    }
+
+    function getStudentNotes(Request $request)
+    {
+        $notes = Note::where('topic_id', $request->json('topic_id'))->orderBy('name')->get();
+        if ($notes->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'notes' => $notes,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'notes' => null,
                 'message' => 'No records found',
             ], 404);
         endif;
