@@ -7,6 +7,8 @@ use App\Models\Syllabus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ApiController extends Controller
 {
     function authenicate(Request $request)
@@ -33,7 +35,7 @@ class ApiController extends Controller
     function getStudentSyllabuses(Request $request)
     {
         $syllabuses = Syllabus::orderBy('name')->get();
-        if ($syllabuses):
+        if (!isEmpty($syllabuses)):
             return response()->json([
                 'status' => true,
                 'syllabuses' => $syllabuses,
@@ -44,14 +46,14 @@ class ApiController extends Controller
                 'status' => false,
                 'syllabuses' => null,
                 'message' => 'No records found',
-            ], 401);
+            ], 404);
         endif;
     }
 
     function getStudentModules(Request $request)
     {
         $modules = Module::where('syllabus_id', $request->json('syllabus_id'))->orderBy('name')->get();
-        if ($modules):
+        if (!isEmpty($modules)):
             return response()->json([
                 'status' => true,
                 'modules' => $modules,
@@ -62,7 +64,7 @@ class ApiController extends Controller
                 'status' => false,
                 'modules' => null,
                 'message' => 'No records found',
-            ], 401);
+            ], 404);
         endif;
     }
 }
