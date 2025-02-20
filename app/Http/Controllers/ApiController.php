@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Module;
 use App\Models\Syllabus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class ApiController extends Controller
         endif;
     }
 
-    function getStudentSyllabuses()
+    function getStudentSyllabuses(Request $request)
     {
         $syllabuses = Syllabus::orderBy('name')->get();
         if ($syllabuses):
@@ -42,7 +43,25 @@ class ApiController extends Controller
             return response()->json([
                 'status' => false,
                 'syllabuses' => null,
-                'message' => 'Invalid Credentials',
+                'message' => 'No records found',
+            ], 401);
+        endif;
+    }
+
+    function getStudentModules(Request $request)
+    {
+        $modules = Module::where('syllabus_id', $request->json('syllabus_id'))->orderBy('name')->get();
+        if ($modules):
+            return response()->json([
+                'status' => true,
+                'modules' => $modules,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'modules' => null,
+                'message' => 'No records found',
             ], 401);
         endif;
     }
