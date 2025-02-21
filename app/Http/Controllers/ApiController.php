@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Module;
 use App\Models\Note;
+use App\Models\NoteAttachment;
 use App\Models\Syllabus;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -138,6 +139,24 @@ class ApiController extends Controller
             return response()->json([
                 'status' => false,
                 'note' => null,
+                'message' => 'No records found',
+            ], 404);
+        endif;
+    }
+
+    function getNoteAttachments(Request $request)
+    {
+        $attachments = NoteAttachment::where('note_id', $request->json('note_id'))->get();
+        if ($attachments->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'attachments' => $attachments,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'attachments' => null,
                 'message' => 'No records found',
             ], 404);
         endif;
