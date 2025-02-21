@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\Syllabus;
@@ -31,6 +32,24 @@ class ApiController extends Controller
                 'status' => false,
                 'message' => 'Invalid Credentials',
             ], 401);
+        endif;
+    }
+
+    function getStudentBatches()
+    {
+        $batches = Batch::orderBy('name')->get();
+        if ($batches->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'batches' => $batches,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'batches' => null,
+                'message' => 'No records found',
+            ], 404);
         endif;
     }
 
