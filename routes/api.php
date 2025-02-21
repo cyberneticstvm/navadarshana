@@ -15,4 +15,5 @@ Route::prefix('student')->controller(ApiController::class)->group(function () {
     Route::post('/modules', 'getStudentModules')->name('student.modules');
     Route::post('/topics', 'getStudentTopics')->name('student.topics');
     Route::post('/notes', 'getStudentNotes')->name('student.notes');
+    Route::post('/note/single', 'getNote')->name('note.single');
 });

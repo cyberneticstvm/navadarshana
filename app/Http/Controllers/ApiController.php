@@ -124,4 +124,22 @@ class ApiController extends Controller
             ], 404);
         endif;
     }
+
+    function getNote(Request $request)
+    {
+        $note = Note::where('id', $request->json('note_id'))->first();
+        if ($note->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'note' => $note,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'note' => null,
+                'message' => 'No records found',
+            ], 404);
+        endif;
+    }
 }
