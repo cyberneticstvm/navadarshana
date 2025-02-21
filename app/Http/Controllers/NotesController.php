@@ -156,7 +156,7 @@ class NotesController extends Controller implements HasMiddleware
                             'updated_at' => Carbon::now(),
                         ];
                     endforeach;
-                    NoteAttachment::where('note_id', $id)->delete();
+                    //NoteAttachment::where('note_id', $id)->delete();
                     NoteAttachment::insert($files);
                 endif;
             });
