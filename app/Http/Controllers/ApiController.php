@@ -128,7 +128,7 @@ class ApiController extends Controller
     function getNote(Request $request)
     {
         $note = Note::where('id', $request->json('note_id'))->first();
-        if ($note->isNotEmpty()):
+        if ($note):
             return response()->json([
                 'status' => true,
                 'note' => $note,
