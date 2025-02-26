@@ -18,7 +18,7 @@
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->link(route('dashboard'), 'Finance')
-                    ->link(route('dashboard'), 'Student');
+                    ->link(route('dashoboard.student'), 'Student');
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">

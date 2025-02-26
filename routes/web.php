@@ -4,6 +4,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\HeadController;
@@ -44,12 +45,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('ajax')->controller(AjaxController::class)->group(function () {
         Route::get('/get/ddl', 'getDropDown')->name('get.ddl');
-
         Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
         Route::get('/student/batch/{id}/{action}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
         Route::get('/course/syllabus/{id}/{action}', 'getSyllabusDetailsForCourse')->name('get.syllabus.details.for.course');
         Route::get('/syllabus/module/{id}/{action}', 'getModulesForSyllabus')->name('get.modules.for.syllabus');
         Route::get('/module/topic/{id}/{action}', 'getTopicsForModule')->name('get.topics.for.module');
+    });
+
+    Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {
+        Route::get('/student', 'studentDashboard')->name('dashoboard.student');
     });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {
