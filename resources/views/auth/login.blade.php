@@ -14,7 +14,7 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
     <meta name="description"
         content="Navadarshana">
-    <meta property="og:title" content="NexaDash Admin Dashboard Bootstrap 5 Template">
+    <meta property="og:title" content="Navadarshana Educations">
     <meta property="og:description"
         content="Navadarshana">
     <meta property="og:image" content="https://nexadash.dexignzone.com/xhtml/social-image.png">
@@ -80,7 +80,7 @@
                             </ul>
                         </div>
                         <p class="text-center">Not registered?
-                            <a class="btn-link text-primary" href="page-register.html">Register</a>
+                            <a class="btn-link text-primary" href="#">Register</a>
                         </p>
                         {{ html()->form()->close() }}
                     </div>
@@ -88,7 +88,7 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="pages-left h-100">
                         <div class="login-content">
-                            <a href="index.html"><img src="{{ asset('/assets/images/logo-full.png') }}" class="mb-3" alt=""></a>
+                            <a href="{{ route('login') }}"><img src="{{ asset('/assets/images/logo-full.png') }}" class="mb-3" alt=""></a>
                             <p>Your true value is determined by how much more you give in value than you take in
                                 payment. ...</p>
                         </div>

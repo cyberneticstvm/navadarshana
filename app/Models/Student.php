@@ -22,4 +22,14 @@ class Student extends Model
     {
         return ($this->current_status == 'inactive') ? "<span class='badge badge-danger'>Inactive</span>" : "<span class='badge badge-success'>Active</span>";
     }
+
+    public function activeBatches()
+    {
+        return $this->hasMany(StudentBatch::class, 'student_id', 'id');
+    }
+
+    public function batches()
+    {
+        return Batch::all();
+    }
 }

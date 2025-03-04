@@ -448,7 +448,7 @@
     @if(in_array(Route::current()->getName(), array('dashboard', 'dashoboard.student')))
     <script src="{{ asset('/assets/vendor/apexchart/apexchart.js') }}"></script>
     <script src="{{ asset('/assets/vendor/peity/jquery.peity.min.js') }}"></script>
-    <script src="{{ asset('/assets/js/dashboard/ecommerce.js') }}"></script>
+    <script src="{{ asset('/assets/js/chart.js') }}"></script>
     <script>
         $(function() {
             $("#branchSelector").modal('show');

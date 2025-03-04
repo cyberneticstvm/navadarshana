@@ -2,18 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
+use App\Models\Fee;
+use App\Models\Month;
 use App\Models\Student;
+use App\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
     function studentDashboard(Request $request)
     {
-        $admission = Student::whereMonth('date_of_admission', Carbon::now())->whereYear('date_of_admission', Carbon::now())->where('branch_id', Session::get('branch'))->get();
+        $admission = Student::withTrashed()->whereMonth('date_of_admission', Carbon::now())->whereYear('date_of_admission', Carbon::now())->where('branch_id', Session::get('branch'))->get();
         $active = Student::where('branch_id', Session::get('branch'))->get();
-        $cancelled = Student::onlyTrashed()->whereMonth('date_of_admission', Carbon::now())->whereYear('date_of_admission', Carbon::now())->where('branch_id', Session::get('branch'))->get();
-        return view('dashboards.student', compact('admission', 'active', 'cancelled'));
+        $cancelled = Student::onlyTrashed()->whereMonth('deleted_at', Carbon::now())->whereYear('deleted_at', Carbon::now())->where('branch_id', Session::get('branch'))->get();
+        $batches = Batch::where('branch_id', Session::get('branch'))->get();
+        $student_pending_batch = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', StudentBatch::pluck('student_id'))->get();
+        $fee_pending = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
+        $fee_paid = Student::where('branch_id', Session::get('branch'))->whereIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
+        return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid'));
+    }
+
+    function studentComparisonChart(Request $request)
+    {
+        $students = Month::leftJoin('students as s', function ($q) {
+            $q->on('s.date_of_admission', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
+            $q->on('s.date_of_admission', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->where('s.branch_id', Session::get('branch'));
+        })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, COUNT(CASE WHEN s.enrollment_type='online' THEN s.id END) AS online, COUNT(CASE WHEN s.enrollment_type='offline' THEN s.id END) AS offline, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
+        return json_encode($students);
     }
 }

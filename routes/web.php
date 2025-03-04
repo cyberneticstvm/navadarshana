@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.login');
-});
+})->name('login');;
 
 /*Route::get('/dashboard', function () {
     return view('dashboard');
@@ -50,6 +50,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/course/syllabus/{id}/{action}', 'getSyllabusDetailsForCourse')->name('get.syllabus.details.for.course');
         Route::get('/syllabus/module/{id}/{action}', 'getModulesForSyllabus')->name('get.modules.for.syllabus');
         Route::get('/module/topic/{id}/{action}', 'getTopicsForModule')->name('get.topics.for.module');
+    });
+
+    Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
+        Route::get('/student/comparison', 'studentComparisonChart')->name('student.comparison.chart');
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {
