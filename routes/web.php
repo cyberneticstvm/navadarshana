@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\HeadController;
 use App\Http\Controllers\IncomeController;
@@ -54,6 +55,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('dashboard')->controller(DashboardController::class)->group(function () {
         Route::get('/student/comparison', 'studentComparisonChart')->name('student.comparison.chart');
+        Route::get('/student/fee/percentage', 'studentFeePerChart')->name('student.fee.per.chart');
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {
@@ -174,6 +176,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('fee.edit');
         Route::post('/edit/{id}', 'update')->name('fee.update');
         Route::get('/delete/{id}', 'destroy')->name('fee.delete');
+    });
+
+    Route::prefix('/faculty')->controller(FacultyController::class)->group(function () {
+        Route::get('/', 'index')->name('faculty.register');
+        Route::get('/create', 'create')->name('faculty.create');
+        Route::post('/create', 'store')->name('faculty.save');
+        Route::get('/edit/{id}', 'edit')->name('faculty.edit');
+        Route::post('/edit/{id}', 'update')->name('faculty.update');
+        Route::get('/delete/{id}', 'destroy')->name('faculty.delete');
     });
 
     Route::prefix('/head')->controller(HeadController::class)->group(function () {

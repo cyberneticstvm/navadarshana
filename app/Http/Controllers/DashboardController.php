@@ -34,4 +34,17 @@ class DashboardController extends Controller
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, COUNT(CASE WHEN s.enrollment_type='online' THEN s.id END) AS online, COUNT(CASE WHEN s.enrollment_type='offline' THEN s.id END) AS offline, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
         return json_encode($students);
     }
+
+    function studentFeePerChart()
+    {
+        $tot = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(b.monthly_fee) AS fee")->where('s.branch_id', Session::get('branch'))->get();
+
+        $fee = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(f.amount) AS fee")->where('s.branch_id', Session::get('branch'))->where('f.month', Carbon::now()->month)->where('f.year', Carbon::now()->year)->get();
+
+        return json_encode([
+            'tot' => $tot->sum('fee'),
+            'fee' => $fee->sum('fee'),
+            'per' => ($tot->sum('fee') > 0 && $fee->sum('fee') > 0) ? ($fee->sum('fee') / $tot->sum('fee')) * 100 : 0,
+        ]);
+    }
 }

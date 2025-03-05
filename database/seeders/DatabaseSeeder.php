@@ -80,6 +80,10 @@ class DatabaseSeeder extends Seeder
             'expense-create',
             'expense-edit',
             'expense-delete',
+            'faculty-list',
+            'faculty-create',
+            'faculty-edit',
+            'faculty-delete',
         ];
 
         foreach ($permissions as $permission) {

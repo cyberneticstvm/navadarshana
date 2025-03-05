@@ -146,7 +146,7 @@
                         <div class="card overflow-hidden">
                             <div class="card-header border-0 pb-0 flex-wrap">
                                 <div class="blance-media">
-                                    <h5 class="mb-0">Student Comparison Chart</h5>
+                                    <h5 class="mb-0">Student Enrollment Chart</h5>
                                 </div>
                                 <ul class="nav nav-pills revenue-tab" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
@@ -221,12 +221,12 @@
                             <div class="card-body mb-0">
                                 <div id="redial"></div>
                                 <div class="redia-date text-center">
-                                    <h4>My Progress</h4>
-                                    <p class="mb-0">Lorem ipsum dolor sit amet, consectetur</p>
+                                    <h4>Fee Collected</h4>
+                                    <p class="mb-0">Fee collecetd from all students current month</p>
                                 </div>
                             </div>
                             <div class="card-footer text-center border-0 pt-0">
-                                <a href="" class="btn btn-primary">More Details</a>
+                                <a href="#" class="btn btn-primary">More Details</a>
                             </div>
                         </div>
                     </div>
@@ -237,7 +237,7 @@
                     <div class="col-xl-12">
                         <div class="card saller">
                             <div class="card-header border-0 d-block text-white pb-0">
-                                <h4 class="text-white mb-0">Current Month Admissions</h4>
+                                <h4 class="text-white mb-0">Current Month Enrollments</h4>
                                 <span>Students from all channels</span>
                             </div>
                             <div class="card-body">

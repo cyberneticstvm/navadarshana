@@ -53,6 +53,7 @@
                     ->linkIfCan('branch-list', route('branch.register'), 'Branch Register')
                     ->linkIfCan('course-list', route('course.register'), 'Course Register')                    
                     ->linkIfCan('batch-list', route('batch.register'), 'Batch Register')
+                    ->linkIfCan('faculty-list', route('faculty.register'), 'Faculty Register')
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">

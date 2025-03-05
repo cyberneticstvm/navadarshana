@@ -177,6 +177,88 @@
             });	
 
 		}
+        var redial = function () {
+            $.getJSON('/dashboard/student/fee/percentage', function (response) {
+                var options = {
+                    series: [response['per']],
+                    chart: {
+                        type: 'radialBar',
+                        offsetY: 0,
+                        height: 160,
+                        sparkline: {
+                            enabled: true
+                        }
+                    },
+                    plotOptions: {
+                        radialBar: {
+                            startAngle: -180,
+                            endAngle: 180,
+                            track: {
+                                background: "#F1EAFF",
+                                strokeWidth: '100%',
+                                margin: 3,
+                            },
+
+                            hollow: {
+                                margin: 20,
+                                size: '60%',
+                                background: 'transparent',
+                                image: undefined,
+                                imageOffsetX: 0,
+                                imageOffsetY: 0,
+                                position: 'front',
+                            },
+
+                            dataLabels: {
+                                name: {
+                                    show: false
+                                },
+                                value: {
+                                    offsetY: 5,
+                                    fontSize: '24px',
+                                    color: '#000000',
+                                    fontWeight: 600,
+                                }
+                            }
+                        }
+                    },
+                    responsive: [{
+                        breakpoint: 1600,
+                        options: {
+                            chart: {
+                                height: 150
+                            },
+                        }
+                    }
+
+                    ],
+                    grid: {
+                        padding: {
+                            top: -10
+                        }
+                    },
+                    /* stroke: {
+                    dashArray: 4,
+                    colors:'#6EC51E'
+                    }, */
+                    fill: {
+                        type: 'gradient',
+                        colors: '#7A849B',
+                        gradient: {
+                            shade: 'black',
+                            shadeIntensity: 0.15,
+                            inverseColors: false,
+                            opacityFrom: 1,
+                            opacityTo: 1,
+                            stops: [64, 43, 64, 0.5]
+                        },
+                    },
+                    labels: ['Average Results'],
+                };
+                var chart = new ApexCharts(document.querySelector("#redial"), options);
+                chart.render();
+            });	
+	    }
 
 		/* Function ============ */
 		return {
@@ -185,6 +267,7 @@
 			},
 			load: function () {
 				chartBarRunning();
+                redial();
 			},
 
 			resize: function () {
