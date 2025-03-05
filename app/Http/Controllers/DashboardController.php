@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\ClassSchedule;
 use App\Models\Fee;
 use App\Models\Month;
 use App\Models\Student;
@@ -23,7 +24,8 @@ class DashboardController extends Controller
         $student_pending_batch = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', StudentBatch::pluck('student_id'))->get();
         $fee_pending = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
         $fee_paid = Student::where('branch_id', Session::get('branch'))->whereIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
-        return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid'));
+        $class_schedules = ClassSchedule::where('branch_id', Session::get('branch'))->whereDate('date', Carbon::now())->orderBy('from_time')->get();
+        return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid', 'class_schedules'));
     }
 
     function studentComparisonChart(Request $request)

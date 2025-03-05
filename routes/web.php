@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
+use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ExpenseController;
@@ -212,6 +213,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('expense.edit');
         Route::post('/edit/{id}', 'update')->name('expense.update');
         Route::get('/delete/{id}', 'destroy')->name('expense.delete');
+    });
+
+    Route::prefix('/schedule/class')->controller(ClassScheduleController::class)->group(function () {
+        Route::get('/', 'index')->name('class.schedule.register');
+        Route::get('/create', 'create')->name('class.schedule.create');
+        Route::post('/create', 'store')->name('class.schedule.save');
+        Route::get('/edit/{id}', 'edit')->name('class.schedule.edit');
+        Route::post('/edit/{id}', 'update')->name('class.schedule.update');
+        Route::get('/delete/{id}', 'destroy')->name('class.schedule.delete');
     });
 });
 

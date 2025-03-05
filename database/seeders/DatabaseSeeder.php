@@ -84,6 +84,10 @@ class DatabaseSeeder extends Seeder
             'faculty-create',
             'faculty-edit',
             'faculty-delete',
+            'class-schedule-list',
+            'class-schedule-create',
+            'class-schedule-edit',
+            'class-schedule-delete',
         ];
 
         foreach ($permissions as $permission) {

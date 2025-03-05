@@ -30,6 +30,12 @@ class AjaxController extends Controller
                 if ($request->take == 'topic')
                     $items = Topic::where('module_id', $request->typeId)->get();
                 break;
+            case 'batch';
+                if ($request->take == 'syllabus'):
+                    $batch = Batch::find($request->typeId);
+                    $items = CourseSyllabus::leftJoin('syllabi as s', 's.id', 'course_syllabi.syllabus_id')->where('course_id', $batch->course_id)->select('s.name', 's.id')->get();
+                endif;
+                break;
         endswitch;
         return response()->json([
             'items' => $items,

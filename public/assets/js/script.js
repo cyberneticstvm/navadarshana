@@ -148,6 +148,11 @@ $(function(){
                         data: xdata,
                     });
                 }
+                if(take == 'syllabus'){
+                    $('.selSyllabus').select2({
+                        data: xdata,
+                    });
+                }
             },
             error: function (err) {
                 console.log(err)
