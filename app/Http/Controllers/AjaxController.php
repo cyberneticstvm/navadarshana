@@ -200,11 +200,12 @@ class AjaxController extends Controller implements HasMiddleware
         $op = "";
         $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered' id='accordion-four'>";
         foreach ($modules as $key => $module):
+            $show = ($key == 0) ? 'show' : '';
             $op .= "<div class='accordion-item'>";
             $op .= "<h2 class='accordion-header'>";
             $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$module->id}'>{$module->name}</button>";
             $op .= "</h2>";
-            $op .= "<div id='bordered-no-gutter-collapse-{$module->id}' class='accordion-collapse collapse show' data-bs-parent='#accordion-four'>";
+            $op .= "<div id='bordered-no-gutter-collapse-{$module->id}' class='accordion-collapse collapse {$show}' data-bs-parent='#accordion-four'>";
             $op .= "<div class='accordion-body'>";
             $op .= "<div class='table-responsive'><table class='display table' style='width:100%'><tbody>";
             foreach ($module->topics as $key1 => $topic):
