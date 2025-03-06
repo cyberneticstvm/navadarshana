@@ -14,10 +14,21 @@ use App\Models\SyllabiModule;
 use App\Models\Syllabus;
 use App\Models\SyllabusSubject;
 use App\Models\Topic;
+use App\Models\TopicComplete;
+use App\Models\TopicCompleted;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class AjaxController extends Controller
+class AjaxController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [
+            // new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('update-batch-topic-complete'), only: ['updateBatchTopicStatus']),
+        ];
+    }
+
     function getDropDown(Request $request)
     {
         $items = collect();
@@ -181,5 +192,57 @@ class AjaxController extends Controller
         $op .= "</tbody></tr></thead>";
         $op .= "</table></div>";
         echo $op;
+    }
+
+    function getModuleTopicsForSyllabus(String $syllabusId, String $batchId, String $facultyId)
+    {
+        $modules = Module::where('syllabus_id', $syllabusId)->get();
+        $op = "";
+        $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered' id='accordion-four'>";
+        foreach ($modules as $key => $module):
+            $op .= "<div class='accordion-item'>";
+            $op .= "<h2 class='accordion-header'>";
+            $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$module->id}'>{$module->name}</button>";
+            $op .= "</h2>";
+            $op .= "<div id='bordered-no-gutter-collapse-{$module->id}' class='accordion-collapse collapse show' data-bs-parent='#accordion-four'>";
+            $op .= "<div class='accordion-body'>";
+            $op .= "<div class='table-responsive'><table class='display table' style='width:100%'><tbody>";
+            foreach ($module->topics as $key1 => $topic):
+                $vals = TopicComplete::where('batch_id', $batchId)->where('syllabus_id', $syllabusId)->where('module_id', $module->id)->where('topic_id', $topic->id);
+                $checked = (in_array($topic->id, $vals->pluck('topic_id')->toArray())) ? 'checked' : '';
+                $op .= "<tr>";
+                $op .= "<td>{$topic->name}</td>";
+                $op .= "<td><input type='checkbox' class='form-check-input chkModuleTopic' name='topics[]' id='customCheckBox{$topic->id}' value='{$topic->id}' {$checked} data-batch='{$batchId}' data-syllabus='{$syllabusId}' data-module='{$module->id}' data-topic='{$topic->id}' data-faculty='{$facultyId}'></td>";
+                $op .= "</tr>";
+            endforeach;
+            $op .= "</tbody></table></div>";
+            $op .= "</div></div></div>";
+        endforeach;
+        $op .= "</div>";
+        echo $op;
+    }
+
+    function updateBatchTopicStatus(Request $request)
+    {
+        if ($request->user()->can('update-batch-topic-complete')):
+            if ($request->isChecked):
+                TopicComplete::create([
+                    'batch_id' => $request->batch,
+                    'syllabus_id' => $request->syllabus,
+                    'module_id' => $request->module,
+                    'topic_id' => $request->topic,
+                    'faculty_id' => $request->faculty,
+                ]);
+            else:
+                TopicComplete::where('batch_id', $request->batch)->where('syllabus_id', $request->syllabus)->where('module_id', $request->module)->where('topic_id', $request->topic)->delete();
+            endif;
+            return response()->json([
+                "success" => "Topic updated successfully",
+            ]);
+        else:
+            return response()->json([
+                "error" => "User does not have right permission",
+            ]);
+        endif;
     }
 }

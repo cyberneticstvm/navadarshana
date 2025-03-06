@@ -37,7 +37,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $schedule?->batch?->name }}</td>
                                         <td>{{ $schedule?->faculty?->name }}</td>
-                                        <td>{{ $schedule?->syllabus?->name }}</td>
+                                        <td><a href="javascript:void(0)" class="viewModuleTopicForBatch text-info" data-bid="{{ $schedule?->batch?->id }}" data-sid="{{ $schedule?->syllabus?->id }}" data-fid="{{ $schedule?->faculty?->id }}">{{ $schedule?->syllabus?->name }}</a></td>
                                         <td>{{ $schedule?->date->format('d.M.Y') }}</td>
                                         <td>{{ $schedule?->from_time->format('h:i a') }}</td>
                                         <td>{{ $schedule?->to_time->format('h:i a') }}</td>
@@ -56,4 +56,19 @@
         </div>
     </div>
 </div>
+<!--**********************************
+            Chat box start
+        ***********************************-->
+<div class="chatbox" id="moduleTopicDetailsBox">
+    <div class="chatbox-close"></div>
+    <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
+        <div class="card-header chat-list-header text-center">
+            <h5>Modules & Topics</h5>
+        </div>
+        <div class="card-body contacts_body p-0 dz-scroll moduleTopicDetails" id="DZ_W_Contacts_Body"></div>
+    </div>
+</div>
+<!--**********************************
+            Chat box End
+        ***********************************-->
 @endsection

@@ -124,6 +124,51 @@ $(function(){
         });        
     });
 
+    $(document).on("click", ".viewModuleTopicForBatch", function(){
+        let sid = $(this).data('sid');
+        let bid = $(this).data('bid');
+        let fid = $(this).data('fid');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/batch/module/topic/' + sid + '/' + bid + '/' + fid,
+            success: function (res) {
+                $('#moduleTopicDetailsBox').addClass('active');
+                $(".moduleTopicDetails").html(res);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });        
+    });
+
+    $(document).on("click", ".chkModuleTopic", function(){
+        let dis = $(this);
+        let isChecked = dis.is(":checked") ? 1 : 0;
+        let sid = dis.data('syllabus');
+        let mid = dis.data('module');
+        let tid = dis.data('topic');
+        let bid = dis.data('batch');
+        let fid = dis.data('faculty');
+        $.ajax({
+            type: 'POST',
+            data: {'batch': bid, 'syllabus': sid, 'module': mid, 'topic': tid, 'faculty': fid, 'isChecked': isChecked},
+            url: '/ajax/update/batch/topic/status',
+            success: function (res) {
+                if(res.success){
+                    success(res)
+                }else{
+                    if(isChecked){
+                        dis.prop('checked', false);
+                    }
+                    failed(res)
+                }
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });        
+    });
+
     $(document).on("change", ".selChange", function(){
         let dis = $(this);
         let typeId = dis.val();

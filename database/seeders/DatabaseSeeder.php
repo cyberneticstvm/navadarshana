@@ -88,6 +88,7 @@ class DatabaseSeeder extends Seeder
             'class-schedule-create',
             'class-schedule-edit',
             'class-schedule-delete',
+            'update-batch-topic-complete',
         ];
 
         foreach ($permissions as $permission) {
