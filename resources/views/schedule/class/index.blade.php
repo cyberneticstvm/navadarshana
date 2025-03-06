@@ -37,7 +37,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $schedule?->batch?->name }}</td>
                                         <td>{{ $schedule?->faculty?->name }}</td>
-                                        <td><a href="javascript:void(0)" class="viewModuleTopicForBatch text-info" data-bid="{{ $schedule?->batch?->id }}" data-sid="{{ $schedule?->syllabus?->id }}" data-fid="{{ $schedule?->faculty?->id }}">{{ $schedule?->syllabus?->name }}</a></td>
+                                        <td><a href="javascript:void(0)" class="viewModuleTopicForBatch text-info" data-bid="{{ $schedule?->batch?->id }}" data-sid="{{ $schedule?->syllabus?->id }}" data-fid="{{ $schedule?->faculty?->id }}" data-schedule="{{ $schedule->id }}">{{ $schedule?->syllabus?->name }}</a></td>
                                         <td>{{ $schedule?->date->format('d.M.Y') }}</td>
                                         <td>{{ $schedule?->from_time->format('h:i a') }}</td>
                                         <td>{{ $schedule?->to_time->format('h:i a') }}</td>
