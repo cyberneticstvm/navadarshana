@@ -32,7 +32,7 @@
                                             <p>
                                                 Attachments<br />
                                                 @forelse($note->attachments as $key => $item)
-                                                <a href="{{ asset($item->attachment) }}" class="text-info" target="_blank">Attachment {{ $key + 1 }}</a>,
+                                                <a href="{{ gcsPublicUrl().$item->attachment }}" class="text-info" target="_blank">Attachment {{ $key + 1 }}</a>,
                                                 @empty
                                                 @endforelse
                                             </p>

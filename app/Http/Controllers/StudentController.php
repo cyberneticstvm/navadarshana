@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller implements HasMiddleware
 {
@@ -72,10 +73,9 @@ class StudentController extends Controller implements HasMiddleware
                 $student = Student::create($input);
                 if ($request->file('photo')):
                     $photo = $request->file('photo');
-                    $path = '/student/photos/' . Session::get('branch') . '/' . $student->id;
                     $fname = time() . '_' . $photo->getClientOriginalName();
-                    $photo->storeAs($path, $fname, 'public');
-                    $url = '/storage' . $path . '/' . $fname;
+                    $storeFile = $photo->storeAs('/student/photos', $fname, 'gcs');
+                    $url = Storage::disk('gcs')->url($storeFile);
                     $student->update([
                         'photo' => $url,
                     ]);
@@ -144,10 +144,9 @@ class StudentController extends Controller implements HasMiddleware
             $input['updated_by'] = $request->user()->id;
             if ($request->file('photo')):
                 $photo = $request->file('photo');
-                $path = '/student/photos/' . Session::get('branch') . '/' . $student->id;
                 $fname = time() . '_' . $photo->getClientOriginalName();
-                $photo->storeAs($path, $fname, 'public');
-                $url = '/storage' . $path . '/' . $fname;
+                $storeFile = $photo->storeAs('/student/photos', $fname, 'gcs');
+                $url = Storage::disk('gcs')->url($storeFile);
                 $input['photo'] = $url;
             endif;
             $student->update($input);

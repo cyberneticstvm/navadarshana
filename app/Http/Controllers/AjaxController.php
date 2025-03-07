@@ -58,7 +58,7 @@ class AjaxController extends Controller implements HasMiddleware
         $student = Student::findOrFail($studentId);
         $activeBatches = Batch::whereIn('id', StudentBatch::where('student_id', $studentId)->pluck('batch_id'))->pluck('name')->implode('<br/>');
         if ($student->photo):
-            $op = "<div class='header-media text-center'><img src='" . asset($student->photo) . "' width='25%' /></div>";
+            $op = "<div class='header-media text-center'><img src='" . gcsPublicUrl() . $student->photo . "' width='25%' /></div>";
         else:
             $op = "<div class='header-media text-center'><img src='" . asset('/assets/images/avatar.png') . "' width='25%' /></div>";
         endif;

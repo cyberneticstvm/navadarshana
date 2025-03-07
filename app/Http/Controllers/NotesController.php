@@ -17,6 +17,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class NotesController extends Controller implements HasMiddleware
 {
@@ -72,11 +73,10 @@ class NotesController extends Controller implements HasMiddleware
                 $note = Note::create($input);
                 if ($request->file('attachments')):
                     $attachments = $request->file('attachments');
-                    $path = '/material/notes/' . $note->id;
                     foreach ($attachments as $key => $attachment):
                         $fname = time() . '_' . $attachment->getClientOriginalName();
-                        $attachment->storeAs($path, $fname, 'public');
-                        $url = '/storage' . $path . '/' . $fname;
+                        $storeFile = $attachment->storeAs('/notes', $fname, 'gcs');
+                        $url = Storage::disk('gcs')->url($storeFile);
                         $files[] = [
                             'note_id' => $note->id,
                             'attachment' => $url,
@@ -142,11 +142,10 @@ class NotesController extends Controller implements HasMiddleware
                 Note::findOrFail($id)->update($input);
                 if ($request->file('attachments')):
                     $attachments = $request->file('attachments');
-                    $path = '/material/notes/' . $id;
                     foreach ($attachments as $key => $attachment):
                         $fname = time() . '_' . $attachment->getClientOriginalName();
-                        $attachment->storeAs($path, $fname, 'public');
-                        $url = '/storage' . $path . '/' . $fname;
+                        $storeFile = $attachment->storeAs('/notes', $fname, 'gcs');
+                        $url = Storage::disk('gcs')->url($storeFile);
                         $files[] = [
                             'note_id' => $id,
                             'attachment' => $url,
