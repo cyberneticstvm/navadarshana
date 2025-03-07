@@ -89,6 +89,10 @@ class DatabaseSeeder extends Seeder
             'class-schedule-edit',
             'class-schedule-delete',
             'update-batch-topic-complete',
+            'video-recorded-list',
+            'video-recorded-create',
+            'video-recorded-edit',
+            'video-recorded-delete',
         ];
 
         foreach ($permissions as $permission) {

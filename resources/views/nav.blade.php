@@ -121,6 +121,7 @@
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->linkIfCan('notes-list', route('notes.register'), 'Notes Register')
+                    ->linkIfCan('video-recorded-list', route('video.recorded.register'), 'Recorded Video Register')
                 }}
             </li>
         </ul>

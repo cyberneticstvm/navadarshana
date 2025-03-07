@@ -20,6 +20,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\VideoRecorded;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -224,6 +225,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('class.schedule.edit');
         Route::post('/edit/{id}', 'update')->name('class.schedule.update');
         Route::get('/delete/{id}', 'destroy')->name('class.schedule.delete');
+    });
+
+    Route::prefix('/video/recorded')->controller(VideoRecorded::class)->group(function () {
+        Route::get('/', 'index')->name('video.recorded.register');
+        Route::get('/create', 'create')->name('video.recorded.create');
+        Route::post('/create', 'store')->name('video.recorded.save');
+        Route::get('/edit/{id}', 'edit')->name('video.recorded.edit');
+        Route::post('/edit/{id}', 'update')->name('video.recorded.update');
+        Route::get('/delete/{id}', 'destroy')->name('video.recorded.delete');
     });
 });
 
