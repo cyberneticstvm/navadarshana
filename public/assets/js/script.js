@@ -179,6 +179,7 @@ $(function(){
             data: {"typeId": typeId, "give": give, "take": take},
             url: '/ajax/get/ddl',
             success: function (res) {
+                console.log(res);
                 var xdata = $.map(res.items, function (obj) {
                     obj.text = obj.name || obj.id;
                     return obj;
