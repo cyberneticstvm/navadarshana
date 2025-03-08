@@ -180,24 +180,22 @@ $(function(){
             url: '/ajax/get/ddl',
             success: function (res) {
                 console.log(res);
+                $(".selModule, .selTopic, .selSyllabus").select2('destroy').val("").select2();
                 var xdata = $.map(res.items, function (obj) {
                     obj.text = obj.name || obj.id;
                     return obj;
                 });
-                if(take == 'module'){
-                    $(".selModule").select2('destroy').val("").select2();
+                if(take == 'module'){                    
                     $('.selModule').select2({
                         data: xdata,
                     });                   
                 }                   
                 if(take == 'topic'){
-                    $(".selTopic").select2('destroy').val("").select2();
                     $('.selTopic').select2({
                         data: xdata,
                     });
                 }
                 if(take == 'syllabus'){
-                    $(".selSyllabus").select2('destroy').val("").select2();
                     $('.selSyllabus').select2({
                         data: xdata,
                     });                    
