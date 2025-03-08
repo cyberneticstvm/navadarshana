@@ -178,27 +178,25 @@ $(function(){
             type: 'GET',
             data: {"typeId": typeId, "give": give, "take": take},
             url: '/ajax/get/ddl',
-            success: function (res) {
-                console.log(res);
-                $(".selModule, .selTopic, .selSyllabus").select2('destroy').val("").select2();
+            success: function (res) {                
                 var xdata = $.map(res.items, function (obj) {
                     obj.text = obj.name || obj.id;
                     return obj;
                 });
                 if(take == 'module'){                    
-                    $('.selModule').select2({
+                    $('.selModule').html("<option value=''>Select</option>").select2({
                         data: xdata,
                     });                   
                 }                   
                 if(take == 'topic'){
-                    $('.selTopic').select2({
+                    $('.selTopic').html("<option value=''>Select</option>").select2({
                         data: xdata,
                     });
                 }
-                if(take == 'syllabus'){
-                    $('.selSyllabus').select2({
+                if(take == 'syllabus'){                
+                    $('.selSyllabus').html("<option value=''>Select</option>").select2({
                         data: xdata,
-                    });                    
+                    });                                     
                 }
             },
             error: function (err) {
