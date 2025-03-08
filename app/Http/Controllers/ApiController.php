@@ -9,6 +9,7 @@ use App\Models\Note;
 use App\Models\NoteAttachment;
 use App\Models\Syllabus;
 use App\Models\Topic;
+use App\Models\VideoRecord;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -177,6 +178,24 @@ class ApiController extends Controller
             return response()->json([
                 'status' => false,
                 'attachments' => null,
+                'message' => 'No records found',
+            ], 404);
+        endif;
+    }
+
+    function getRecordedVideos(Request $request)
+    {
+        $videos = VideoRecord::all();
+        if ($videos->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'videos' => $videos,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'videos' => null,
                 'message' => 'No records found',
             ], 404);
         endif;
