@@ -166,7 +166,7 @@ class ApiController extends Controller
 
     function getClassSchedule(Request $request)
     {
-        $schedules = ClassSchedule::selectRaw("TIME_FORMAT(from_time, '%h:%i %p') AS ftime, TIME_FORMAT(to_time, '%h:%i %p') AS ttime")->whereDate('date', Carbon::now())->orderBy('from_time')->get();
+        $schedules = ClassSchedule::selectRaw("'' AS bname, '' AS sname, TIME_FORMAT(from_time, '%h:%i %p') AS ftime, TIME_FORMAT(to_time, '%h:%i %p') AS ttime")->whereDate('date', Carbon::now())->orderBy('from_time')->get();
         if ($schedules->isNotEmpty()):
             return response()->json([
                 'status' => true,
