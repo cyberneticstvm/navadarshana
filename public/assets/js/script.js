@@ -184,22 +184,22 @@ $(function(){
                     return obj;
                 });
                 if(take == 'module'){
+                    $('.selModule').val(null).trigger("change");
                     $('.selModule').select2({
                         data: xdata,
-                    });
-                    $('.selModule').trigger("change");
+                    });                    
                 }                   
                 if(take == 'topic'){
+                    $('.selTopic').val(null).trigger("change");
                     $('.selTopic').select2({
                         data: xdata,
                     });
-                    $('.selTopic').trigger("change");
                 }
                 if(take == 'syllabus'){
+                    $('.selSyllabus').val(null).trigger("change");
                     $('.selSyllabus').select2({
                         data: xdata,
                     });
-                    $('.selSyllabus').trigger("change");
                 }
             },
             error: function (err) {
