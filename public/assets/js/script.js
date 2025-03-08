@@ -187,16 +187,19 @@ $(function(){
                     $('.selModule').select2({
                         data: xdata,
                     });
+                    $('.selModule').trigger("change");
                 }                   
                 if(take == 'topic'){
                     $('.selTopic').select2({
                         data: xdata,
                     });
+                    $('.selTopic').trigger("change");
                 }
                 if(take == 'syllabus'){
                     $('.selSyllabus').select2({
                         data: xdata,
                     });
+                    $('.selSyllabus').trigger("change");
                 }
             },
             error: function (err) {
