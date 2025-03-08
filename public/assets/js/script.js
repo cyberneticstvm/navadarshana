@@ -187,21 +187,19 @@ $(function(){
                 if(take == 'module'){
                     $('.selModule').select2({
                         data: xdata,
-                    });
-                    $('.selModule').select2();                    
+                    });                   
                 }                   
                 if(take == 'topic'){
                     $('.selTopic').select2({
                         data: xdata,
                     });
-                    $('.selTopic').select2();
                 }
                 if(take == 'syllabus'){
                     $('.selSyllabus').select2({
                         data: xdata,
-                    });
-                    $('.selSyllabus').select2();
+                    });                    
                 }
+                $('.selModule, .selTopic, .selSyllabus').select2();
             },
             error: function (err) {
                 console.log(err)
