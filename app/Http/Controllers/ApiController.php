@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\ClassSchedule;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\NoteAttachment;
 use App\Models\Syllabus;
 use App\Models\Topic;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -151,6 +153,24 @@ class ApiController extends Controller
             return response()->json([
                 'status' => true,
                 'attachments' => $attachments,
+                'message' => 'success',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'attachments' => null,
+                'message' => 'No records found',
+            ], 404);
+        endif;
+    }
+
+    function getClassSchedule(Request $request)
+    {
+        $schedules = ClassSchedule::whereDate('date', Carbon::now())->orderBy('from_time')->get();
+        if ($schedules->isNotEmpty()):
+            return response()->json([
+                'status' => true,
+                'schedules' => $schedules,
                 'message' => 'success',
             ], 200);
         else:

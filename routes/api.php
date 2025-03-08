@@ -17,4 +17,6 @@ Route::prefix('student')->controller(ApiController::class)->group(function () {
     Route::post('/notes', 'getStudentNotes')->name('student.notes');
     Route::post('/note/single', 'getNote')->name('note.single');
     Route::post('/note/single/attachments', 'getNoteAttachments')->name('note.single.attachments');
+
+    Route::post('/class/schedule', 'getClassSchedule')->name('get.class.schedule');
 });
