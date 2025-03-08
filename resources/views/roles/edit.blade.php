@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="mb-3 col-md-6">
                                     <label class="form-label req">Role Name</label>
-                                    {{ html()->text('name', $role->name)->class("form-control")->placeholder("Role Name")->when(in_array($role->name, array('Administrator', 'Student')), function($el){
+                                    {{ html()->text('name', $role->name)->class("form-control")->placeholder("Role Name")->when(in_array($role->name, array('Administrator', 'Student', 'Faculty')), function($el){
                                             return $el->attribute('readonly', 'true');
                                     })
                                     }}

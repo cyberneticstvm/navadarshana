@@ -115,6 +115,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Role::create(['name' => 'Student']);
+        Role::create(['name' => 'Faculty']);
         $role = Role::create(['name' => 'Administrator']);
         $permissions = Permission::pluck('id', 'id')->all();
         $role->syncPermissions($permissions);
