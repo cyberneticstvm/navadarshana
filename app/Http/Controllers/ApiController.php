@@ -180,7 +180,8 @@ class ApiController extends Controller
 
     function getClassSchedule(Request $request)
     {
-        $schedules = ClassSchedule::selectRaw("'' AS bname, '' AS sname, TIME_FORMAT(from_time, '%h:%i %p') AS ftime, TIME_FORMAT(to_time, '%h:%i %p') AS ttime")->whereDate('date', Carbon::now())->orderBy('from_time')->get();
+        $batch_id = $request->json('batch_id');
+        $schedules = ClassSchedule::leftJoin('batches as b', 'b.id', 'class_schedules.batch_id')->leftJoin('syllabi as s', 's.id', 'class_schedules.syllabus_id')->selectRaw("b.name AS bname, s.name AS sname, TIME_FORMAT(class_schedules.from_time, '%h:%i %p') AS ftime, TIME_FORMAT(class_schedules.to_time, '%h:%i %p') AS ttime")->whereDate('class_schedules.date', Carbon::now())->where('b.id', $batch_id)->orderBy('from_time')->get();
         if ($schedules->isNotEmpty()):
             return response()->json([
                 'status' => true,
