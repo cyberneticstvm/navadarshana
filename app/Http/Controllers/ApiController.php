@@ -7,6 +7,7 @@ use App\Models\ClassSchedule;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\NoteAttachment;
+use App\Models\StudentBatch;
 use App\Models\Syllabus;
 use App\Models\Topic;
 use App\Models\VideoRecord;
@@ -39,9 +40,10 @@ class ApiController extends Controller
         endif;
     }
 
-    function getStudentBatches()
+    function getStudentBatches(Request $request)
     {
-        $batches = Batch::orderBy('name')->get();
+        $user = $request->json('user_id');
+        $batches = Batch::whereIn('id', StudentBatch::where('student_id', $user)->pluck('batch_id'))->orderBy('name')->get();
         if ($batches->isNotEmpty()):
             return response()->json([
                 'status' => true,
