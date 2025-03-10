@@ -10,6 +10,7 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('student')->controller(ApiController::class)->group(function () {
     Route::post('/authenticate', 'authenicate')->name('user.authenticate');
+    Route::post('/student', 'getStudent')->name('get.student');
     Route::post('/batches', 'getStudentBatches')->name('student.batches');
     Route::post('/syllabuses', 'getStudentSyllabuses')->name('student.syllabuses');
     Route::post('/modules', 'getStudentModules')->name('student.modules');

@@ -8,9 +8,11 @@ use App\Models\CourseSyllabus;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\NoteAttachment;
+use App\Models\Student;
 use App\Models\StudentBatch;
 use App\Models\Syllabus;
 use App\Models\Topic;
+use App\Models\User;
 use App\Models\VideoRecord;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,6 +48,25 @@ class ApiController extends Controller
                 'status' => false,
                 'message' => 'Invalid Credentials',
             ], 401);
+        endif;
+    }
+
+    function getStudent(Request $request)
+    {
+        $user_id = $request->json('user_id');
+        $student = Student::where('id', User::find($user_id)->student_id)->first();
+        if ($student):
+            return response()->json([
+                'status' => false,
+                'student' => $student,
+                'message' => 'No records found',
+            ], 200);
+        else:
+            return response()->json([
+                'status' => false,
+                'student' => null,
+                'message' => 'No records found',
+            ], 404);
         endif;
     }
 
