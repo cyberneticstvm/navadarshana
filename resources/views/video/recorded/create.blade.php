@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Source</label>
-                                    {{ html()->select($name = 'source', array('youtube' => 'YouTube', 'vimeo' => 'Vimeo', 'zoom' => 'Zoom', 'other' => 'Other'), old('source'))->class('form-control single-select')->placeholder('Select') }}
+                                    {{ html()->select($name = 'source', array('youtube' => 'YouTube'), old('source'))->class('form-control single-select')->placeholder('Select') }}
                                     @error('source')
                                     <small class="text-danger">{{ $errors->first('source') }}</small>
                                     @enderror
