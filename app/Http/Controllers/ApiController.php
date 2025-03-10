@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\ClassSchedule;
+use App\Models\CourseSyllabus;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\NoteAttachment;
@@ -37,7 +38,7 @@ class ApiController extends Controller
             else:
                 return response()->json([
                     'status' => false,
-                    'message' => 'Batches yest to be assigned',
+                    'message' => 'Batches yet to be assigned',
                 ], 401);
             endif;
         else:
@@ -69,7 +70,9 @@ class ApiController extends Controller
 
     function getStudentSyllabuses(Request $request)
     {
-        $syllabuses = Syllabus::orderBy('name')->get();
+        $batch_id = $request->json('batch_id');
+        $batch = Batch::find($batch_id);
+        $syllabuses = Syllabus::WhereIn(CourseSyllabus::where('course_id', $batch->course_id)->pluck('syllabus_id'))->orderBy('name')->get();
         if ($syllabuses->isNotEmpty()):
             return response()->json([
                 'status' => true,
