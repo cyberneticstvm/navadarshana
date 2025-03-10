@@ -27,11 +27,19 @@ class ApiController extends Controller
             $user = Auth::getProvider()->retrieveByCredentials($credentials);
         endif;
         if ($user):
-            return response()->json([
-                'status' => true,
-                'user' => $user,
-                'message' => 'success',
-            ], 200);
+            $batches = Batch::whereIn('id', StudentBatch::where('student_id', $user->student_id)->pluck('batch_id'))->orderBy('name')->get();
+            if ($batches->isNotEmpty()):
+                return response()->json([
+                    'status' => true,
+                    'user' => $user,
+                    'message' => 'success',
+                ], 200);
+            else:
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Batches yest to be assigned',
+                ], 401);
+            endif;
         else:
             return response()->json([
                 'status' => false,
