@@ -42,8 +42,8 @@ class ApiController extends Controller
 
     function getStudentBatches(Request $request)
     {
-        $user = $request->json('user_id');
-        $batches = Batch::whereIn('id', StudentBatch::where('student_id', $user)->pluck('batch_id'))->orderBy('name')->get();
+        $student_id = $request->json('student_id');
+        $batches = Batch::whereIn('id', StudentBatch::where('student_id', $student_id)->pluck('batch_id'))->orderBy('name')->get();
         if ($batches->isNotEmpty()):
             return response()->json([
                 'status' => true,
