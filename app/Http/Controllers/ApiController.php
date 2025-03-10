@@ -72,7 +72,7 @@ class ApiController extends Controller
     {
         $batch_id = $request->json('batch_id');
         $batch = Batch::find($batch_id);
-        $syllabuses = Syllabus::WhereIn(CourseSyllabus::where('course_id', $batch->course_id)->pluck('syllabus_id'))->orderBy('name')->get();
+        $syllabuses = Syllabus::WhereIn('id', CourseSyllabus::where('course_id', $batch->course_id)->pluck('syllabus_id'))->orderBy('name')->get();
         if ($syllabuses->isNotEmpty()):
             return response()->json([
                 'status' => true,
