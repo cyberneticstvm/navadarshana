@@ -199,7 +199,8 @@ class ApiController extends Controller
 
     function getRecordedVideos(Request $request)
     {
-        $videos = VideoRecord::all();
+        $syllabus_id = $request->json('syllabus_id');
+        $videos = VideoRecord::where('syllabus_id', $syllabus_id)->get();
         if ($videos->isNotEmpty()):
             return response()->json([
                 'status' => true,
