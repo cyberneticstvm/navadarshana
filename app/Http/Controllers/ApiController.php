@@ -10,6 +10,7 @@ use App\Models\Note;
 use App\Models\NoteAttachment;
 use App\Models\Student;
 use App\Models\StudentBatch;
+use App\Models\StudentFeedback;
 use App\Models\Syllabus;
 use App\Models\Topic;
 use App\Models\User;
@@ -248,6 +249,25 @@ class ApiController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Password updated successfully',
+        ], 200);
+    }
+
+    function submitFeedback(Request $request)
+    {
+        $user_id = $request->json('user_id');
+        $subject = $request->json('subject');
+        $feedback = $request->json('feedback');
+        $user = User::find($user_id);
+        StudentFeedback::create([
+            'student_id' => $user->student_id,
+            'subject' => $subject,
+            'feedback' => $feedback,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Feedback submitted successfully',
         ], 200);
     }
 }
