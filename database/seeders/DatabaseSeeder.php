@@ -93,6 +93,7 @@ class DatabaseSeeder extends Seeder
             'video-recorded-create',
             'video-recorded-edit',
             'video-recorded-delete',
+            'student-feedback-list',
         ];
 
         foreach ($permissions as $permission) {

@@ -16,6 +16,7 @@ use App\Http\Controllers\NotesController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\StudentFeedbackController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\SyllabusController;
 use App\Http\Controllers\TopicController;
@@ -234,6 +235,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('video.recorded.edit');
         Route::post('/edit/{id}', 'update')->name('video.recorded.update');
         Route::get('/delete/{id}', 'destroy')->name('video.recorded.delete');
+    });
+
+    Route::prefix('/student/feedback')->controller(StudentFeedbackController::class)->group(function () {
+        Route::get('/', 'index')->name('student.feedback.register');
     });
 });
 

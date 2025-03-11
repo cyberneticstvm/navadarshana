@@ -87,6 +87,7 @@
                     ->linkIfCan('student-list', route('student.register'), 'Student Register')
                     ->linkIfCan('fee-list', route('fee.register'), 'Fee Register')
                     ->linkIfCan('class-schedule-list', route('class.schedule.register'), 'Class Schedule Register')
+                    ->linkIfCan('student-feedback-list', route('student.feedback.register'), 'Student Feedback Register')
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
