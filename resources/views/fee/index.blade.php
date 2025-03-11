@@ -42,7 +42,7 @@
                                         <td>{{ $fee->amount }}</td>
                                         <td>{{ ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category) }}</td>
                                         <td>{{ ucfirst($fee->type) }}</td>
-                                        <td class="text-center"><i class="fa-regular fa-file-pdf fa-xl text-danger"></i></td>
+                                        <td class="text-center"><a href="{{ route('student.fee.receipt', ['id' => encrypt($fee->id)]) }}" target="_blank"><i class="fa-regular fa-file-pdf fa-xl text-danger"></i></a></td>
                                         <td>{!! $fee->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('fee.edit', encrypt($fee->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('fee.delete', encrypt($fee->id)) }}" class="text-danger dlt">Delete</a></span></td>

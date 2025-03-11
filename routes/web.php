@@ -13,6 +13,7 @@ use App\Http\Controllers\HeadController;
 use App\Http\Controllers\IncomeController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\NotesController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
@@ -239,6 +240,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/student/feedback')->controller(StudentFeedbackController::class)->group(function () {
         Route::get('/', 'index')->name('student.feedback.register');
+    });
+
+    Route::prefix('/student')->controller(PdfController::class)->group(function () {
+        Route::get('/fee/receipt', 'feeReceipt')->name('student.fee.receipt');
     });
 });
 
