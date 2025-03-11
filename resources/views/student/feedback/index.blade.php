@@ -23,7 +23,7 @@
                                         <th>Student Name</th>
                                         <th>Subject</th>
                                         <th>Feedback</th>
-                                        <th>Created On</th>
+                                        <th>Submitted On</th>
                                     </tr>
                                 </thead>
                                 <tbody>
