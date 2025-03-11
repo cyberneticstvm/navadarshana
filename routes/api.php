@@ -21,4 +21,6 @@ Route::prefix('student')->controller(ApiController::class)->group(function () {
 
     Route::post('/class/schedule', 'getClassSchedule')->name('get.class.schedule');
     Route::post('/videos/recorded', 'getRecordedVideos')->name('get.recorded.videos');
+
+    Route::post('/update/password', 'updatePassword')->name('update.password');
 });

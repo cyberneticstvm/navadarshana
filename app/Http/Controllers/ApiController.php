@@ -17,6 +17,7 @@ use App\Models\VideoRecord;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -235,5 +236,18 @@ class ApiController extends Controller
                 'message' => 'No records found',
             ], 404);
         endif;
+    }
+
+    function updatePassword(Request $request)
+    {
+        $user_id = $request->json('user_id');
+        $pwd = $request->json('password');
+        User::where('id', $user_id)->update([
+            'password' => Hash::make($pwd),
+        ]);
+        return response()->json([
+            'status' => true,
+            'message' => 'Password updated successfully',
+        ], 200);
     }
 }
