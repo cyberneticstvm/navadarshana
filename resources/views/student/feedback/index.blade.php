@@ -21,6 +21,7 @@
                                     <tr>
                                         <th>SL No</th>
                                         <th>Student Name</th>
+                                        <th>Student Id</th>
                                         <th>Subject</th>
                                         <th>Feedback</th>
                                         <th>Submitted On</th>
@@ -31,6 +32,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $feedback->student->name }}</td>
+                                        <td>{{ $feedback->student->id }}</td>
                                         <td>{{ $feedback->subject }}</td>
                                         <td>{{ $feedback->feedback }}</td>
                                         <td>{{ $feedback->created_at->format('d.M.Y') }}</td>
