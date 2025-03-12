@@ -40,7 +40,9 @@ class UserController extends Controller implements HasMiddleware
 
     public function updateBranch(Request $request)
     {
-        Session::put('branch', $request->branch);
+        $branch = Branch::findOrFail($request->branch);
+        Session::put('branch', $branch->id);
+        Session::put('bname', $branch->name);
         if (Session::has('branch')) :
             return redirect()->route('dashboard')
                 ->withSuccess('User branch updated successfully!');

@@ -17,8 +17,9 @@
                 </a>
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
-                    ->link(route('dashboard'), 'Finance')
-                    ->link(route('dashoboard.student'), 'Student');
+                    ->link(route('dashboard'), 'Dashboard')
+                    ->linkIfCan('dashboard-finance', route('dashboard.finance'), 'Finance')
+                    ->linkIfCan('dashboard-student', route('dashboard.student'), 'Student');
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
@@ -123,6 +124,18 @@
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->linkIfCan('notes-list', route('notes.register'), 'Notes Register')
                     ->linkIfCan('video-recorded-list', route('video.recorded.register'), 'Recorded Video Register')
+                }}
+            </li>
+            <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                    <div class="menu-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20.4462 21.1245H4.55377C4.09379 21.1245 3.69492 20.9556 3.35715 20.6178C3.0194 20.2801 2.85052 19.8812 2.85052 19.4212V4.5538C2.85052 4.09218 3.0194 3.69191 3.35715 3.35298C3.69492 3.01403 4.09379 2.84455 4.55377 2.84455H20.4462C20.9078 2.84455 21.3081 3.01403 21.647 3.35298C21.986 3.69191 22.1554 4.09218 22.1554 4.5538V19.4212C22.1554 19.8812 21.986 20.2801 21.647 20.6178C21.3081 20.9556 20.9078 21.1245 20.4462 21.1245ZM4.55377 8.03695H20.4462V4.5538H4.55377V8.03695ZM8.2739 9.53695H4.55377V19.4212H8.2739V9.53695ZM16.7261 9.53695V19.4212H20.4462V9.53695H16.7261ZM15.2261 9.53695H9.7739V19.4212H15.2261V9.53695Z" fill="#6F767E"></path>
+                        </svg>
+                    </div>
+                    <span class="nav-text">Reports</span>
+                </a>
+                {{
+                    Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                 }}
             </li>
         </ul>
