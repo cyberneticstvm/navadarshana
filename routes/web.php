@@ -15,6 +15,7 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentFeedbackController;
@@ -249,6 +250,17 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/student')->controller(PdfController::class)->group(function () {
         Route::get('/fee/receipt', 'feeReceipt')->name('student.fee.receipt');
+    });
+
+    Route::prefix('/report')->controller(ReportController::class)->group(function () {
+        Route::get('/daybook', 'daybook')->name('report.daybook');
+        Route::post('/daybook', 'fetchDaybook')->name('report.daybook.fetch');
+        Route::get('/student', 'student')->name('report.student');
+        Route::post('/student', 'fetchStudent')->name('report.student.fetch');
+        Route::get('/fee', 'fee')->name('report.fee');
+        Route::post('/fee', 'fetchFee')->name('report.fee.fetch');
+        Route::get('/ie', 'ie')->name('report.ie');
+        Route::post('/ie', 'fetchIe')->name('report.ie.fetch');
     });
 });
 

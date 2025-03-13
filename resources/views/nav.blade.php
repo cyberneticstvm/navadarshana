@@ -136,6 +136,10 @@
                 </a>
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
+                    ->linkIfCan('report-daybook', route('report.daybook'), 'Daybook')
+                    ->linkIfCan('report-student', route('report.student'), 'Student Registration')
+                    ->linkIfCan('report-fee', route('report.fee'), 'Fee Collection')
+                    ->linkIfCan('report-ie', route('report.ie'), 'Income & Expenses')
                 }}
             </li>
         </ul>
