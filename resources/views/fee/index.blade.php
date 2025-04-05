@@ -22,7 +22,6 @@
                                         <th>SL No</th>
                                         <th>ID</th>
                                         <th>Student Name</th>
-                                        <th>Batch</th>
                                         <th>Amount</th>
                                         <th>Discount</th>
                                         <th>Category</th>
@@ -38,8 +37,7 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $fee->student->id }}</td>
-                                        <td>{{ $fee->student->name }}</td>
-                                        <td>{{ $fee->batch->name }}</td>
+                                        <td title="{{ $fee->batch->name }}">{{ $fee->student->name }}</td>
                                         <td>{{ number_format($fee->amount - $fee->discount, 2) }}</td>
                                         <td>{{ number_format($fee->discount, 2) }}</td>
                                         <td>{{ ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category) }}</td>
