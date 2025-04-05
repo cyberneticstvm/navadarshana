@@ -24,6 +24,7 @@
                                         <th>Student Name</th>
                                         <th>Batch</th>
                                         <th>Amount</th>
+                                        <th>Discount</th>
                                         <th>Category</th>
                                         <th>Type</th>
                                         <th>Receipt</th>
@@ -40,6 +41,7 @@
                                         <td>{{ $fee->student->name }}</td>
                                         <td>{{ $fee->batch->name }}</td>
                                         <td>{{ number_format($fee->amount - $fee->discount, 2) }}</td>
+                                        <td>{{ number_format($fee->discount, 2) }}</td>
                                         <td>{{ ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category) }}</td>
                                         <td>{{ ucfirst($fee->type) }}</td>
                                         <td class="text-center"><a href="{{ route('student.fee.receipt', ['id' => encrypt($fee->id)]) }}" target="_blank"><i class="fa-regular fa-file-pdf fa-xl text-danger"></i></a></td>
