@@ -39,7 +39,7 @@
                                         <td>{!! $student->currentStatus() !!}</td>
                                         <td>{{ $student->email }}</td>
                                         <td>{{ $student->mobile }}</td>
-                                        <td><a href="{{ ($student->photo) ? url($student->photo) : '#' }}" target="_blank">{!! ($student->photo) ? '<i class="fa fa-image text-info"></i>' : 'Na' !!}</a></td>
+                                        <td><a href="{{ ($student->photo) ? gcsPublicUrl().$student->photo : '#' }}" target="_blank">{!! ($student->photo) ? '<i class="fa fa-image text-info"></i>' : 'Na' !!}</a></td>
                                         <td>{!! $student->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('student.edit', encrypt($student->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('student.delete', encrypt($student->id)) }}" class="text-danger dlt">Delete</a></span></td>
