@@ -259,7 +259,7 @@
                                             <div class="swiper-slide">
                                                 <div class="card">
                                                     <div class="card-body product">
-                                                        <img src="{{ ($student->photo) ? asset($student->photo) : asset('/assets/images/avatar.png') }}">
+                                                        <img src="{{ ($student->photo) ? gcsPublicUrl().$student->photo : asset('/assets/images/avatar.png') }}">
                                                         <div class="product-imfo">
                                                             <div class="d-flex justify-content-between">
                                                                 <span class="text-danger">{{ $student->name }}</span>
