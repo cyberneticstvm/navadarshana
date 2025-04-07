@@ -16,7 +16,7 @@
                 <div class="card dz-card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="example" class="display table" style="min-width: 845px">
+                            <table id="example" class="display table table-stripped" style="min-width: 845px">
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
