@@ -42,7 +42,7 @@
                                         <td>{{ number_format($fee->amount - $fee->discount, 2) }}</td>
                                         <td>{{ number_format($fee->discount, 2) }}</td>
                                         <td>{{ ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category) }}</td>
-                                        <td>{{ ($fee->category == 'monthly') ? $fee->month.'/'.$fee->year : $fee->payment_date->format('d.M.Y') }}</td>
+                                        <td>{{ ($fee->category == 'monthly') ? $fee->getMonth->short_name.'/'.$fee->year : $fee->payment_date->format('d.M.Y') }}</td>
                                         <td>{{ ucfirst($fee->type) }}</td>
                                         <td class="text-center"><a href="{{ route('student.fee.receipt', ['id' => encrypt($fee->id)]) }}" target="_blank"><i class="fa-regular fa-file-pdf fa-xl text-danger"></i></a></td>
                                         <td>{!! $fee->status() !!}</td>
