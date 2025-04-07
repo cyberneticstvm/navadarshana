@@ -180,7 +180,7 @@
         var redial = function () {
             $.getJSON('/dashboard/student/fee/percentage', function (response) {
                 var options = {
-                    series: [response['per']],
+                    series: [parseFloat(response['per']).toFixed(2)],
                     chart: {
                         type: 'radialBar',
                         offsetY: 0,
