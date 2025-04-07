@@ -19,6 +19,7 @@ use App\Models\TopicCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Session;
 
 class AjaxController extends Controller implements HasMiddleware
 {
@@ -70,7 +71,7 @@ class AjaxController extends Controller implements HasMiddleware
     function getStudentDetailsForBatch(String $batchId, String $action)
     {
         if ($action == 'add'):
-            $students = Student::whereNotIn('id', StudentBatch::where('batch_id', $batchId)->pluck('student_id'))->latest()->get();
+            $students = Student::whereNotIn('id', StudentBatch::where('batch_id', $batchId)->pluck('student_id'))->where('branch_id', Session::get('branch'))->latest()->get();
             $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Select</th></tr><tbody>";
             foreach ($students as $key => $item):
                 $op .= "<tr>";
