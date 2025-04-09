@@ -22,6 +22,7 @@
                                         <th>SL No</th>
                                         <th>Name</th>
                                         <th>Students</th>
+                                        <th>Count</th>
                                         <th>Course</th>
                                         <th>Status</th>
                                         <th>Edit</th>
@@ -34,6 +35,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td><a href="javascript:void(0)" class="viewStudentsForBatch text-info" data-bid="{{ $batch->id }}" data-action="add">{{ $batch->name }}</a></td>
                                         <td><a href="javascript:void(0)" class="viewStudentsForBatch text-info" data-bid="{{ $batch->id }}" data-action="view">View</a></td>
+                                        <td>{{ $batch->activeStudentCount() }}</td>
                                         <td>{{ $batch?->course?->name }}</td>
                                         <td>{!! $batch->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('batch.edit', encrypt($batch->id)) }}" class="text-warning">Edit</a></span></td>

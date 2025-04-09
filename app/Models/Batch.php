@@ -22,4 +22,9 @@ class Batch extends Model
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
+
+    public function activeStudentCount()
+    {
+        return $this->belongsTo(StudentBatch::class, 'id', 'batch_id')->count();
+    }
 }
