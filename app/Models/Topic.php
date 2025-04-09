@@ -25,4 +25,9 @@ class Topic extends Model
     {
         return $this->hasMany(Note::class, 'topic_id', 'id');
     }
+
+    public function courseTopics()
+    {
+        return $this->hasMany(CourseTopic::class, 'topic_id', 'id');
+    }
 }

@@ -3,23 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
-use App\Models\Course;
-use App\Models\CourseSyllabus;
 use App\Models\CourseTopic;
 use App\Models\Module;
 use App\Models\Student;
 use App\Models\StudentBatch;
-use App\Models\Subject;
-use App\Models\SubjectModule;
 use App\Models\SyllabiModule;
 use App\Models\Syllabus;
-use App\Models\SyllabusSubject;
 use App\Models\Topic;
 use App\Models\TopicComplete;
-use App\Models\TopicCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Session;
 
 class AjaxController extends Controller implements HasMiddleware
@@ -46,7 +39,8 @@ class AjaxController extends Controller implements HasMiddleware
             case 'batch';
                 if ($request->take == 'syllabus'):
                     $batch = Batch::find($request->typeId);
-                    $items = CourseTopic::leftJoin('topics as t', 't.id', 'course_topics.topic_id')->where('course_id', $batch->course_id)->select('t.name', 't.id')->get();
+                    //$items = CourseTopic::leftJoin('topics as t', 't.id', 'course_topics.topic_id')->where('course_id', $batch->course_id)->select('t.name', 't.id')->get();
+                    $items = CourseTopic::where('course_id', $batch->course_id)->leftJoin('topics as t', 'course_topics.topic_id', 't.id')->leftJoin('modules as m', 'm.id', 't.module_id')->leftjoin('syllabi as s', 's.id', 'm.syllabus_id')->select('s.name', 's.id')->distinct()->get();
                 endif;
                 break;
         endswitch;
@@ -219,27 +213,32 @@ class AjaxController extends Controller implements HasMiddleware
     function getModuleTopicsForSyllabus(String $syllabusId, String $batchId, String $facultyId)
     {
         $modules = Module::where('syllabus_id', $syllabusId)->get();
+        //$modules = CourseTopic::leftJoin('topics as t', 'course_topics.topic_id', 't.id')->leftJoin('modules as m', 'm.id', 't.module_id')->where('m.syllabus_id', $syllabusId)->select('m.name', 'm.id')->distinct()->get();
+        $batch = Batch::findOrFail($batchId);
         $op = "";
         $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered' id='accordion-four'>";
         foreach ($modules as $key => $module):
-            $show = ($key == 0) ? 'show' : '';
-            $op .= "<div class='accordion-item'>";
-            $op .= "<h2 class='accordion-header'>";
-            $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$module->id}'>{$module->name}</button>";
-            $op .= "</h2>";
-            $op .= "<div id='bordered-no-gutter-collapse-{$module->id}' class='accordion-collapse collapse {$show}' data-bs-parent='#accordion-four'>";
-            $op .= "<div class='accordion-body'>";
-            $op .= "<div class='table-responsive'><table class='display table' style='width:100%'><tbody>";
-            foreach ($module->topics as $key1 => $topic):
-                $vals = TopicComplete::where('batch_id', $batchId)->where('syllabus_id', $syllabusId)->where('module_id', $module->id)->where('topic_id', $topic->id);
-                $checked = (in_array($topic->id, $vals->pluck('topic_id')->toArray())) ? 'checked' : '';
-                $op .= "<tr>";
-                $op .= "<td>{$topic->name}</td>";
-                $op .= "<td><input type='checkbox' class='form-check-input chkModuleTopic' name='topics[]' id='customCheckBox{$topic->id}' value='{$topic->id}' {$checked} data-batch='{$batchId}' data-syllabus='{$syllabusId}' data-module='{$module->id}' data-topic='{$topic->id}' data-faculty='{$facultyId}'></td>";
-                $op .= "</tr>";
-            endforeach;
-            $op .= "</tbody></table></div>";
-            $op .= "</div></div></div>";
+            $m = $module->topics->whereIn('id', CourseTopic::where('course_id', $batch->course_id)->pluck('topic_id'));
+            if ($m->isNotEmpty()):
+                $show = ($key == 0) ? 'show' : '';
+                $op .= "<div class='accordion-item'>";
+                $op .= "<h2 class='accordion-header'>";
+                $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$module->id}'>{$module->name}</button>";
+                $op .= "</h2>";
+                $op .= "<div id='bordered-no-gutter-collapse-{$module->id}' class='accordion-collapse collapse {$show}' data-bs-parent='#accordion-four'>";
+                $op .= "<div class='accordion-body'>";
+                $op .= "<div class='table-responsive'><table class='display table' style='width:100%'><tbody>";
+                foreach ($module->topics->whereIn('id', CourseTopic::where('course_id', $batch->course_id)->pluck('topic_id')) as $key1 => $topic):
+                    $vals = TopicComplete::where('batch_id', $batchId)->where('syllabus_id', $syllabusId)->where('module_id', $module->id)->where('topic_id', $topic->id);
+                    $checked = (in_array($topic->id, $vals->pluck('topic_id')->toArray())) ? 'checked' : '';
+                    $op .= "<tr>";
+                    $op .= "<td>{$topic->name}</td>";
+                    $op .= "<td><input type='checkbox' class='form-check-input chkModuleTopic' name='topics[]' id='customCheckBox{$topic->id}' value='{$topic->id}' {$checked} data-batch='{$batchId}' data-syllabus='{$syllabusId}' data-module='{$module->id}' data-topic='{$topic->id}' data-faculty='{$facultyId}'></td>";
+                    $op .= "</tr>";
+                endforeach;
+                $op .= "</tbody></table></div>";
+                $op .= "</div></div></div>";
+            endif;
         endforeach;
         $op .= "</div>";
         echo $op;

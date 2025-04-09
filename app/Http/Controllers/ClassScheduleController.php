@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\ClassSchedule;
 use App\Models\CourseSyllabus;
+use App\Models\CourseTopic;
 use App\Models\Faculty;
 use App\Models\Syllabus;
 use Carbon\Carbon;
@@ -87,7 +88,7 @@ class ClassScheduleController extends Controller implements HasMiddleware
         $batches = Batch::where('branch_id', Session::get('branch'))->orderBy('name')->pluck('name', 'id');
         $batch = Batch::find($schedule->batch_id);
         $faculties = Faculty::orderBy('name')->pluck('name', 'id');
-        $syllabi = CourseSyllabus::leftJoin('syllabi as s', 's.id', 'course_syllabi.syllabus_id')->where('course_id', $batch->course_id)->pluck('s.name', 's.id');
+        $syllabi = CourseTopic::where('course_id', $batch->course_id)->leftJoin('topics as t', 'course_topics.topic_id', 't.id')->leftJoin('modules as m', 'm.id', 't.module_id')->leftjoin('syllabi as s', 's.id', 'm.syllabus_id')->select('s.name', 's.id')->distinct()->pluck('s.name', 's.id');
         return view('schedule.class.edit', compact('batches', 'faculties', 'syllabi', 'schedule'));
     }
 
