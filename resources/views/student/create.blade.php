@@ -89,11 +89,25 @@
                                     <small class="text-danger">{{ $errors->first('photo') }}</small>
                                     @enderror
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <label class="form-label req">Enrollment Type</label>
                                     {{ html()->select($name = 'enrollment_type', $value = array('online' => 'Online', 'offline' => 'Offline'), NULL)->class('form-control single-select')->placeholder('Select') }}
                                     @error('enrollment_type')
                                     <small class="text-danger">{{ $errors->first('enrollment_type') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label req">ID Type</label>
+                                    {{ html()->select($name = 'id_type', $value = $idtypes, old('id_type'))->class('form-control single-select')->placeholder('Select') }}
+                                    @error('id_type')
+                                    <small class="text-danger">{{ $errors->first('id_type') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-3">
+                                    <label class="form-label req">ID Number</label>
+                                    {{ html()->text('id_number', old('id_number'))->class("form-control")->placeholder("ID Number") }}
+                                    @error('id_number')
+                                    <small class="text-danger">{{ $errors->first('id_number') }}</small>
                                     @enderror
                                 </div>
                             </div>

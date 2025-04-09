@@ -23,6 +23,11 @@ class Student extends Model
         return ($this->current_status == 'inactive') ? "<span class='badge badge-danger'>Inactive</span>" : "<span class='badge badge-success'>Active</span>";
     }
 
+    public function idType()
+    {
+        return $this->belongsTo(Extra::class, 'id_type', 'id');
+    }
+
     public function activeBatches()
     {
         return $this->hasMany(StudentBatch::class, 'student_id', 'id');

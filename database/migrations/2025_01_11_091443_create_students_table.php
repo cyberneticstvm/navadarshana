@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('reservation_category')->nullable();
             $table->text('address')->nullable();
             $table->string('photo')->nullable();
+            $table->unsignedBigInteger('id_type')->default(0);
+            $table->string('id_number', 100)->unique();
             $table->enum('enrollment_type', ['offline', 'online', 'other']);
             $table->enum('current_status', ['active', 'inactive', 'other']);
             $table->date('date_of_admission');

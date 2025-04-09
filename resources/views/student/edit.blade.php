@@ -96,6 +96,20 @@
                                     <small class="text-danger">{{ $errors->first('enrollment_type') }}</small>
                                     @enderror
                                 </div>
+                                <div class="col-md-3">
+                                    <label class="form-label req">ID Type</label>
+                                    {{ html()->select($name = 'id_type', $value = $idtypes, $student->id_type)->class('form-control single-select')->placeholder('Select') }}
+                                    @error('id_type')
+                                    <small class="text-danger">{{ $errors->first('id_type') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-3">
+                                    <label class="form-label req">ID Number</label>
+                                    {{ html()->text('id_number', $student->id_number)->class("form-control")->placeholder("ID Number") }}
+                                    @error('id_number')
+                                    <small class="text-danger">{{ $errors->first('id_number') }}</small>
+                                    @enderror
+                                </div>
                                 <div class="col-md-2">
                                     <label class="form-label req">Current Status</label>
                                     {{ html()->select($name = 'current_status', $value = array('active' => 'Active', 'inactive' => 'Inactive'), $student->current_status)->class('form-control single-select')->placeholder('Select') }}

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Branch;
+use App\Models\Extra;
 use App\Models\Month;
 use App\Models\PaymentMode;
 use App\Models\User;
@@ -132,8 +133,21 @@ class DatabaseSeeder extends Seeder
             'branch_id' => $branch->id
         ]);
 
+        $identity = [
+            'Driving License',
+            'Adhaar Card',
+            'Pan Card',
+            'Passport',
+            'Voter ID',
+            'Other',
+        ];
+
+        foreach ($identity as $id) {
+            Extra::create(['name' => 'identity', 'value' => $id]);
+        }
+
         $pmodes = [
-            'cash',
+            'Cash',
             'Card',
             'Upi',
             'Bank Transfer',

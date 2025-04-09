@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Extra;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\UserBranch;
@@ -41,7 +42,8 @@ class StudentController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return view('student.create');
+        $idtypes = Extra::where('name', 'identity')->pluck('value', 'id');
+        return view('student.create', compact('idtypes'));
     }
 
     /**
@@ -61,6 +63,8 @@ class StudentController extends Controller implements HasMiddleware
             'reservation_category' => 'required',
             'photo' => 'nullable|max:10000|mimes:jpg,png,jpeg,webp',
             'enrollment_type' => 'required',
+            'id_type' => 'required',
+            'id_number' => 'required|unique:students,id_number',
         ]);
         try {
             $input = $request->all();
@@ -117,7 +121,8 @@ class StudentController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $student = Student::findOrFail(decrypt($id));
-        return view('student.edit', compact('student'));
+        $idtypes = Extra::where('name', 'identity')->pluck('value', 'id');
+        return view('student.edit', compact('student', 'idtypes'));
     }
 
     /**
@@ -137,6 +142,8 @@ class StudentController extends Controller implements HasMiddleware
             'reservation_category' => 'required',
             'photo' => 'nullable|max:10000|mimes:jpg,png,jpeg,webp',
             'enrollment_type' => 'required',
+            'id_type' => 'required',
+            'id_number' => 'required|unique:students,id_number,' . decrypt($id),
         ]);
         try {
             $student = Student::findOrFail(decrypt($id));
