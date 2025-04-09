@@ -213,7 +213,6 @@ class AjaxController extends Controller implements HasMiddleware
     function getModuleTopicsForSyllabus(String $syllabusId, String $batchId, String $facultyId)
     {
         $modules = Module::where('syllabus_id', $syllabusId)->get();
-        //$modules = CourseTopic::leftJoin('topics as t', 'course_topics.topic_id', 't.id')->leftJoin('modules as m', 'm.id', 't.module_id')->where('m.syllabus_id', $syllabusId)->select('m.name', 'm.id')->distinct()->get();
         $batch = Batch::findOrFail($batchId);
         $op = "";
         $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered' id='accordion-four'>";
