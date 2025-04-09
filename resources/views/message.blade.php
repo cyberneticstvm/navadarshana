@@ -121,11 +121,11 @@
         return true;
     }
 
-    function validateCourseSyllabus() {
-        let frm = document.forms["frmCourseSyllabus"];
-        if (!$(".chkSyllabus").is(":checked")) {
+    function validateCourseTopics() {
+        let frm = document.forms["frmCourseTopics"];
+        if (!$(".chkTopic").is(":checked")) {
             failed({
-                'error': 'Please select at least one Syllabus'
+                'error': 'Please select at least one Topic'
             })
             return false;
         }

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CourseTopic;
 use App\Models\Module;
 use App\Models\Note;
 use App\Models\Topic;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;

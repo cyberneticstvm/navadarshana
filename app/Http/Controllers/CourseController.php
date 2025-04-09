@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Course;
 use App\Models\CourseSyllabus;
+use App\Models\CourseTopic;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -106,7 +107,7 @@ class CourseController extends Controller implements HasMiddleware
     {
         Course::findOrFail(decrypt($id))->delete();
         Batch::where('course_id', decrypt($id))->delete();
-        CourseSyllabus::where('course_id', decrypt($id))->delete();
+        CourseTopic::where('course_id', decrypt($id))->delete();
         return redirect()->route('course.register')
             ->with('success', 'Course deleted successfully');
     }
@@ -115,35 +116,35 @@ class CourseController extends Controller implements HasMiddleware
     {
         try {
             $data = [];
-            foreach ($request->syllabuses as $key => $syllabus):
+            foreach ($request->topics as $key => $topic):
                 $data[] = [
                     'course_id' => decrypt($request->course_id),
-                    'syllabus_id' => $syllabus,
+                    'topic_id' => $topic,
                     'created_by' => $request->user()->id,
                     'updated_by' => $request->user()->id,
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
             endforeach;
-            CourseSyllabus::insert($data);
+            CourseTopic::insert($data);
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
         return redirect()->route('course.register')
-            ->with('success', 'Course Syllabuses added successfully');
+            ->with('success', 'Course Topic added successfully');
     }
 
-    public function courseSyllabusRemove(String $id)
+    public function courseTopicRemove(String $id)
     {
-        CourseSyllabus::findOrFail(decrypt($id))->delete();
+        CourseTopic::findOrFail(decrypt($id))->delete();
         return redirect()->route('course.register')
-            ->with('success', 'Syllabus removed successfully');
+            ->with('success', 'Topic removed successfully');
     }
 
-    public function courseSyllabusRestore(String $id)
+    public function courseTopicRestore(String $id)
     {
-        CourseSyllabus::withTrashed()->findOrFail(decrypt($id))->restore();
+        CourseTopic::withTrashed()->findOrFail(decrypt($id))->restore();
         return redirect()->route('course.register')
-            ->with('success', 'Syllabus restored successfully');
+            ->with('success', 'Topic restored successfully');
     }
 }

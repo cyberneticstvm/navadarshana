@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Course;
 use App\Models\CourseSyllabus;
+use App\Models\CourseTopic;
 use App\Models\Module;
 use App\Models\Student;
 use App\Models\StudentBatch;
@@ -45,7 +46,7 @@ class AjaxController extends Controller implements HasMiddleware
             case 'batch';
                 if ($request->take == 'syllabus'):
                     $batch = Batch::find($request->typeId);
-                    $items = CourseSyllabus::leftJoin('syllabi as s', 's.id', 'course_syllabi.syllabus_id')->where('course_id', $batch->course_id)->select('s.name', 's.id')->get();
+                    $items = CourseTopic::leftJoin('topics as t', 't.id', 'course_topics.topic_id')->where('course_id', $batch->course_id)->select('t.name', 't.id')->get();
                 endif;
                 break;
         endswitch;
@@ -101,32 +102,52 @@ class AjaxController extends Controller implements HasMiddleware
         echo $op;
     }
 
-    function getSyllabusDetailsForCourse(String $courseId, String $action)
+    function getTopicDetailsForCourse(String $courseId, String $action)
     {
         if ($action == 'add'):
-            $students = Syllabus::whereNotIn('id', CourseSyllabus::where('course_id', $courseId)->pluck('syllabus_id'))->latest()->get();
-            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Select</th></tr><tbody>";
-            foreach ($students as $key => $item):
-                $op .= "<tr>";
-                $op .= "<td>{$item->id}</td>";
-                $op .= "<td>{$item->name}</td>";
-                $op .= "<td><input type='checkbox' class='chkSyllabus' name='syllabuses[]' value='{$item->id}'></td>";
-                $op .= "</tr>";
+            $syllabuses = Syllabus::orderBy('name')->get();
+            $op = "";
+            $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered accordion-header-bg' id='accordion-four'>";
+            foreach ($syllabuses as $key => $syllabus):
+                $show = ($key == 0) ? 'show' : '';
+                $op .= "<div class='accordion-item'>";
+                $op .= "<h2 class='accordion-header accordion-header-info'>";
+                $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$syllabus->id}'>{$syllabus->name}</button>";
+                $op .= "</h2>";
+                $op .= "<div id='bordered-no-gutter-collapse-{$syllabus->id}' class='accordion-collapse collapse {$show}' data-bs-parent='#accordion-four'>";
+                $op .= "<div class='accordion-body'>";
+                $op .= "<div class='table-responsive'><table class='display table' style='width:100%'><tbody>";
+                $op .= "<div class='m-1 accordion accordion-no-gutter accordion-bordered accordion-header-bg' id='accordion-five'>";
+                foreach ($syllabus->modules as $key1 => $module):
+                    $show1 = ($key1 == 0) ? 'show' : '';
+                    $op .= "<div class='accordion-item'>";
+                    $op .= "<h2 class='accordion-header accordion-header-primary'>";
+                    $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$syllabus->id}-{$module->id}'>{$module->name}</button>";
+                    $op .= "</h2>";
+                    $op .= "<div id='bordered-no-gutter-collapse-{$syllabus->id}-{$module->id}' class='accordion-collapse collapse {$show1}' data-bs-parent='#accordion-five'>";
+                    $op .= "<div class='accordion-body'>";
+                    foreach ($module->topics->whereNotIn('id', CourseTopic::where('course_id', $courseId)->pluck('topic_id')) as $key2 => $topic):
+                        $op .= "<div><input type='checkbox' class='chkTopic' name='topics[]' value='{$topic->id}'> {$topic->name}</div>";
+                    endforeach;
+                    $op .= "</div></div></div>";
+                endforeach;
+                $op .= "</div>";
+                $op .= "</tbody></table></div>";
+                $op .= "</div></div></div>";
             endforeach;
-            $op .= "<tr><input type='hidden' name='course_id' value=" . encrypt($courseId) . "></tr>";
-            $op .= "</tbody></tr></thead>";
-            $op .= "</table></div>";
+            $op .= "<input type='hidden' name='course_id' value=" . encrypt($courseId) . ">";
+            $op .= "</div>";
         else:
-            $active = CourseSyllabus::withTrashed()->where('course_id', $courseId)->get();
+            $active = CourseTopic::withTrashed()->where('course_id', $courseId)->get();
             $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Action</th></tr><tbody>";
             foreach ($active as $key => $item):
                 $op .= "<tr>";
                 $op .= "<td>{$item->id}</td>";
-                $op .= "<td>{$item->syllabus->name}</td>";
+                $op .= "<td>{$item->topic->name}</td>";
                 if ($item->deleted_at):
-                    $op .= "<td><a href='/course/syllabus/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
+                    $op .= "<td><a href='/course/topic/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
                 else:
-                    $op .= "<td class='text-center'><a href='/course/syllabus/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
+                    $op .= "<td class='text-center'><a href='/course/topic/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
                 endif;
                 $op .= "</tr>";
             endforeach;

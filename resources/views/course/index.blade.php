@@ -21,7 +21,7 @@
                                     <tr>
                                         <th>SL No</th>
                                         <th>Course Name</th>
-                                        <th>Syllabuses</th>
+                                        <th>Topics</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -31,8 +31,8 @@
                                     @forelse($courses as $key => $course)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td><a href="javascript:void(0)" class="viewSyllabusForCourse text-info" data-cid="{{ $course->id }}" data-action="add">{{ $course->name }}</a></td>
-                                        <td><a href="javascript:void(0)" class="viewSyllabusForCourse text-info" data-cid="{{ $course->id }}" data-action="view">View</a></td>
+                                        <td><a href="javascript:void(0)" class="viewTopicsForCourse text-info" data-cid="{{ $course->id }}" data-action="add">{{ $course->name }}</a></td>
+                                        <td><a href="javascript:void(0)" class="viewTopicsForCourse text-info" data-cid="{{ $course->id }}" data-action="view">View</a></td>
                                         <td>{!! $course->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('course.edit', encrypt($course->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('course.delete', encrypt($course->id)) }}" class="text-danger dlt">Delete</a></span></td>
@@ -51,18 +51,18 @@
 <!--**********************************
             Chat box start
         ***********************************-->
-<div class="chatbox" id="syllabusTblforCourse">
+<div class="chatbox" id="topicTblforCourse">
     <div class="chatbox-close"></div>
     <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
         <div class="card-header chat-list-header text-center">
-            <h5>Syllabus</h5>
+            <h5>Topics</h5>
         </div>
-        {{ html()->form('POST', route('course.syllabus.save'))->attribute('name', 'frmCourseSyllabus')->open() }}
-        <div class="card-body contacts_body p-0 dz-scroll syllabusDetail" id="DZ_W_Contacts_Body"></div>
+        {{ html()->form('POST', route('course.topic.save'))->attribute('name', 'frmCourseTopics')->open() }}
+        <div class="card-body contacts_body p-0 dz-scroll topicDetail" id="DZ_W_Contacts_Body"></div>
         <div class="card-footer">
             <div class="row">
                 <div class="col text-end">
-                    {{ html()->submit("Add to Course")->attribute('onclick', 'return validateCourseSyllabus()')->class("btn btn-submit btn-outline-primary") }}
+                    {{ html()->submit("Add to Course")->attribute('onclick', 'return validateCourseTopics()')->class("btn btn-submit btn-outline-primary") }}
                 </div>
             </div>
         </div>

@@ -74,15 +74,15 @@ $(function(){
         });        
     });
 
-    $(document).on("click", ".viewSyllabusForCourse", function(){
+    $(document).on("click", ".viewTopicsForCourse", function(){
         let cid = $(this).data('cid');
         let action = $(this).data('action');
         $.ajax({
             type: 'GET',
-            url: '/ajax/course/syllabus/' + cid+ '/' + action,
+            url: '/ajax/course/topics/' + cid+ '/' + action,
             success: function (res) {
-                $('#syllabusTblforCourse').addClass('active');
-                $(".syllabusDetail").html(res);
+                $('#topicTblforCourse').addClass('active');
+                $(".topicDetail").html(res);
                 showFooter(action);
             },
             error: function (err) {
