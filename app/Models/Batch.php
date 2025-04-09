@@ -27,4 +27,9 @@ class Batch extends Model
     {
         return $this->belongsTo(StudentBatch::class, 'id', 'batch_id')->count();
     }
+
+    public function inactiveStudentCount()
+    {
+        return $this->belongsTo(StudentBatch::class, 'id', 'batch_id')->onlyTrashed()->count();
+    }
 }
