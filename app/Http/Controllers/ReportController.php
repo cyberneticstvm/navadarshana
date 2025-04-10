@@ -103,7 +103,7 @@ class ReportController extends Controller implements HasMiddleware
         $branches = $this->branches;
         $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
-        })->selectRaw("payment_date, student_id, batch_id, category, payment_mode, amount-discount AS amount")->get();
+        })->selectRaw("payment_date, student_id, batch_id, category, payment_mode, amount-discount AS amount")->havingRaw('amount > ?', [0])->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
 
