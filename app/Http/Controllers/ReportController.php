@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ReportController extends Controller implements HasMiddleware
@@ -89,6 +88,7 @@ class ReportController extends Controller implements HasMiddleware
 
     function fee(Request $request)
     {
+        //havingRaw('amount > ?', [0])
         $inputs = array(date('Y-m-d'), date('Y-m-d'), 'all', Session::get('branch'));
         $category = array('admission' => 'Admission', 'monthly' => 'Batch', 'all' => 'All');
         $branches = $this->branches;
@@ -98,7 +98,6 @@ class ReportController extends Controller implements HasMiddleware
 
     function fetchFee(Request $request)
     {
-        //havingRaw('amount > ?', [0])
         $inputs = array($request->from_date, $request->to_date, $request->category, $request->branch);
         $category = array('admission' => 'Admission', 'monthly' => 'Batch', 'all' => 'All');
         $branches = $this->branches;
