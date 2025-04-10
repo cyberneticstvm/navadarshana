@@ -19,9 +19,13 @@ class ReportController extends Controller implements HasMiddleware
 
     public function __construct()
     {
-        $this->branches = Branch::when(!in_array(Auth::user()->roles->pluck('name')[0], array('Administrator')), function ($q) {
+        $br = Branch::when(!in_array(Auth::user()->roles->pluck('name')[0], array('Administrator')), function ($q) {
             return $q->where('id', Session::get('branch'));
-        })->pluck('name', 'id');
+        })->select("name", "id");
+        if (Auth::user()->roles->pluck('name')[0] == 'Administrator'):
+            $br = Branch::selectRaw("All AS name, 0 AS id")->union($br);
+        endif;
+        $this->branches = $br->pluck('name', 'id');
     }
 
     public static function middleware(): array
