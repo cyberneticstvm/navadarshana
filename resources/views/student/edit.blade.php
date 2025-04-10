@@ -26,11 +26,18 @@
                                     <small class="text-danger">{{ $errors->first('date_of_admission') }}</small>
                                     @enderror
                                 </div>
-                                <div class="mb-3 col-md-5">
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label req">Student Name</label>
                                     {{ html()->text('name', $student->name)->class("form-control")->placeholder("Student Name") }}
                                     @error('name')
                                     <small class="text-danger">{{ $errors->first('name') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label req">Gender</label>
+                                    {{ html()->select($name = 'gender', $value = array('male' => 'Male', 'female' => 'Female', 'other' => 'Other'), $student->gender)->class('form-control single-select')->placeholder('Select') }}
+                                    @error('gender')
+                                    <small class="text-danger">{{ $errors->first('gender') }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-3 col-md-2">

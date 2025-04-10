@@ -54,6 +54,7 @@ class StudentController extends Controller implements HasMiddleware
         $request->validate([
             'date_of_admission' => 'required|date',
             'name' => 'required',
+            'gender' => 'required',
             'email' => 'required|unique:students,email',
             'dob' => 'required|date',
             'mobile' => 'required|numeric|digits:10',
@@ -133,6 +134,7 @@ class StudentController extends Controller implements HasMiddleware
         $request->validate([
             'date_of_admission' => 'required|date',
             'name' => 'required',
+            'gender' => 'required',
             'email' => 'required|unique:students,email,' . decrypt($id),
             'dob' => 'required|date',
             'mobile' => 'required|numeric|digits:10',
