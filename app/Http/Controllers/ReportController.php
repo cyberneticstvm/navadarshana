@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ReportController extends Controller implements HasMiddleware
@@ -104,7 +103,7 @@ class ReportController extends Controller implements HasMiddleware
         $branches = $this->branches;
         $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
-        })->selectRaw("id, payment_date, student_id, batch_id, category, payment_mode, amount, discount", DB::raw("SUM(amount - discount) AS fee"))->groupBy('id', 'payment_date', 'student_id', 'batch_id', 'category', 'payment_mode', 'amount', 'discount')->get();
+        })->selectRaw("id, payment_date, student_id, batch_id, category, payment_mode, amount, discount, sum(amount - discount) AS fee")->groupBy('id', 'payment_date', 'student_id', 'batch_id', 'category', 'payment_mode', 'amount', 'discount')->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
 
