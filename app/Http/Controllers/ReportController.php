@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class ReportController extends Controller implements HasMiddleware
@@ -103,7 +104,7 @@ class ReportController extends Controller implements HasMiddleware
         $branches = $this->branches;
         $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
-        })->where('amount', '>', 0)->get();
+        })->where(DB::raw("amount-discount"), '>', 0)->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
 
