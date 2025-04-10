@@ -23,7 +23,7 @@ class ReportController extends Controller implements HasMiddleware
             return $q->where('id', Session::get('branch'));
         })->select("name", "id");
         if (Auth::user()->roles->pluck('name')[0] == 'Administrator'):
-            $br = Branch::selectRaw("'ALL' AS name, '0' AS id")->union($br);
+            $br = Branch::selectRaw("'ALL' AS name, 0 AS id")->union($br);
         endif;
         $this->branches = $br->pluck('name', 'id');
     }
