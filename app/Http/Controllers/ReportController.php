@@ -23,7 +23,7 @@ class ReportController extends Controller implements HasMiddleware
             return $q->where('id', Session::get('branch'));
         })->select("name", "id");
         if (Auth::user()->roles->pluck('name')[0] == 'Administrator'):
-            $br = Branch::selectRaw("'All' AS name, '0' AS id")->union($br);
+            $br = Branch::selectRaw("'ALL' AS name, '0' AS id")->union($br);
         endif;
         $this->branches = $br->pluck('name', 'id');
     }
@@ -106,6 +106,8 @@ class ReportController extends Controller implements HasMiddleware
         $branches = $this->branches;
         $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
+        })->when($request->branch > 0, function ($q) use ($request) {
+            return $q->where('branch_id', $request->branch);
         })->selectRaw("id, payment_date, student_id, batch_id, category, payment_mode, amount, discount, amount - IFNULL(discount, 0) AS fee")->havingRaw('fee > ?', [0])->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
