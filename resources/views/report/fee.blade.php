@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="mb-3 col-md-3">
                                     <label class="form-label req">Branch</label>
-                                    {{ html()->select($name = 'branch', $value = $branches + array('0' => 'All'), old('branch') ?? $inputs[3])->class('form-control single-select') }}
+                                    {{ html()->select($name = 'branch', $value = $branches, old('branch') ?? $inputs[3])->class('form-control single-select') }}
                                     @error('branch')
                                     <small class="text-danger">{{ $errors->first('branch') }}</small>
                                     @enderror
