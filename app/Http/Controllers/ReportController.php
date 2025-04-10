@@ -92,7 +92,7 @@ class ReportController extends Controller implements HasMiddleware
         $inputs = array(date('Y-m-d'), date('Y-m-d'), 'all', Session::get('branch'));
         $category = array('admission' => 'Admission', 'monthly' => 'Batch', 'all' => 'All');
         $branches = $this->branches;
-        $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->where('amount', '>', 0)->get();
+        $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
 
@@ -104,7 +104,7 @@ class ReportController extends Controller implements HasMiddleware
         $branches = $this->branches;
         $fees = Fee::where('branch_id', $inputs[3])->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
-        })->where(DB::raw("amount-discount"), '>', 0)->get();
+        })->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
 
