@@ -63,9 +63,13 @@ class ReportController extends Controller implements HasMiddleware
         $branches = $this->branches;
         $opening_balance = getOpeningBalance($inputs[0], $inputs[1], $inputs[2]);
 
-        $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-discount END AS admission_fee, CASE WHEN category='monthly' THEN amount-discount END AS batch_fee, discount")->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->where('branch_id', $inputs[2])->get();
+        $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-discount END AS admission_fee, CASE WHEN category='monthly' THEN amount-discount END AS batch_fee, discount")->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->branch > 0, function ($q) use ($request) {
+            return $q->where('branch_id', $request->branch);
+        })->get();
 
-        $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->where('branch_id', $inputs[2])->get();
+        $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->branch > 0, function ($q) use ($request) {
+            return $q->where('branch_id', $request->branch);
+        })->get();
 
         return view('report.daybook', compact('inputs', 'branches', 'fee', 'ie', 'opening_balance'));
     }
@@ -84,8 +88,10 @@ class ReportController extends Controller implements HasMiddleware
         $inputs = array($request->from_date, $request->to_date, $request->enrollment, $request->branch);
         $enrollments = array('online' => 'Online', 'offline' => 'Offline', 'all' => 'All');
         $branches = $this->branches;
-        $students = Student::where('branch_id', $inputs[3])->whereBetween('date_of_admission', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->enrollment != 'all', function ($q) use ($request) {
+        $students = Student::whereBetween('date_of_admission', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->enrollment != 'all', function ($q) use ($request) {
             return $q->where('enrollment_type', $request->enrollment);
+        })->when($request->branch > 0, function ($q) use ($request) {
+            return $q->where('branch_id', $request->branch);
         })->get();
         return view('report.student', compact('inputs', 'branches', 'enrollments', 'students'));
     }
@@ -126,8 +132,10 @@ class ReportController extends Controller implements HasMiddleware
         $inputs = array($request->from_date, $request->to_date, $request->category, $request->branch);
         $category = array('income' => 'Income', 'expense' => 'Expense', 'all' => 'All');
         $branches = $this->branches;
-        $ies = IncomeExpense::where('branch_id', $inputs[3])->whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
+        $ies = IncomeExpense::whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
+        })->when($request->branch > 0, function ($q) use ($request) {
+            return $q->where('branch_id', $request->branch);
         })->get();
         return view('report.ie', compact('inputs', 'branches', 'category', 'ies'));
     }
