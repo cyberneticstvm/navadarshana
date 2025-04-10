@@ -78,6 +78,8 @@
                                         <th>Type</th>
                                         <th>Pmode</th>
                                         <th>Amount</th>
+                                        <th>Discount</th>
+                                        <th>Fee</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,6 +91,8 @@
                                         <td>{{ $fee->batch->name }}</td>
                                         <td>{{ ($fee->category == 'monthly') ? 'Batch' : 'Admission' }}</td>
                                         <td>{{ $fee->pmode->name }}</td>
+                                        <td class="text-end">{{ number_format($fee->amount, 2) }}</td>
+                                        <td class="text-end">{{ number_format($fee->discount, 2) }}</td>
                                         <td class="text-end">{{ number_format($fee->fee, 2) }}</td>
                                     </tr>
                                     @empty
@@ -96,7 +100,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="6" class="text-end">Total</td>
+                                        <td colspan="8" class="text-end">Total</td>
                                         <td class="text-end fw-bold">{{ number_format($fees->sum('fee'), 2) }}</td>
                                     </tr>
                                 </tfoot>
