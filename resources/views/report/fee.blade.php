@@ -100,7 +100,9 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="8" class="text-end">Total</td>
+                                        <td colspan="6" class="text-end fw-bold">Total</td>
+                                        <td class="text-end fw-bold">{{ number_format($fees->sum('amount'), 2) }}</td>
+                                        <td class="text-end fw-bold">{{ number_format($fees->sum('discount'), 2) }}</td>
                                         <td class="text-end fw-bold">{{ number_format($fees->sum('fee'), 2) }}</td>
                                     </tr>
                                 </tfoot>
