@@ -111,8 +111,8 @@ class ModuleController extends Controller implements HasMiddleware
 
     public function restore(string $id)
     {
-        Module::withTrashed()->find(decrypt($id))->delete();
-        Topic::withTrashed()->where('module_id', decrypt($id))->delete();
+        Module::withTrashed()->find(decrypt($id))->restore();
+        Topic::withTrashed()->where('module_id', decrypt($id))->restore();
         return redirect()->route('module.register')
             ->with('success', 'Module restored successfully');
     }
