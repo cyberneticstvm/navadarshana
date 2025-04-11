@@ -6,6 +6,7 @@ use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FeeController;
@@ -169,6 +170,16 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/delete/{id}', 'destroy')->name('notes.delete');
 
         Route::get('/view/{id}', 'show')->name('notes.show');
+    });
+
+    Route::prefix('/downloads')->controller(DownloadController::class)->group(function () {
+        Route::get('/', 'index')->name('download.register');
+        Route::get('/create', 'create')->name('download.create');
+        Route::post('/create', 'store')->name('download.save');
+        Route::get('/edit/{id}', 'edit')->name('download.edit');
+        Route::post('/edit/{id}', 'update')->name('download.update');
+        Route::get('/delete/{id}', 'destroy')->name('download.delete');
+        Route::get('/restore/{id}', 'restore')->name('download.restore');
     });
 
     Route::prefix('/batch')->controller(BatchController::class)->group(function () {

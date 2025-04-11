@@ -49,7 +49,7 @@ class VideoRecorded extends Controller implements HasMiddleware
             'syllabus_id' => 'required',
             'source' => 'required',
             'url' => 'required',
-            'thumbnail' => 'nullable|mimes:jpg,jpeg,png,webp',
+            'thumbnail' => 'nullable|max:250|mimes:jpg,jpeg,png,webp',
         ]);
         try {
             $input = $request->all();
@@ -97,7 +97,7 @@ class VideoRecorded extends Controller implements HasMiddleware
             'syllabus_id' => 'required',
             'source' => 'required',
             'url' => 'required',
-            'thumbnail' => 'nullable|mimes:jpg,jpeg,png,webp',
+            'thumbnail' => 'nullable|max:250|mimes:jpg,jpeg,png,webp',
         ]);
         try {
             $video = VideoRecord::findOrFail($id);

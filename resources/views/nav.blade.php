@@ -124,6 +124,7 @@
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->linkIfCan('notes-list', route('notes.register'), 'Notes Register')
                     ->linkIfCan('video-recorded-list', route('video.recorded.register'), 'Recorded Video Register')
+                    ->linkIfCan('download-list', route('download.register'), 'Downloads');
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
