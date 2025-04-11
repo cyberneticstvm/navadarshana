@@ -155,6 +155,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('topic.edit');
         Route::post('/edit/{id}', 'update')->name('topic.update');
         Route::get('/delete/{id}', 'destroy')->name('topic.delete');
+        Route::get('/restore/{id}', 'restore')->name('topic.restore');
     });
 
     Route::prefix('/notes')->controller(NotesController::class)->group(function () {

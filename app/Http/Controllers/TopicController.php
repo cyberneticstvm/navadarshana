@@ -109,4 +109,12 @@ class TopicController extends Controller implements HasMiddleware
         return redirect()->route('topic.register')
             ->with('success', 'Topic deleted successfully');
     }
+
+    public function restore(string $id)
+    {
+        Topic::withTrashed()->find(decrypt($id))->restore();
+        Note::withTrashed()->where('topic_id', decrypt($id))->restore();
+        return redirect()->route('topic.register')
+            ->with('success', 'Topic restored successfully');
+    }
 }

@@ -37,7 +37,11 @@
                                         <td>{{ $topic?->module?->name }}</td>
                                         <td>{!! $topic->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('topic.edit', encrypt($topic->id)) }}" class="text-warning">Edit</a></span></td>
+                                        @if($topic->deleted_at)
+                                        <td><span class="badge badge-lg light badge-info"><a href="{{ route('topic.restore', encrypt($topic->id)) }}" class="text-danger proceed">Restore</a></span></td>
+                                        @else
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('topic.delete', encrypt($topic->id)) }}" class="text-danger dlt">Delete</a></span></td>
+                                        @endif
                                     </tr>
                                     @empty
                                     @endforelse
