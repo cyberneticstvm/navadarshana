@@ -21,6 +21,7 @@ class TopicController extends Controller implements HasMiddleware
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('topic-create'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('topic-edit'), only: ['edit', 'update']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('topic-delete'), only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('topic-restore'), only: ['restore']),
         ];
     }
     /**

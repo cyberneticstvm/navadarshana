@@ -20,6 +20,7 @@ class ModuleController extends Controller implements HasMiddleware
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('module-create'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('module-edit'), only: ['edit', 'update']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('module-delete'), only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('module-restore'), only: ['restore']),
         ];
     }
     /**
