@@ -111,6 +111,13 @@ class SyllabusController extends Controller implements HasMiddleware
             ->with('success', 'Syllabus deleted successfully');
     }
 
+    public function restore(string $id)
+    {
+        Syllabus::withTrashed()->find(decrypt($id))->delete();
+        return redirect()->route('syllabus.register')
+            ->with('success', 'Syllabus restored successfully');
+    }
+
     public function save()
     {
         //

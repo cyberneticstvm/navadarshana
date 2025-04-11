@@ -130,6 +130,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('syllabus.edit');
         Route::post('/edit/{id}', 'update')->name('syllabus.update');
         Route::get('/delete/{id}', 'destroy')->name('syllabus.delete');
+        Route::get('/restore/{id}', 'restore')->name('syllabus.restore');
 
         Route::post('/module/save', 'save')->name('syllabus.module.save');
         Route::get('/module/remove/{id}', 'syllabusModuleRemove')->name('syllabus.module.remove');
@@ -143,6 +144,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('module.edit');
         Route::post('/edit/{id}', 'update')->name('module.update');
         Route::get('/delete/{id}', 'destroy')->name('module.delete');
+        Route::get('/restore/{id}', 'restore')->name('module.restore');
 
         Route::get('/topic/remove/{id}', 'moduleTopicRemove')->name('module.topic.remove');
         Route::get('/topic/restore/{id}', 'moduleTopicRestore')->name('module.topic.restore');

@@ -33,7 +33,11 @@
                                         <td>{{ $syllabus?->name }}</td>
                                         <td>{!! $syllabus?->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('syllabus.edit', encrypt($syllabus->id)) }}" class="text-warning">Edit</a></span></td>
+                                        @if($syllabus->deleted_at)
+                                        <td><span class="badge badge-lg light badge-info"><a href="{{ route('syllabus.restore', encrypt($syllabus->id)) }}" class="text-danger proceed">Restore</a></span></td>
+                                        @else
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('syllabus.delete', encrypt($syllabus->id)) }}" class="text-danger dlt">Delete</a></span></td>
+                                        @endif
                                     </tr>
                                     @empty
                                     @endforelse

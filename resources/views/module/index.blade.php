@@ -35,7 +35,11 @@
                                         <td>{{ $module?->syllabus?->name }}</td>
                                         <td>{!! $module->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('module.edit', encrypt($module->id)) }}" class="text-warning">Edit</a></span></td>
+                                        @if($module->deleted_at)
+                                        <td><span class="badge badge-lg light badge-info"><a href="{{ route('module.restore', encrypt($module->id)) }}" class="text-danger proceed">Restore</a></span></td>
+                                        @else
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('module.delete', encrypt($module->id)) }}" class="text-danger dlt">Delete</a></span></td>
+                                        @endif
                                     </tr>
                                     @empty
                                     @endforelse
