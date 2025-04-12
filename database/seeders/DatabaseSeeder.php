@@ -105,6 +105,8 @@ class DatabaseSeeder extends Seeder
             'student-feedback-list',
             'dashboard-finance',
             'dashboard-student',
+            'dashboard-finance-all',
+            'dashboard-student-all',
             'report-daybook',
             'report-student',
             'report-fee',

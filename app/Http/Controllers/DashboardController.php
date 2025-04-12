@@ -25,13 +25,19 @@ class DashboardController extends Controller implements HasMiddleware
         return [
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('dashboard-finance'), only: ['financeDashboard']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('dashboard-student'), only: ['studentDashboard']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('dashboard-finance-all'), only: ['financeDashboard']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('dashboard-student-all'), only: ['studentDashboard']),
         ];
     }
 
     function financeDashboard(Request $request)
     {
-        $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) END AS admission, CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) END AS batch")->where('branch_id', Session::get('branch'))->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year)->get();
-        $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->where('branch_id', Session::get('branch'))->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
+        $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) END AS admission, CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) END AS batch")->when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year)->get();
+        $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
         return view('dashboards.finance', compact('fee', 'ie'));
     }
 
@@ -56,9 +62,13 @@ class DashboardController extends Controller implements HasMiddleware
 
     function studentDashboard(Request $request)
     {
-        $admission = Student::withTrashed()->whereMonth('date_of_admission', Carbon::now())->whereYear('date_of_admission', Carbon::now())->where('branch_id', Session::get('branch'))->get();
+        $admission = Student::withTrashed()->whereMonth('date_of_admission', Carbon::now())->whereYear('date_of_admission', Carbon::now())->when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->get();
         $active = Student::where('branch_id', Session::get('branch'))->get();
-        $cancelled = Student::onlyTrashed()->whereMonth('deleted_at', Carbon::now())->whereYear('deleted_at', Carbon::now())->where('branch_id', Session::get('branch'))->get();
+        $cancelled = Student::onlyTrashed()->whereMonth('deleted_at', Carbon::now())->whereYear('deleted_at', Carbon::now())->when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->get();
         $batches = Batch::where('branch_id', Session::get('branch'))->get();
         $student_pending_batch = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', StudentBatch::pluck('student_id'))->get();
         $fee_pending = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();

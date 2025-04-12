@@ -71,8 +71,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {
-        Route::get('/student', 'studentDashboard')->name('dashboard.student');
-        Route::get('/finace', 'financeDashboard')->name('dashboard.finance');
+        Route::get('/student/{type}', 'studentDashboard')->name('dashboard.student');
+        Route::get('/finace/{type}', 'financeDashboard')->name('dashboard.finance');
+        Route::get('/student/all/{type}', 'studentDashboard')->name('dashboard.student.all');
+        Route::get('/finace/all/{type}', 'financeDashboard')->name('dashboard.finance.all');
     });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {
