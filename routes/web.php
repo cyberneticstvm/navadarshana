@@ -62,7 +62,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {
-        Route::get('/student/comparison', 'studentComparisonChart')->name('student.comparison.chart');
+        Route::get('/student/comparison/{type}', 'studentComparisonChart')->name('student.comparison.chart');
         Route::get('/student/fee/percentage', 'studentFeePerChart')->name('student.fee.per.chart');
         Route::get('/student/cancel', 'studentCancelChart')->name('student.cancel.chart');
 
