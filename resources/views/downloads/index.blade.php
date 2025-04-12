@@ -20,7 +20,7 @@
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
-                                        <th>Syllabus</th>
+                                        <th>Course</th>
                                         <th>Name</th>
                                         <th>Attachment</th>
                                         <th>Status</th>
@@ -32,7 +32,7 @@
                                     @forelse($downloads as $key => $download)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $download?->syllabus?->name }}</td>
+                                        <td>{{ $download?->course?->name }}</td>
                                         <td>{{ $download->name }}</td>
                                         <td class="text-center"><a href="{{ gcsPublicUrl().$download->attachment }}" target="_blank"><i class="fa fa-file text-info"></i></a></td>
                                         <td>{!! $download->status() !!}</td>

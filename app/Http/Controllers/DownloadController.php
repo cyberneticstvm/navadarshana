@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\Download;
 use App\Models\Extra;
 use App\Models\Syllabus;
@@ -37,9 +38,9 @@ class DownloadController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $syllabuses = Syllabus::pluck('name', 'id');
+        $courses = Course::pluck('name', 'id');
         $cats = Extra::where('name', 'download')->pluck('value', 'id');
-        return view('downloads.create', compact('syllabuses', 'cats'));
+        return view('downloads.create', compact('courses', 'cats'));
     }
 
     /**
@@ -50,7 +51,7 @@ class DownloadController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required',
             'category_id' => 'required',
-            'syllabus_id' => 'required',
+            'course_id' => 'required',
             'attachment' => 'required|mimes:pdf,docx'
         ]);
         try {
@@ -86,9 +87,9 @@ class DownloadController extends Controller implements HasMiddleware
     public function edit(string $id)
     {
         $download = Download::findOrFail(decrypt($id));
-        $syllabuses = Syllabus::pluck('name', 'id');
+        $courses = Course::pluck('name', 'id');
         $cats = Extra::where('name', 'download')->pluck('value', 'id');
-        return view('downloads.edit', compact('syllabuses', 'cats', 'download'));
+        return view('downloads.edit', compact('courses', 'cats', 'download'));
     }
 
     /**
@@ -99,7 +100,7 @@ class DownloadController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required',
             'category_id' => 'required',
-            'syllabus_id' => 'required',
+            'course_id' => 'required',
         ]);
         try {
             $input = $request->all();

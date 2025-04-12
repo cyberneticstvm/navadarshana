@@ -16,8 +16,8 @@ class Download extends Model
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
 
-    public function syllabus()
+    public function course()
     {
-        return $this->belongsTo(Syllabus::class, 'syllabus_id', 'id');
+        return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 }

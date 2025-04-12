@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->unsignedBigInteger('category_id')->nullable();
-            $table->unsignedBigInteger('syllabus_id')->nullable();
+            $table->unsignedBigInteger('course_id')->nullable();
             $table->string('attachment')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->foreign('category_id')->references('id')->on('extras')->onDelete('cascade');
-            $table->foreign('syllabus_id')->references('id')->on('syllabi')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
