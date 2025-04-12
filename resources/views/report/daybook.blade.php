@@ -72,11 +72,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <!--<tr>
                                         <td></td>
                                         <td class="fw-bold text-info">Opening Balance</td>
                                         <td class="{{ ($opening_balance > 0) ? 'text-success' : 'text-danger' }} fw-bold" colspan="3">{{ number_format($opening_balance, 2) }}</td>
-                                    </tr>
+                                    </tr>-->
                                     <tr>
                                         <td>1</td>
                                         <td>Admission Fee Collected</td>
@@ -112,11 +112,11 @@
                                         <td class="fw-bold text-info">{{ number_format($ie->sum('expense'), 2) }}</td>
                                         <td></td>
                                     </tr>
-                                    <tr>
+                                    <!--<tr>
                                         <td></td>
                                         <td class="fw-bold text-info">Closing Balance</td>
                                         <td class="{{ ($opening_balance > 0) ? 'text-success' : 'text-danger' }} fw-bold" colspan="3">{{ number_format($opening_balance + $fee->sum('admission_fee') + $fee->sum('batch_fee') + $ie->sum('income') - $ie->sum('expense'), 2) }}</td>
-                                    </tr>
+                                    </tr>-->
                                 </tbody>
                             </table>
                         </div>
