@@ -6,6 +6,7 @@
             <div class="col-xl-8">
                 <div class="row">
                     <div class="col-xl-12">
+                        <input type="hidden" name="brType" id="brType" value="{{ $type }}" />
                         <div class="card overflow-hidden">
                             <div class="card-header border-0 pb-0 flex-wrap">
                                 <div class="blance-media">

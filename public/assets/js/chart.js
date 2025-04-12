@@ -3,7 +3,7 @@
 (function ($) {
 	/* "use strict" */
 
-    let type = 1;
+    let type = $("#brType").val();
 
 	var dzChartlist = function () {
 

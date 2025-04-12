@@ -36,7 +36,8 @@ class DashboardController extends Controller implements HasMiddleware
         $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
         })->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
-        return view('dashboards.finance', compact('fee', 'ie'));
+        $type = $request->type;
+        return view('dashboards.finance', compact('fee', 'ie', 'type'));
     }
 
     function ieTotal()
@@ -90,7 +91,8 @@ class DashboardController extends Controller implements HasMiddleware
         $class_schedules = ClassSchedule::when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
         })->whereDate('date', Carbon::now())->orderBy('from_time')->get();
-        return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid', 'class_schedules'));
+        $type = $request->type;
+        return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid', 'class_schedules', 'type'));
     }
 
     function studentComparisonChart($type)
