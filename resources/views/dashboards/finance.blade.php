@@ -13,7 +13,7 @@
                                 </div>
                                 <ul class="nav nav-pills revenue-tab" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" data-series="week" id="pills-week-tab"
+                                        <button class="nav-link" data-series="week" id="pills-week-tab"
                                             data-bs-toggle="pill" data-bs-target="#pills-week" type="button"
                                             role="tab" aria-selected="true">Week</button>
                                     </li>
@@ -23,7 +23,7 @@
                                             role="tab" aria-selected="false">Month</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" data-series="year" id="pills-year-tab"
+                                        <button class="nav-link active" data-series="year" id="pills-year-tab"
                                             data-bs-toggle="pill" data-bs-target="#pills-year" type="button"
                                             role="tab" aria-selected="false">Year</button>
                                     </li>
