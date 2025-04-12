@@ -63,11 +63,11 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {
         Route::get('/student/comparison/{type}', 'studentComparisonChart')->name('student.comparison.chart');
-        Route::get('/student/fee/percentage', 'studentFeePerChart')->name('student.fee.per.chart');
-        Route::get('/student/cancel', 'studentCancelChart')->name('student.cancel.chart');
+        Route::get('/student/fee/percentage/{type}', 'studentFeePerChart')->name('student.fee.per.chart');
+        Route::get('/student/cancel/{type}', 'studentCancelChart')->name('student.cancel.chart');
 
-        Route::get('/student/fee/collection', 'studentFeeCollectionChart')->name('student.fee.collection.chart');
-        Route::get('/finance/ie/', 'ieTotal')->name('finance.ie.chart');
+        Route::get('/student/fee/collection/{type}', 'studentFeeCollectionChart')->name('student.fee.collection.chart');
+        Route::get('/finance/ie/{type}', 'ieTotal')->name('finance.ie.chart');
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {

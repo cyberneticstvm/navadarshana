@@ -180,7 +180,7 @@
 
 		}
         var redial = function () {
-            $.getJSON('/dashboard/student/fee/percentage', function (response) {
+            $.getJSON('/dashboard/student/fee/percentage/' + type, function (response) {
                 var options = {
                     series: [parseFloat(response['per']).toFixed(2)],
                     chart: {
@@ -263,7 +263,7 @@
 	    }
 
         var chartBarRunning1 = function () {            
-            $.getJSON('/dashboard/student/fee/collection', function (response) {
+            $.getJSON('/dashboard/student/fee/collection/' + type, function (response) {
                 var options = {
                     series: [
                         {
@@ -432,7 +432,7 @@
 		}
 
         var projectChart = function () {
-            $.getJSON('/dashboard/finance/ie', function (response) {
+            $.getJSON('/dashboard/finance/ie/' + type, function (response) {
 			var options = {
 				series: [response['income'], response['expense']],
 				chart: {
@@ -489,7 +489,7 @@
 		}
 
         var cancellationChart = function () {
-            $.getJSON('/dashboard/student/cancel', function (response) {
+            $.getJSON('/dashboard/student/cancel/' + type, function (response) {
 			var chartWidth = $("#cancellationChart").width();
 			/* console.log(chartWidth); */
 

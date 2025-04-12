@@ -49,11 +49,13 @@ class DashboardController extends Controller implements HasMiddleware
         ]);
     }
 
-    function studentFeeCollectionChart(Request $request)
+    function studentFeeCollectionChart($type)
     {
-        $students = Month::leftJoin('fees as f', function ($q) {
+        $students = Month::leftJoin('fees as f', function ($q) use ($type) {
             $q->on('f.payment_date', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
-            $q->on('f.payment_date', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->where('f.branch_id', Session::get('branch'));
+            $q->on('f.payment_date', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($type == 0, function ($q) {
+                return $q->where('s.branch_id', Session::get('branch'));
+            });
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, SUM(CASE WHEN f.category='admission' THEN f.amount-IFNULL(f.discount, 0) END) AS admission, SUM(CASE WHEN f.category='monthly' THEN f.amount-IFNULL(f.discount, 0) END) AS batch, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
         return json_encode($students);
     }
@@ -102,13 +104,13 @@ class DashboardController extends Controller implements HasMiddleware
         return json_encode($students);
     }
 
-    function studentFeePerChart(Request $request)
+    function studentFeePerChart($type)
     {
-        $tot = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(b.monthly_fee) AS fee")->when($request->type == 0, function ($q) {
+        $tot = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(b.monthly_fee) AS fee")->when($type == 0, function ($q) {
             return $q->where('s.branch_id', Session::get('branch'));
         })->get();
 
-        $fee = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(f.amount) AS fee")->when($request->type == 0, function ($q) {
+        $fee = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(f.amount) AS fee")->when($type == 0, function ($q) {
             return $q->where('s.branch_id', Session::get('branch'));
         })->where('f.month', Carbon::now()->month)->where('f.year', Carbon::now()->year)->get();
 
@@ -119,11 +121,11 @@ class DashboardController extends Controller implements HasMiddleware
         ]);
     }
 
-    function studentCancelChart(Request $request)
+    function studentCancelChart($type)
     {
-        $students = DB::table('months')->leftJoin('students as s', function ($q) use ($request) {
+        $students = DB::table('months')->leftJoin('students as s', function ($q) use ($type) {
             $q->on('s.deleted_at', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
-            $q->on('s.deleted_at', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($request->type == 0, function ($q) {
+            $q->on('s.deleted_at', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($type == 0, function ($q) {
                 return $q->where('s.branch_id', Session::get('branch'));
             });
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, COUNT(CASE WHEN s.deleted_at IS NOT NULL THEN s.id END) AS cancelled, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
