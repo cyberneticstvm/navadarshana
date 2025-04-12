@@ -96,17 +96,21 @@ class DashboardController extends Controller implements HasMiddleware
         $students = Month::leftJoin('students as s', function ($q) use ($request) {
             $q->on('s.date_of_admission', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
             $q->on('s.date_of_admission', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($request->type == 0, function ($q) {
-                return $q->where('branch_id', Session::get('branch'));
+                return $q->where('s.branch_id', Session::get('branch'));
             });
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, COUNT(CASE WHEN s.enrollment_type='online' THEN s.id END) AS online, COUNT(CASE WHEN s.enrollment_type='offline' THEN s.id END) AS offline, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
         return json_encode($students);
     }
 
-    function studentFeePerChart()
+    function studentFeePerChart(Request $request)
     {
-        $tot = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(b.monthly_fee) AS fee")->where('s.branch_id', Session::get('branch'))->get();
+        $tot = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(b.monthly_fee) AS fee")->when($request->type == 0, function ($q) {
+            return $q->where('s.branch_id', Session::get('branch'));
+        })->get();
 
-        $fee = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(f.amount) AS fee")->where('s.branch_id', Session::get('branch'))->where('f.month', Carbon::now()->month)->where('f.year', Carbon::now()->year)->get();
+        $fee = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->leftJoin('batches as b', 'b.id', 'student_batches.batch_id')->leftJoin('fees as f', 'f.student_id', 's.id')->selectRaw("SUM(f.amount) AS fee")->when($request->type == 0, function ($q) {
+            return $q->where('s.branch_id', Session::get('branch'));
+        })->where('f.month', Carbon::now()->month)->where('f.year', Carbon::now()->year)->get();
 
         return json_encode([
             'tot' => $tot->sum('fee'),
@@ -115,11 +119,13 @@ class DashboardController extends Controller implements HasMiddleware
         ]);
     }
 
-    function studentCancelChart()
+    function studentCancelChart(Request $request)
     {
-        $students = DB::table('months')->leftJoin('students as s', function ($q) {
+        $students = DB::table('months')->leftJoin('students as s', function ($q) use ($request) {
             $q->on('s.deleted_at', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
-            $q->on('s.deleted_at', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->where('s.branch_id', Session::get('branch'));
+            $q->on('s.deleted_at', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($request->type == 0, function ($q) {
+                return $q->where('s.branch_id', Session::get('branch'));
+            });
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, COUNT(CASE WHEN s.deleted_at IS NOT NULL THEN s.id END) AS cancelled, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
         return json_encode($students);
     }
