@@ -47,8 +47,8 @@
                                         <span>Batch Fee</span>
                                     </div>
                                     <div class="pr-data">
-                                        <h5 class="text-primary">{{ number_format($fee->sum('other'), 2) }}</h5>
-                                        <span>Other</span>
+                                        <h5 class="text-info">{{ number_format($fee->sum('other'), 2) }}</h5>
+                                        <span>Other Fee</span>
                                     </div>
                                     <div class="pr-data">
                                         <h5 class="text-primary">{{ number_format($ie->sum('income'), 2) }}</h5>
