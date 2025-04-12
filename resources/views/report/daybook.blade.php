@@ -110,7 +110,7 @@
                                         <td class="fw-bold">Total</td>
                                         <td class="fw-bold text-success">{{ number_format($fee->sum('admission_fee') + $fee->sum('batch_fee') + $ie->sum('income'), 2) }}</td>
                                         <td class="fw-bold text-info">{{ number_format($ie->sum('expense'), 2) }}</td>
-                                        <td></td>
+                                        <td class="fw-bold text-info">{{ number_format($fee->sum('admission_fee') + $fee->sum('batch_fee') + $ie->sum('income') - $ie->sum('expense'), 2) }}</td>
                                     </tr>
                                     <!--<tr>
                                         <td></td>
