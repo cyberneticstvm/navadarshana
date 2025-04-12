@@ -104,7 +104,7 @@
                                 <p class="mb-0">
                                     <svg class="me-2" width="12" height="13" viewBox="0 0 12 13"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect y="0.5" width="12" height="12" rx="3" fill="#FF5E5E" />
+                                        <rect y="0.5" width="12" height="12" rx="3" fill="#000" />
                                     </svg>
                                     Balance
                                 </p>
