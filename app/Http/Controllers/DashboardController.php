@@ -67,11 +67,25 @@ class DashboardController extends Controller implements HasMiddleware
         $cancelled = Student::onlyTrashed()->whereMonth('deleted_at', Carbon::now())->whereYear('deleted_at', Carbon::now())->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
         })->get();
-        $batches = Batch::where('branch_id', Session::get('branch'))->get();
-        $student_pending_batch = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', StudentBatch::pluck('student_id'))->get();
-        $fee_pending = Student::where('branch_id', Session::get('branch'))->whereNotIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
-        $fee_paid = Student::where('branch_id', Session::get('branch'))->whereIn('id', Fee::where('branch_id', Session::get('branch'))->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
-        $class_schedules = ClassSchedule::where('branch_id', Session::get('branch'))->whereDate('date', Carbon::now())->orderBy('from_time')->get();
+        $batches = Batch::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->get();
+        $student_pending_batch = Student::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->whereNotIn('id', StudentBatch::pluck('student_id'))->get();
+        $fee_pending = Student::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->whereNotIn('id', Fee::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
+        $fee_paid = Student::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->whereIn('id', Fee::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->where('month', Carbon::now()->month)->where('year', Carbon::now()->year)->pluck('student_id'))->get();
+        $class_schedules = ClassSchedule::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->whereDate('date', Carbon::now())->orderBy('from_time')->get();
         return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid', 'class_schedules'));
     }
 
