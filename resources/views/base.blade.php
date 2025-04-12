@@ -446,7 +446,7 @@
     <script src="{{ asset('/assets/vendor/global/global.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/chart.js/Chart.bundle.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    @if(in_array(Route::current()->getName(), array('dashboard.student', 'dashboard.finance')))
+    @if(in_array(Route::current()->getName(), array('dashboard.student', 'dashboard.finance', 'dashboard.student.all', 'dashboard.finance.all')))
     <script src="{{ asset('/assets/vendor/apexchart/apexchart.js') }}"></script>
     <script src="{{ asset('/assets/vendor/peity/jquery.peity.min.js') }}"></script>
     <script src="{{ asset('/assets/js/chart.js') }}"></script>
