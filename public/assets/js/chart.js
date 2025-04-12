@@ -12,7 +12,7 @@
 
 
 		var chartBarRunning = function () {            
-            $.getJSON('/dashboard/student/comparison/'+type, function (response) {
+            $.getJSON('/dashboard/student/comparison/'+type, function (response) { alert(type)
                 var options = {
                     series: [
                         {
