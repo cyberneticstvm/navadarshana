@@ -3,8 +3,6 @@
 (function ($) {
 	/* "use strict" */
 
-    let type = 1;
-
 	var dzChartlist = function () {
 
 		var screenWidth = $(window).width();
