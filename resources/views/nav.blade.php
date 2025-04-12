@@ -19,9 +19,9 @@
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
                     ->link(route('dashboard'), 'Dashboard')
                     ->linkIfCan('dashboard-finance', route('dashboard.finance', ['type' => 0]), 'Finance')
-                    ->linkIfCan('dashboard-student', route('dashboard.student', ['type' => 0]), 'Student')
-                    ->linkIfCan('dashboard-student-all', route('dashboard.student.all', ['type' => 1]), 'Student All')
-                    ->linkIfCan('dashboard-finance-all', route('dashboard.finance.all', ['type' => 1]), 'Finance All');
+                    ->linkIfCan('dashboard-student', route('dashboard.student', ['type' => 0]), 'Student')                    
+                    ->linkIfCan('dashboard-finance-all', route('dashboard.finance.all', ['type' => 1]), 'Finance All Branches')
+                    ->linkIfCan('dashboard-student-all', route('dashboard.student.all', ['type' => 1]), 'Student All Branches');
                 }}
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
