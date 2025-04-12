@@ -63,7 +63,9 @@ class DashboardController extends Controller implements HasMiddleware
         $admission = Student::withTrashed()->whereMonth('date_of_admission', Carbon::now())->whereYear('date_of_admission', Carbon::now())->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
         })->get();
-        $active = Student::where('branch_id', Session::get('branch'))->get();
+        $active = Student::when($request->type == 0, function ($q) {
+            return $q->where('branch_id', Session::get('branch'));
+        })->get();
         $cancelled = Student::onlyTrashed()->whereMonth('deleted_at', Carbon::now())->whereYear('deleted_at', Carbon::now())->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
         })->get();
