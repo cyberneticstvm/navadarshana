@@ -94,16 +94,6 @@
                                 <p class="mb-0">
                                     <svg class="me-2" width="12" height="13" viewBox="0 0 12 13"
                                         fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <rect y="0.5" width="12" height="12" rx="3" fill="#3AC977" />
-                                    </svg>
-                                    Income
-                                </p>
-                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $ie->sum('income'), 2) }}</span>
-                            </div>
-                            <div class="project-media">
-                                <p class="mb-0">
-                                    <svg class="me-2" width="12" height="13" viewBox="0 0 12 13"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect y="0.5" width="12" height="12" rx="3" fill="#000" />
                                     </svg>
                                     Balance
