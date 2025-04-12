@@ -51,6 +51,7 @@
                                                 <div class="dropdown-menu dropdown-menu-end">
                                                     <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'admission', 'student' => encrypt($student->id)]) }}">Admission Fee</a>
                                                     <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'monthly', 'student' => encrypt($student->id)]) }}">Batch Fee</a>
+                                                    <a class="dropdown-item" href="{{ route('fee.create', ['category' => 'other', 'student' => encrypt($student->id)]) }}">Other Fee</a>
                                                 </div>
                                             </div>
                                         </td>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('branch_id');
             $table->decimal('amount', 7, 2)->default(0);
             $table->decimal('discount', 7, 2)->nullable()->default(0);
-            $table->enum('category', ['admission', 'monthly']);
+            $table->enum('category', ['admission', 'monthly', 'other']);
             $table->enum('type', ['advance', 'balance', 'full']);
             $table->integer('month')->nullable();
             $table->integer('year')->nullable();
