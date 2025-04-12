@@ -55,7 +55,7 @@ class DashboardController extends Controller implements HasMiddleware
         $students = Month::leftJoin('fees as f', function ($q) use ($type) {
             $q->on('f.payment_date', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
             $q->on('f.payment_date', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($type == 0, function ($q) {
-                return $q->where('s.branch_id', Session::get('branch'));
+                return $q->where('f.branch_id', Session::get('branch'));
             });
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, SUM(CASE WHEN f.category='admission' THEN f.amount-IFNULL(f.discount, 0) END) AS admission, SUM(CASE WHEN f.category='monthly' THEN f.amount-IFNULL(f.discount, 0) END) AS batch, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
         return json_encode($students);
