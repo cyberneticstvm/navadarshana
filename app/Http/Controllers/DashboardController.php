@@ -23,8 +23,8 @@ class DashboardController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('dashboard-finance'), only: ['financeDashboard']),
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('dashboard-student'), only: ['studentDashboard']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-finance', 'dashboard-finance-all']), only: ['financeDashboard']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-student', 'dashboard-student-all']), only: ['studentDashboard']),
         ];
     }
 
