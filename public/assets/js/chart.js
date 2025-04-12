@@ -3,6 +3,8 @@
 (function ($) {
 	/* "use strict" */
 
+    let type = 1;
+
 	var dzChartlist = function () {
 
 		var screenWidth = $(window).width();
@@ -10,7 +12,7 @@
 
 
 		var chartBarRunning = function () {            
-            $.getJSON('/dashboard/student/comparison/', function (response) {
+            $.getJSON('/dashboard/student/comparison/'+type, function (response) {
                 var options = {
                     series: [
                         {

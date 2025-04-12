@@ -91,11 +91,11 @@ class DashboardController extends Controller implements HasMiddleware
         return view('dashboards.student', compact('admission', 'active', 'cancelled', 'batches', 'student_pending_batch', 'fee_pending', 'fee_paid', 'class_schedules'));
     }
 
-    function studentComparisonChart(Request $request)
+    function studentComparisonChart($type)
     {
-        $students = Month::leftJoin('students as s', function ($q) use ($request) {
+        $students = Month::leftJoin('students as s', function ($q) use ($type) {
             $q->on('s.date_of_admission', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
-            $q->on('s.date_of_admission', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($request->type == 0, function ($q) {
+            $q->on('s.date_of_admission', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($type == 0, function ($q) {
                 return $q->where('s.branch_id', Session::get('branch'));
             });
         })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, COUNT(CASE WHEN s.enrollment_type='online' THEN s.id END) AS online, COUNT(CASE WHEN s.enrollment_type='offline' THEN s.id END) AS offline, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
