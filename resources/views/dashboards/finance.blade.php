@@ -51,7 +51,7 @@
                                         <span>Other Fee</span>
                                     </div>
                                     <div class="pr-data">
-                                        <h5 class="text-primary">{{ number_format($ie->sum('income'), 2) }}</h5>
+                                        <h5 class="text-success">{{ number_format($ie->sum('income'), 2) }}</h5>
                                         <span>Income Other</span>
                                     </div>
                                     <div class="pr-data">
