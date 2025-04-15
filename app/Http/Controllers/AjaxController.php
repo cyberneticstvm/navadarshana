@@ -64,16 +64,15 @@ class AjaxController extends Controller implements HasMiddleware
                 $op .= "<div class='header-media text-center'><img src='" . asset('/assets/images/avatar.png') . "' width='25%' /></div>";
             endif;
             $op .= "<div class='row'><div class='col-md-12'><ul class='contacts'><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Admission Date: {$student->date_of_admission->format('d M, Y')}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Full Name: {$student->name}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Gender: " . ucfirst($student->gender ?? 'Na') . "</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Primary Contact: {$student->mobile}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Alternative Contact: {$student->alt_mobile}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Date of Birth: {$student->dob->format('d M, Y')}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Qualification: {$student->qualification}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Res. Category: {$student->reservation_category}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Address: {$student->address}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Enrollment Type: " . ucfirst($student->enrollment_type) . "</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>ID Type: " . $student->idType?->value . "</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>ID Number: " . $student->id_number . "</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Current Status: {$student->currentStatus()}</span></div></div></li><li class='active'><div class='d-flex bd-highlight'><div class=''><span class='text-dark'>Deleted Status:  {$student->status()}</span></div></div></li></ul></div></div>";
-            $op .= "<div class='row'><div class='col-md-12 mt-3 mb-3 ms-3'><h5>Active Batches</h5>{$activeBatches}</div></div>";
-            $op .= "<div class='row'><div class='col-md-12 mt-3 mb-3 ms-3'><h5>Fee Details</h5></div></div>";
-            $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Batch</th><th>Category</th><th>Amount</th><th>Discount</th><th>Date</th></tr><tbody>";
+            $op .= "<div class='row'><div class='col-md-12 mt-3 mb-3 ms-3'><h5 class='text-info'>Active Batches</h5>{$activeBatches}</div></div>";
+            $op .= "<div class='row'><div class='col-md-12 mt-3 mb-3 ms-3'><h5 class='text-info'>Fee Details</h5></div></div>";
+            $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Batch</th><th>Category</th><th>Amount</th><th>Date</th></tr><tbody>";
             foreach ($fees as $key => $fee):
                 $cat = ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category);
                 $op .= "<tr>";
                 $op .= "<td>{$fee->batch->name}</td>";
                 $op .= "<td>{$cat}</td>";
-                $op .= "<td>{$fee->amount}</td>";
-                $op .= "<td>{$fee->discount}</td>";
+                $op .= "<td>" . number_format($fee->amount - $fee->discount, 2) . "</td>";
                 $op .= "<td>" . $fee->payment_date->format('d.M.Y') . "</td>";
                 $op .= "</tr>";
             endforeach;
