@@ -13,6 +13,7 @@ use App\Models\Topic;
 use App\Models\TopicComplete;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 class AjaxController extends Controller implements HasMiddleware
@@ -137,19 +138,35 @@ class AjaxController extends Controller implements HasMiddleware
             $op .= "<input type='hidden' name='course_id' value=" . encrypt($courseId) . ">";
             $op .= "</div>";
         else:
-            $active = CourseTopic::withTrashed()->where('course_id', $courseId)->get();
-            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Action</th></tr><tbody>";
-            foreach ($active as $key => $item):
-                $op .= "<tr>";
-                $op .= "<td>{$item->id}</td>";
-                $op .= "<td>{$item->topic->name}</td>";
-                if ($item->deleted_at):
-                    $op .= "<td><a href='/course/topic/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
-                else:
-                    $op .= "<td class='text-center'><a href='/course/topic/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
-                endif;
-                $op .= "</tr>";
+            $modules = Module::whereIn('id', Topic::whereIn('id', CourseTopic::withTrashed()->where('course_id', $courseId)->pluck('topic_id'))->pluck('module_id'))->get();
+            $op = "";
+            $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered' id='accordion-four'>";
+            foreach ($modules as $key => $module):
+                $active = CourseTopic::withTrashed()->leftJoin('topics as t', 't.id', 'course_topics.topic_id')->where('course_id', $courseId)->selectRaw("course_topics.id, course_topics.deleted_at, t.module_id")->get();
+                $op .= "<div class='accordion-item'>";
+                $op .= "<h2 class='accordion-header'>";
+                $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$module->id}'>{$module->name}</button>";
+                $op .= "</h2>";
+                $op .= "<div id='bordered-no-gutter-collapse-{$module->id}' class='accordion-collapse collapse' data-bs-parent='#accordion-four'>";
+                $op .= "<div class='accordion-body'>";
+                $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Id</th><th>Name</th><th>Action</th></tr><tbody>";
+                foreach ($active as $key => $item):
+                    if ($module->id == $item->module_id):
+                        $op .= "<tr>";
+                        $op .= "<td>{$item->id}</td>";
+                        $op .= "<td>{$item->topic?->name}</td>";
+                        if ($item->deleted_at):
+                            $op .= "<td><a href='/course/topic/restore/" . encrypt($item->id) . "' class='proceed'><i class='fa fa-recycle text-success' title='restore'></i></a></td>";
+                        else:
+                            $op .= "<td class='text-center'><a href='/course/topic/remove/" . encrypt($item->id) . "' class='dlt'><i class='fa fa-trash text-danger' title='remove'></i></a></td>";
+                        endif;
+                        $op .= "</tr>";
+                    endif;
+                endforeach;
+                $op .= "</tbody></table></div>";
+                $op .= "</div></div></div>";
             endforeach;
+            $op .= "</div>";
         endif;
         echo $op;
     }
