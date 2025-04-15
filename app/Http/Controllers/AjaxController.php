@@ -142,7 +142,7 @@ class AjaxController extends Controller implements HasMiddleware
             $op = "";
             $op .= "<div class='m-3 accordion accordion-no-gutter accordion-bordered' id='accordion-four'>";
             foreach ($modules as $key => $module):
-                $active = CourseTopic::withTrashed()->leftJoin('topics as t', 't.id', 'course_topics.topic_id')->where('course_id', $courseId)->selectRaw("course_topics.id, course_topics.deleted_at, t.module_id")->get();
+                $active = CourseTopic::withTrashed()->leftJoin('topics as t', 't.id', 'course_topics.topic_id')->where('course_id', $courseId)->selectRaw("course_topics.id, course_topics.topic_id, course_topics.deleted_at, t.module_id")->get();
                 $op .= "<div class='accordion-item'>";
                 $op .= "<h2 class='accordion-header'>";
                 $op .= "<button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#bordered-no-gutter-collapse-{$module->id}'>{$module->name}</button>";
