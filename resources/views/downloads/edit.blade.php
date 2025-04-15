@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Course</label>
-                                    {{ html()->select($name = 'course_id', $value = $syllabuses, $download->course_id)->class('form-control single-select')->placeholder('Select') }}
+                                    {{ html()->select($name = 'course_id', $value = $courses, $download->course_id)->class('form-control single-select')->placeholder('Select') }}
                                     @error('course_id')
                                     <small class="text-danger">{{ $errors->first('course_id') }}</small>
                                     @enderror
