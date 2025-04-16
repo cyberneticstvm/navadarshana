@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label req">Syllabus</label>
-                                    {{ html()->select($name = 'syllabus_id', $value = $syllabuses, $note->syllabus_id)->class('form-control single-select selSyllabus selChange')->attribute('data-give', 'subject')->attribute('data-take', 'module')->placeholder('Select') }}
+                                    {{ html()->select($name = 'syllabus_id', $value = $syllabuses, $note->syllabus_id)->class('form-control single-select selSyllabus selChange')->attribute('data-give', 'syllabus')->attribute('data-take', 'module')->placeholder('Select') }}
                                     @error('syllabus_id')
                                     <small class="text-danger">{{ $errors->first('syllabus_id') }}</small>
                                     @enderror
