@@ -93,13 +93,20 @@
                                     </tr>
                                     <tr>
                                         <td>3</td>
+                                        <td>Material Fee Collected</td>
+                                        <td class="text-success">{{ number_format($fee->sum('material_fee'), 2) }}</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
                                         <td>Other Income</td>
                                         <td class="text-success">{{ number_format($ie->sum('income'), 2) }}</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td>4</td>
+                                        <td>5</td>
                                         <td>Other Expenses</td>
                                         <td></td>
                                         <td class="text-info">{{ number_format($ie->sum('expense'), 2) }}</td>
@@ -108,9 +115,9 @@
                                     <tr>
                                         <td></td>
                                         <td class="fw-bold">Total</td>
-                                        <td class="fw-bold text-success">{{ number_format($fee->sum('admission_fee') + $fee->sum('batch_fee') + $ie->sum('income'), 2) }}</td>
+                                        <td class="fw-bold text-success">{{ number_format($fee->sum('admission_fee') + $fee->sum('batch_fee') + $fee->sum('material_fee') + $ie->sum('income'), 2) }}</td>
                                         <td class="fw-bold text-info">{{ number_format($ie->sum('expense'), 2) }}</td>
-                                        <td class="fw-bold text-primary">{{ number_format($fee->sum('admission_fee') + $fee->sum('batch_fee') + $ie->sum('income') - $ie->sum('expense'), 2) }}</td>
+                                        <td class="fw-bold text-primary">{{ number_format($fee->sum('admission_fee') + $fee->sum('batch_fee') + $fee->sum('material_fee') + $ie->sum('income') - $ie->sum('expense'), 2) }}</td>
                                     </tr>
                                     <!--<tr>
                                         <td></td>
