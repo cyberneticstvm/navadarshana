@@ -140,6 +140,7 @@ const editorConfig = {
 		BlockQuote,
 		Bold,
 		Bookmark,
+		/*CaseChange,*/
 		CKBox,
 		CKBoxImageEdit,
 		CloudServices,
@@ -153,7 +154,7 @@ const editorConfig = {
 		FontColor,
 		FontFamily,
 		FontSize,
-		FormatPainter,
+		/*FormatPainter,*/
 		GeneralHtmlSupport,
 		Heading,
 		Highlight,
