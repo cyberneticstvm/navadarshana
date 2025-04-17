@@ -446,7 +446,24 @@ var NexaDash = function(){
 		if(jQuery("#ckeditor").length>0) {
 			ClassicEditor
 			.create( document.querySelector( '#ckeditor' ), {
-				toolbar: [ 'heading', '|', 'bold', 'italic', 'link', '|', 'uploadImage' ]
+				toolbar: {
+					items: [
+						'undo', 'redo',
+						'|',
+						'heading',
+						'|',
+						'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+						'|',
+						'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+						'|',
+						'link', 'uploadImage', 'blockQuote', 'codeBlock',
+						'|',
+						'alignment',
+						'|',
+						'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+					],
+					shouldNotGroupWhenFull: true
+				}
 			} )
 			.then( editor => {
 				window.editor = editor;
