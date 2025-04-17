@@ -75,6 +75,7 @@ const {
 	Underline
 } = window.CKEDITOR;
 const {
+	CaseChange,
 	ExportPdf,
 	ExportWord,
 	FormatPainter,
@@ -139,7 +140,6 @@ const editorConfig = {
 		BlockQuote,
 		Bold,
 		Bookmark,
-		CaseChange,
 		CKBox,
 		CKBoxImageEdit,
 		CloudServices,
