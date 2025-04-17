@@ -75,7 +75,6 @@ const {
 	Underline
 } = window.CKEDITOR;
 const {
-	CaseChange,
 	ExportPdf,
 	ExportWord,
 	FormatPainter,
