@@ -446,6 +446,7 @@ var NexaDash = function(){
 		if(jQuery("#ckeditor").length>0) {
 			ClassicEditor
 			.create( document.querySelector( '#ckeditor' ), {
+				plugins: [ Essentials, Paragraph, Bold, Italic, Font ],
 				// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
 			} )
 			.then( editor => {
