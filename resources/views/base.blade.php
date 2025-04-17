@@ -27,7 +27,10 @@
     <link rel="stylesheet" href="{{ asset('/assets/vendor/select2/css/select2.min.css') }}">
     <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/vendor/summernote/summernote-bs5.css') }}" rel="stylesheet">
-
+    @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.css" crossorigin>
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5-premium-features/45.0.0/ckeditor5-premium-features.css" crossorigin>
+    @endif
     <!-- Style css -->
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/css/mystyle.css') }}" rel="stylesheet">
@@ -471,16 +474,10 @@
     <script src="{{ asset('/assets/vendor/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
     @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
-    <!--<script src="{{ asset('/assets/vendor/summernote/summernote-bs5.js') }}"></script>-->
-    <script src="{{ asset('/assets/vendor/ckeditor/ckeditor.js') }}"></script>
-    <script>
-        $(function() {
-            /*$('.summernote').summernote({
-                placeholder: 'Please enter content here',
-                height: 150
-            });*/
-        })
-    </script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.umd.js" crossorigin></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5-premium-features/45.0.0/ckeditor5-premium-features.umd.js" crossorigin></script>
+    <script src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossorigin></script>
+    <script src="{{ asset('/assets/ckeditor5/main.js') }}"></script>
     @endif
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
     <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
