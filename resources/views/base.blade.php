@@ -470,22 +470,21 @@
     <script src="{{ asset('/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
-    <script src="{{ asset('/assets/js/custom.js') }}"></script>
-    <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
     @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
-    <script src="{{ asset('/assets/vendor/summernote/summernote-bs5.js') }}"></script>
+    <!--<script src="{{ asset('/assets/vendor/summernote/summernote-bs5.js') }}"></script>-->
+    <script src="{{ asset('/assets/vendor/ckeditor/ckeditor.js') }}"></script>
     <script>
         $(function() {
-            $('.summernote').summernote({
+            /*$('.summernote').summernote({
                 placeholder: 'Please enter content here',
                 height: 150
-            });
+            });*/
         })
     </script>
     @endif
+    <script src="{{ asset('/assets/js/custom.js') }}"></script>
+    <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>
     <script src="{{ asset('/assets/js/script.js') }}"></script>
-
-
     @include("message")
 </body>
 
