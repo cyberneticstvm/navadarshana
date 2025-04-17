@@ -446,7 +446,7 @@ var NexaDash = function(){
 		if(jQuery("#ckeditor").length>0) {
 			ClassicEditor
 			.create( document.querySelector( '#ckeditor' ), {
-				plugins: [ Essentials, Paragraph, Bold, Italic, Font ],
+				licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzY0NzAzOTksImp0aSI6ImFmYTBjODk4LTdmY2QtNDgwMy05MzAwLTE4MWRlNjExYmExNyIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiXSwiZmVhdHVyZXMiOlsiRFJVUCJdLCJ2YyI6IjY5YzQ0OTRjIn0.8t5Z1FIoQGqDYz8gHX5hG28VTzmZnUaGHy51PrY_yjZzHnkpHfdbbT3PX26VS6jCEwSVt_pYJy41rK37nwP7hQ',
 				// toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
 			} )
 			.then( editor => {
