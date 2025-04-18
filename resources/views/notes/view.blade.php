@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12 mx-5">
+                            <div class="col-md-12">
                                 {!! $note->notes !!}
                             </div>
                         </div>
