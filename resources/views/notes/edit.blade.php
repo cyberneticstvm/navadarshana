@@ -51,7 +51,7 @@
                             <div class="row mt-3">
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label req">Note</label>
-                                    {{ html()->textarea('notes', $note->notes)->class("form-control")->attribute('id', 'editor1') }}
+                                    {{ html()->textarea('notes', $note->notes)->class("form-control")->attribute('id', 'editor') }}
                                 </div>
                                 @error('notes')
                                 <small class="text-danger">{{ $errors->first('notes') }}</small>
