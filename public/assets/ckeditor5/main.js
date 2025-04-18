@@ -212,6 +212,7 @@ const editorConfig = {
 		TodoList,
 		Underline
 	],
+	updateSourceElementOnDestroy: true,
 	cloudServices: {
 		tokenUrl: CLOUD_SERVICES_TOKEN_URL
 	},
