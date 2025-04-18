@@ -51,6 +51,9 @@
                             <div class="row mt-3">
                                 <div class="mb-3 col-md-12">
                                     <label class="form-label req">Note</label>
+                                    @php
+                                    $data = htmlspecialchars($note->notes, ENT_QUOTES, 'UTF-8');
+                                    @endphp
                                     <!--{{ html()->textarea('notes', $note->notes)->class("form-control")->attribute('id', 'editor') }}-->
                                     <textarea class="form-control" id="editor">{!! $note->notes !!}</textarea>
                                 </div>
