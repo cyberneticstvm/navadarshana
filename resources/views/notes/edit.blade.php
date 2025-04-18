@@ -54,8 +54,7 @@
                                     @php
                                     $data = htmlspecialchars($note->notes, ENT_QUOTES, 'UTF-8');
                                     @endphp
-                                    <!--{{ html()->textarea('notes', $note->notes)->class("form-control")->attribute('id', 'editor') }}-->
-                                    <textarea class="form-control" id="editor">{!! $data !!}</textarea>
+                                    {{ html()->textarea('notes', $data)->class("form-control")->attribute('id', 'editor') }}
                                 </div>
                                 @error('notes')
                                 <small class="text-danger">{{ $errors->first('notes') }}</small>
