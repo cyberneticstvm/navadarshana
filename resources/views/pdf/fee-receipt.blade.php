@@ -5,7 +5,7 @@
         <table width=100%>
             <tr>
                 <td class="no-border" width="50%">
-                    <img src="./assets/images/logo/logo-full.png" />
+                    <img src="./assets/images/logo/logo.png" width="25%" />
                 </td>
                 <td class="no-border">
                     <h4 class="text-end">PAYMENT RECEIPT</h4>
