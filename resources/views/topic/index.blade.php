@@ -36,7 +36,7 @@
                                         <td>{{ $topic?->name }}</td>
                                         <td>{{ $topic?->module?->syllabus?->name }}</td>
                                         <td>{{ $topic?->module?->name }}</td>
-                                        <td><a href="javascript:void(0)" class="viewNoteDetail text-info" data-sid="{{ $topic->id }}">View</a></td>
+                                        <td><a href="javascript:void(0)" class="viewNoteDetail text-info" data-tid="{{ $topic->id }}">View</a></td>
                                         <td>{!! $topic->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('topic.edit', encrypt($topic->id)) }}" class="text-warning">Edit</a></span></td>
                                         @if($topic->deleted_at)
