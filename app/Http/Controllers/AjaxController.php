@@ -307,7 +307,7 @@ class AjaxController extends Controller implements HasMiddleware
     function getNoteDetails(string $id)
     {
         $topic = Topic::where('id', $id)->first();
-        $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th class='text-start'>Name</th></tr><tbody>";
+        $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Title</th></tr><tbody>";
         if ($topic):
             foreach ($topic->notes as $key => $item):
                 $op .= "<tr>";
