@@ -311,7 +311,7 @@ class AjaxController extends Controller implements HasMiddleware
         if ($topic):
             foreach ($topic->notes as $key => $item):
                 $op .= "<tr>";
-                $op .= "<td>{$item->name}</td>";
+                $op .= "<td>{$item->title}</td>";
                 $op .= "</tr>";
             endforeach;
         else:
