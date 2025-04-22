@@ -42,4 +42,9 @@ class Fee extends Model
     {
         return $this->belongsTo(Month::class, 'month', 'id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }
