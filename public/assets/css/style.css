@@ -16445,7 +16445,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     top: 1.375rem !important; }
 
 .chatbox {
-  width: 21.25rem;
+  width: 31.25rem;
   height: 100vh;
   position: fixed;
   right: -31.25rem;
@@ -16465,7 +16465,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     transition: all 0.2s;
     width: 0;
     height: 100%;
-    right: 21.25rem;
+    right: 31.25rem;
     background: #000;
     z-index: 1;
     opacity: 0.1;
