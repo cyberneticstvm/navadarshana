@@ -42,6 +42,21 @@ $(function(){
         },
     });
 
+    $(document).on("click", ".emailBox", function(){
+        let fid = $(this).data('fid');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/student/fee/' + fid,
+            success: function (res) {
+                $('#emailBox').addClass('active');
+                $(".studentFee").html(res);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });        
+    });
+
     $(document).on("click", ".viewStudentDetail", function(){
         let sid = $(this).data('sid');
         $.ajax({

@@ -7,6 +7,7 @@ use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\FeeController;
@@ -53,6 +54,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
     Route::prefix('ajax')->controller(AjaxController::class)->group(function () {
         Route::get('/get/ddl', 'getDropDown')->name('get.ddl');
         Route::get('/student/detail/{id}', 'getStudentDetails')->name('get.student.details');
+        Route::get('/student/fee/{id}', 'getStudentFeeDetails')->name('get.student.fee.details');
         Route::get('/student/batch/{id}/{action}', 'getStudentDetailsForBatch')->name('get.student.details.for.batch');
         Route::get('/course/topics/{id}/{action}', 'getTopicDetailsForCourse')->name('get.topic.details.for.course');
         Route::get('/syllabus/module/{id}/{action}', 'getModulesForSyllabus')->name('get.modules.for.syllabus');
@@ -75,6 +77,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/finace/{type}', 'financeDashboard')->name('dashboard.finance');
         Route::get('/student/all/{type}', 'studentDashboard')->name('dashboard.student.all');
         Route::get('/finace/all/{type}', 'financeDashboard')->name('dashboard.finance.all');
+    });
+
+    Route::prefix('')->controller(EmailController::class)->group(function () {
+        Route::post('/send/fee/receipt', 'sendFeeReceipt')->name('send.fee.receipt');
     });
 
     Route::prefix('/user')->controller(UserController::class)->group(function () {

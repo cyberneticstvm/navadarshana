@@ -303,4 +303,12 @@ class AjaxController extends Controller implements HasMiddleware
             ]);
         endif;
     }
+
+    function getStudentFeeDetails(string $id)
+    {
+        $fee = Fee::where('id', $id)->first();
+        $op = "";
+        $op .= "<div class='container'><div class='row mt-3'><div class='col-md-12'><input type='hidden' name='fee_id' value='{$fee->id}' /><input type='text' class='form-control' name='name' value='" . $fee->student->name . "' placeholder='Student Name' required /></div><div class='col-md-12 mt-3'><input type='email' class='form-control' name='email' value='" . $fee->student->email . "' placeholder='Student Email' required /></div><div class='col-md-12 mt-3'><textarea class='form-control' name='body' placeholder='Email Body' rows='5' required></textarea></div><div class='col-md-12 mt-3 text-end'><button type='submit' class='btn btn-submit btn-success'>Send Email</button></div></div></div>";
+        echo $op;
+    }
 }
