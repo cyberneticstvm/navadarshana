@@ -184,6 +184,21 @@ $(function(){
         });        
     });
 
+    $(document).on("click", ".viewNoteDetail", function(){
+        let tid = $(this).data('tid');
+        $.ajax({
+            type: 'GET',
+            url: '/ajax/note/detail/' + tid,
+            success: function (res) {
+                $('#noteDetailsBox').addClass('active');
+                $(".noteDetails").html(res);
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });        
+    });
+
     $(document).on("change", ".selChange", function(){
         let dis = $(this);
         let typeId = dis.val();

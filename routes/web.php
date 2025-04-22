@@ -61,6 +61,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/module/topic/{id}/{action}', 'getTopicsForModule')->name('get.topics.for.module');
         Route::get('/batch/module/topic/{sid}/{bid}/{fid}', 'getModuleTopicsForSyllabus')->name('get.module.topics.for.syllabus');
         Route::post('/update/batch/topic/status', 'updateBatchTopicStatus')->name('update.batch.topic.status');
+        Route::get('/note/detail/{id}', 'getNoteDetails')->name('get.note.details');
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {

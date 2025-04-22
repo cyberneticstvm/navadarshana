@@ -304,6 +304,23 @@ class AjaxController extends Controller implements HasMiddleware
         endif;
     }
 
+    function getNoteDetails(string $id)
+    {
+        $topic = Topic::where('id', $id)->first();
+        if ($topic):
+            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Name</th></tr><tbody>";
+            foreach ($topic->notes as $key => $item):
+                $op .= "<tr>";
+                $op .= "<td>{$item->name}</td>";
+                $op .= "</tr>";
+            endforeach;
+            $op .= "</tbody></tr></thead>";
+            $op .= "</table></div>";
+        else:
+
+        endif;
+    }
+
     function getStudentFeeDetails(string $id)
     {
         $fee = Fee::where('id', $id)->first();

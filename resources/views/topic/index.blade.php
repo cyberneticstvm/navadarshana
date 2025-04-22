@@ -1,7 +1,7 @@
 @extends("base")
 @section("content")
 <div class="content-body">
-    <div class="container">
+    <div class="container-fluid">
         <div class="page-titles">
             <h5 class="dashboard_bar">Topic - <a href="{{ route('topic.create') }}">Create New</a></h5>
             <ul class="breadcrumb">
@@ -23,6 +23,7 @@
                                         <th>Name</th>
                                         <th>Syllabus</th>
                                         <th>Module</th>
+                                        <th>Notes</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -35,6 +36,7 @@
                                         <td>{{ $topic?->name }}</td>
                                         <td>{{ $topic?->module?->syllabus?->name }}</td>
                                         <td>{{ $topic?->module?->name }}</td>
+                                        <td><a href="javascript:void(0)" class="viewNoteDetail text-info" data-sid="{{ $topic->id }}">View</a></td>
                                         <td>{!! $topic->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('topic.edit', encrypt($topic->id)) }}" class="text-warning">Edit</a></span></td>
                                         @if($topic->deleted_at)
@@ -54,4 +56,19 @@
         </div>
     </div>
 </div>
+<!--**********************************
+            Chat box start
+        ***********************************-->
+<div class="chatbox" id="noteDetailsBox">
+    <div class="chatbox-close"></div>
+    <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
+        <div class="card-header chat-list-header text-center">
+            <h5>Notes Details</h5>
+        </div>
+        <div class="card-body contacts_body p-0 dz-scroll noteDetails" id="DZ_W_Contacts_Body"></div>
+    </div>
+</div>
+<!--**********************************
+            Chat box End
+        ***********************************-->
 @endsection

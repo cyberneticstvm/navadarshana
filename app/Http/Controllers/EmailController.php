@@ -15,7 +15,7 @@ class EmailController extends Controller
 
     public function __construct()
     {
-        $this->bcc = 'cyberneticstvm@outlook.com';
+        $this->bcc = 'navadarshana.in@gmail.com';
     }
 
     public function sendFeeReceipt(Request $request)
