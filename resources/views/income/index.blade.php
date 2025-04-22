@@ -24,6 +24,7 @@
                                         <th>Amount</th>
                                         <th>Head</th>
                                         <th>Notes</th>
+                                        <th>Created By</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -37,6 +38,7 @@
                                         <td>{{ $income->amount }}</td>
                                         <td>{{ $income->head?->name }}</td>
                                         <td>{{ $income->notes }}</td>
+                                        <td>{{ $income->user->name }}</td>
                                         <td>{!! $income->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('income.edit', encrypt($income->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('income.delete', encrypt($income->id)) }}" class="text-danger dlt">Delete</a></span></td>

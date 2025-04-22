@@ -37,4 +37,9 @@ class Student extends Model
     {
         return Batch::all();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
 }

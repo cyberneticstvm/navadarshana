@@ -24,6 +24,7 @@
                                         <th>Amount</th>
                                         <th>Head</th>
                                         <th>Notes</th>
+                                        <th>Created By</th>
                                         <th>Status</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -37,6 +38,7 @@
                                         <td>{{ $expense->amount }}</td>
                                         <td>{{ $expense->head?->name }}</td>
                                         <td>{{ $expense->notes }}</td>
+                                        <td>{{ $expense->user->name }}</td>
                                         <td>{!! $expense->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('expense.edit', encrypt($expense->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('expense.delete', encrypt($expense->id)) }}" class="text-danger dlt">Delete</a></span></td>
