@@ -307,6 +307,7 @@ class AjaxController extends Controller implements HasMiddleware
     function getNoteDetails(string $id)
     {
         $topic = Topic::where('id', $id)->first();
+        $op = "";
         if ($topic):
             $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Name</th></tr><tbody>";
             foreach ($topic->notes as $key => $item):
@@ -317,8 +318,9 @@ class AjaxController extends Controller implements HasMiddleware
             $op .= "</tbody></tr></thead>";
             $op .= "</table></div>";
         else:
-
+            $op .= "No records found";
         endif;
+        echo $op;
     }
 
     function getStudentFeeDetails(string $id)
