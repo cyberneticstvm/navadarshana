@@ -307,19 +307,18 @@ class AjaxController extends Controller implements HasMiddleware
     function getNoteDetails(string $id)
     {
         $topic = Topic::where('id', $id)->first();
-        $op = "";
+        $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Name</th></tr><tbody>";
         if ($topic):
-            $op = "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Name</th></tr><tbody>";
             foreach ($topic->notes() as $key => $item):
                 $op .= "<tr>";
                 $op .= "<td>{$item->name}</td>";
                 $op .= "</tr>";
             endforeach;
-            $op .= "</tbody></tr></thead>";
-            $op .= "</table></div>";
         else:
-            $op .= "No records found";
+            $op .= "<tr><td>No records found</td></tr>";
         endif;
+        $op .= "</tbody></tr></thead>";
+        $op .= "</table></div>";
         echo $op;
     }
 
