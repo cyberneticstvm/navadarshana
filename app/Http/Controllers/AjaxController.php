@@ -68,8 +68,16 @@ class AjaxController extends Controller implements HasMiddleware
             $op .= "<div class='row'><div class='col-md-12 ms-3'><h5 class='text-info'>Fee Details</h5></div></div>";
             $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Batch</th><th>Category</th><th>Amount</th><th>Date</th></tr><tbody>";
             foreach ($fees as $key => $fee):
-                $cat = ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->remarks);
-                $cat = ucfirst(($fee->category == 'admission') ? 'Admission' : $fee->remarks);
+                switch ($fee->category):
+                    case "monthly":
+                        $cat = 'Batch';
+                        break;
+                    case "admission":
+                        $cat = 'Admission';
+                        break;
+                    default:
+                        $cat = $fee->remarks;
+                endswitch;
                 $op .= "<tr>";
                 $op .= "<td>{$fee->batch->name}</td>";
                 $op .= "<td>{$cat}</td>";
