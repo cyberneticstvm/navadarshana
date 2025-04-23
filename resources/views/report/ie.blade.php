@@ -41,6 +41,13 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 col-md-3">
+                                    <label class="form-label req">Head</label>
+                                    {{ html()->select($name = 'head', $value = $heads, old('head') ?? $inputs[4])->class('form-control single-select') }}
+                                    @error('head')
+                                    <small class="text-danger">{{ $errors->first('head') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-3 col-md-3">
                                     <label class="form-label req">Branch</label>
                                     {{ html()->select($name = 'branch', $value = $branches, old('branch') ?? $inputs[3])->class('form-control single-select') }}
                                     @error('branch')
@@ -92,6 +99,12 @@
                                     @empty
                                     @endforelse
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-end fw-bold">Total</td>
+                                        <td class="text-end fw-bold">{{ number_format($ies->sum('amount'), 2) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>

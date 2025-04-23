@@ -14,10 +14,10 @@
         content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
     <meta name="description"
         content="Navadarshana Education Portal">
-    <meta property="og:title" content="NexaDash Admin Dashboard Bootstrap 5 Template">
+    <meta property="og:title" content="Navadarshana Educations">
     <meta property="og:description"
         content="Navadarshana Education Portal">
-    <meta property="og:image" content="https://nexadash.dexignzone.com/xhtml/social-image.png">
+    <meta property="og:image" content="">
     <meta name="format-detection" content="telephone=no">
     <!-- FAVICONS ICON -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('/assets/images/favicon.png') }}">

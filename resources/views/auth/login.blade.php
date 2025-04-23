@@ -17,7 +17,7 @@
     <meta property="og:title" content="Navadarshana Educations">
     <meta property="og:description"
         content="Navadarshana">
-    <meta property="og:image" content="https://nexadash.dexignzone.com/xhtml/social-image.png">
+    <meta property="og:image" content="">
     <meta name="format-detection" content="telephone=no">
 
     <!-- FAVICONS ICON -->
@@ -88,13 +88,12 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="pages-left h-100">
                         <div class="login-content">
-                            <a href="{{ route('login') }}"><img src="{{ asset('/assets/images/logo-full.png') }}" class="mb-3" alt=""></a>
-                            <p>Your true value is determined by how much more you give in value than you take in
-                                payment. ...</p>
+                            <a href="{{ route('login') }}"><img src="{{ asset('/assets/images/login-bg.png') }}" class="mb-3" alt=""></a>
+                            <p>NAVADARSHANA EDUCATIONS</p>
                         </div>
-                        <div class="login-media text-center">
-                            <img src="{{ asset('/assets/images/login.png') }}" alt="">
-                        </div>
+                        <!--<div class="login-media text-center">
+                            <img src="{{ asset('/assets/images/login.webp') }}" alt="">
+                        </div>-->
                     </div>
                 </div>
             </div>

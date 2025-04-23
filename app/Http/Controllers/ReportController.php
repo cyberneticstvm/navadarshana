@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Branch;
 use App\Models\Fee;
+use App\Models\Head;
 use App\Models\IncomeExpense;
 use App\Models\Student;
 use Carbon\Carbon;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 
 class ReportController extends Controller implements HasMiddleware
 {
-    protected $branches;
+    protected $branches, $heads;
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class ReportController extends Controller implements HasMiddleware
             $br = Branch::selectRaw("'ALL' AS name, 0 AS id")->union($br);
         endif;
         $this->branches = $br->pluck('name', 'id');
+        $this->heads = Head::selectRaw("'ALL' AS name, 0 AS id")->union(Head::select("name", "id")->orderBy('name'))->pluck('name', 'id');
     }
 
     public static function middleware(): array
@@ -120,23 +122,27 @@ class ReportController extends Controller implements HasMiddleware
 
     function ie(Request $request)
     {
-        $inputs = array(date('Y-m-d'), date('Y-m-d'), 'all', Session::get('branch'));
-        $category = array('income' => 'Income', 'expense' => 'Expense', 'all' => 'All');
+        $inputs = array(date('Y-m-d'), date('Y-m-d'), 'all', Session::get('branch'), '');
+        $category = array('income' => 'Income', 'expense' => 'Expense', 'all' => 'ALL');
         $branches = $this->branches;
+        $heads = $this->heads;
         $ies = IncomeExpense::where('branch_id', $inputs[3])->whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->get();
-        return view('report.ie', compact('inputs', 'branches', 'category', 'ies'));
+        return view('report.ie', compact('inputs', 'branches', 'category', 'ies', 'heads'));
     }
 
     function fetchIe(Request $request)
     {
-        $inputs = array($request->from_date, $request->to_date, $request->category, $request->branch);
-        $category = array('income' => 'Income', 'expense' => 'Expense', 'all' => 'All');
+        $inputs = array($request->from_date, $request->to_date, $request->category, $request->branch, $request->head);
+        $category = array('income' => 'Income', 'expense' => 'Expense', 'all' => 'ALL');
         $branches = $this->branches;
+        $heads = $this->heads;
         $ies = IncomeExpense::whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->category != 'all', function ($q) use ($request) {
             return $q->where('category', $request->category);
+        })->when($request->head > 0, function ($q) use ($request) {
+            return $q->where('head_id', $request->head);
         })->when($request->branch > 0, function ($q) use ($request) {
             return $q->where('branch_id', $request->branch);
         })->get();
-        return view('report.ie', compact('inputs', 'branches', 'category', 'ies'));
+        return view('report.ie', compact('inputs', 'branches', 'category', 'ies', 'heads'));
     }
 }
