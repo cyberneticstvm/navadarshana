@@ -102,7 +102,7 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="5" class="text-end fw-bold">Total</td>
-                                        <td class="text-end fw-bold">{{ number_format($ies->sum('amount'), 2) }}</td>
+                                        <td class="text-end fw-bold text-info">{{ number_format($ies->sum('amount'), 2) }}</td>
                                     </tr>
                                 </tfoot>
                             </table>

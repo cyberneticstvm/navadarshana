@@ -1,7 +1,7 @@
 @extends("base")
 @section("content")
 <div class="content-body">
-    <div class="container">
+    <div class="container-fluid">
         <div class="page-titles">
             <h5 class="dashboard_bar">Faculty - <a href="{{ route('faculty.create') }}">Create New</a></h5>
             <ul class="breadcrumb">
