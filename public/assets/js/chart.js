@@ -433,6 +433,7 @@
 
         var projectChart = function () {
             $.getJSON('/dashboard/finance/ie/' + type, function (response) {
+                console.log(response['income'], response['expense'])
 			var options = {
 				series: [response['income'], response['expense']],
 				chart: {
