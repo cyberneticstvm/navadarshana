@@ -116,7 +116,7 @@ class ReportController extends Controller implements HasMiddleware
             return $q->where('category', $request->category);
         })->when($request->branch > 0, function ($q) use ($request) {
             return $q->where('branch_id', $request->branch);
-        })->selectRaw("id, payment_date, student_id, batch_id, category, payment_mode, amount, discount, amount - IFNULL(discount, 0) AS fee")->havingRaw('fee > ?', [0])->get();
+        })->selectRaw("id, payment_date, student_id, batch_id, CASE WHEN category='monthly' THEN 'Batch' WHEN category='admission' THEN 'Admission' ELSE remarks END AS category, payment_mode, amount, discount, amount - IFNULL(discount, 0) AS fee")->havingRaw('fee > ?', [0])->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
     }
 
