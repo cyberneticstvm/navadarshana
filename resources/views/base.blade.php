@@ -61,7 +61,7 @@
         ***********************************-->
         <div class="nav-header">
             <a href="{{ route('dashboard') }}" class="brand-logo">
-                <img src="{{ asset('/assets/images/logo/nava-gold.png') }}" width="70%" />
+                <img src="{{ asset('/assets/images/logo/nava-gold.png') }}" />
             </a>
             <div class="nav-control">
                 <div class="hamburger">
