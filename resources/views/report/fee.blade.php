@@ -89,7 +89,7 @@
                                         <td>{{ $fee->payment_date->format('d.M.Y') }}</td>
                                         <td>{{ $fee->student->name }}</td>
                                         <td>{{ $fee->batch->name }}</td>
-                                        <td>{{ ($fee->category == 'monthly') ? 'Batch' : 'Admission' }}</td>
+                                        <td>{{ $fee->category }}</td>
                                         <td>{{ $fee->pmode->name }}</td>
                                         <td class="text-end">{{ number_format($fee->amount, 2) }}</td>
                                         <td class="text-end">{{ number_format($fee->discount, 2) }}</td>
