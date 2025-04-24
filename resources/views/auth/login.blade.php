@@ -88,7 +88,7 @@
                 <div class="col-xl-6 col-lg-6">
                     <div class="pages-left h-100">
                         <div class="login-content">
-                            <a href="{{ route('login') }}"><img src="{{ asset('/assets/images/logo/logo-black.png') }}" class="mb-3" alt="" width="10%"></a>
+                            <a href="{{ route('login') }}"><img src="{{ asset('/assets/images/logo/logo-black.png') }}" class="mb-3" alt="" width="25%"></a>
                             <p>NAVADARSHANA EDUCATIONS</p>
                         </div>
                         <!--<div class="login-media text-center">
