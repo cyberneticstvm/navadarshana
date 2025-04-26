@@ -468,7 +468,7 @@
 											return a + b
 										}, 0)
 									}*/
-                                    formatter: response['income'] - response['expense'],
+                                    formatter: parseFloat(response['income']) - parseFloat(response['expense']),
 								}
 							}
 						}
