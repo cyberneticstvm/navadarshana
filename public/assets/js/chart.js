@@ -461,6 +461,7 @@
 									fontSize: '11px',
 									fontWeight: '500',
 									fontFamily: 'Arial',
+                                    color: (parseFloat(response['income']) - parseFloat(response['expense']) > 0) ? '#3AC977' : '#FF5E5E',
 									label: (parseFloat(response['income']) - parseFloat(response['expense']) > 0) ? 'Profit' : 'Loss',
 
 									/*formatter: function (w) {
