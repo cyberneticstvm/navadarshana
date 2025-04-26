@@ -461,7 +461,7 @@
 									fontSize: '11px',
 									fontWeight: '500',
 									fontFamily: 'Arial',
-									label: 'Total',
+									label: (parseFloat(response['income']) - parseFloat(response['expense']) > 0) ? 'Profit' : 'Loss',
 
 									/*formatter: function (w) {
 										return w.globals.seriesTotals.reduce((a, b) => {
