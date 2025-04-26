@@ -463,11 +463,12 @@
 									fontFamily: 'Arial',
 									label: 'Total',
 
-									formatter: function (w) {
+									/*formatter: function (w) {
 										return w.globals.seriesTotals.reduce((a, b) => {
 											return a + b
 										}, 0)
-									}
+									}*/
+                                    formatter: response['income'] - response['expense'],
 								}
 							}
 						}
