@@ -83,7 +83,7 @@
                                     </svg>
                                     Income
                                 </p>
-                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $ie->sum('income'), 2) }}</span>
+                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') + $ie->sum('income'), 2) }}</span>
                             </div>
                             <div class="project-media">
                                 <p class="mb-0">
