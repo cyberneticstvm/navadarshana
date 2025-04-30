@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ClassScheduleController;
@@ -265,6 +266,12 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('video.recorded.edit');
         Route::post('/edit/{id}', 'update')->name('video.recorded.update');
         Route::get('/delete/{id}', 'destroy')->name('video.recorded.delete');
+    });
+
+    Route::prefix('/student/attendance')->controller(AttendanceController::class)->group(function () {
+        Route::get('/', 'index')->name('student.attendance.register');
+        Route::post('/', 'show')->name('attendance.fetch');
+        Route::post('/update', 'update')->name('attendance.update');
     });
 
     Route::prefix('/student/feedback')->controller(StudentFeedbackController::class)->group(function () {

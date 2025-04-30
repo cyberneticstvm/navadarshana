@@ -25,3 +25,7 @@ table.dataTable tr.selected {
 .table thead tr th:last-child{
     text-align: left !important;
 }
+
+.card {
+    height: inherit !important;
+}

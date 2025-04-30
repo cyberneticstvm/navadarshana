@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             'student-create',
             'student-edit',
             'student-delete',
+            'student-attendance',
             'course-list',
             'course-create',
             'course-edit',

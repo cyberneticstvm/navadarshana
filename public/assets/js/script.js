@@ -42,6 +42,20 @@ $(function(){
         },
     });
 
+    $(document).on("click", ".radAttendance", function(){
+        let dis = $(this);
+        let radGrp = dis.data('group');
+        if(dis.is(":checked")){
+            dis.parent().next().val('1')
+            $("."+radGrp).each(function(){
+                $(this).not(dis).prop("checked", false)
+                $(this).not(dis).parent().next().val('0')               
+            });
+        }else{
+            dis.parent().next().val('0')
+        }
+    })
+
     $(document).on("click", ".emailBox", function(){
         let fid = $(this).data('fid');
         $.ajax({
