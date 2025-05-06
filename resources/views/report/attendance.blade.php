@@ -67,9 +67,9 @@
                                         <th>SL No</th>
                                         <th>Student Name</th>
                                         <th>Student ID</th>
-                                        <th class="text-warning">L</th>
-                                        <th class="text-danger">A</th>
                                         <th class="text-success">P</th>
+                                        <th class="text-danger">A</th>
+                                        <th class="text-warning">L</th>
                                         @for($i=1; $i<=$days; $i++)
                                             <th>{{ $i }}</th>
                                             @endfor
@@ -81,9 +81,9 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $stud->student->name }}</td>
                                         <td>{{ $stud->student->id }}</td>
-                                        <td>{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'present')->count() }}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="text-success">{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'present')->count() }}</td>
+                                        <td class="text-warning">{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'absent')->count() }}</td>
+                                        <td class="text-danger">{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'leave')->count() }}</td>
                                         @for($i=1; $i<=$days; $i++)
                                             <td>{!! $stud->attendance($stud->student_id, $stud->batch_id, $i, $inputs[1], $inputs[2])?->atype ?? 0 !!}</td>
                                             @endfor
