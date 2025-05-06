@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Config;
 
 function branches()
 {
-    return Branch::all();
+    return Branch::get();
 }
 
 function gcsPublicUrl()
