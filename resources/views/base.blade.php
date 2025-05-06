@@ -292,17 +292,19 @@
                                     <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3"
                                         style="height:380px;">
                                         <ul class="timeline">
+                                            @forelse(branches()->where('branch_id', '!=', Session::get('branch')) as $key => $branch)
                                             <li>
                                                 <div class="timeline-panel">
                                                     <div class="media me-2 media-info">
-                                                        KG
+                                                        {{ $branch->id }}
                                                     </div>
                                                     <div class="media-body">
-                                                        <h6 class="mb-1">This is a test notification</h6>
-                                                        <small class="d-block">{{ date('d M, Y') }}</small>
+                                                        <h6 class="mb-1">{{ $branch->name }}</h6>
                                                     </div>
                                                 </div>
                                             </li>
+                                            @empty
+                                            @endforelse
                                         </ul>
                                     </div>
                                     <a class="all-notification" href="javascript:void(0);">See all notifications <i
