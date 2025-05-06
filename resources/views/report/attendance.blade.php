@@ -27,14 +27,14 @@
                                     @enderror
                                 </div>
                                 <div class="mb-2 col-md-2">
-                                    <label class="form-label req">Month</label>
+                                    <label class="form-label req">Month {{ $inputs[1] }}</label>
                                     {{ html()->select($name = 'month', $value = $months, old('month') ?? $inputs[1])->class('form-control single-select') }}
                                     @error('month')
                                     <small class="text-danger">{{ $errors->first('month') }}</small>
                                     @enderror
                                 </div>
                                 <div class="mb-2 col-md-2">
-                                    <label class="form-label req">Year</label>
+                                    <label class="form-label req">Year {{ $inputs[2] }}</label>
                                     {{ html()->select($name = 'year', $value = $years, old('year') ?? $inputs[2])->class('form-control single-select') }}
                                     @error('year')
                                     <small class="text-danger">{{ $errors->first('year') }}</small>
