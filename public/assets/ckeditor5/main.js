@@ -140,7 +140,6 @@ const editorConfig = {
 		BlockQuote,
 		Bold,
 		Bookmark,
-		CKBox,
 		CKBoxImageEdit,
 		CloudServices,
 		Code,
