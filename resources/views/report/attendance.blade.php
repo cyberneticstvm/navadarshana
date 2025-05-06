@@ -52,38 +52,26 @@
                     <div class="card-body">
                         <div class="table-responsive active-projects">
                             <div class="tbl-caption">
-                                <h4 class="heading mb-0">Income / Expense</h4>
+                                <h4 class="heading mb-0">Attendance Register</h4>
                             </div>
                             <table class="display table" id="example">
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
-                                        <th>Date</th>
-                                        <th>Category</th>
-                                        <th>Head</th>
-                                        <th>Notes</th>
-                                        <th>Amount</th>
+                                        <th>Student Name</th>
+                                        <th>Student ID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($ies as $key => $ie)
+                                    @forelse($attendances as $key => $attendance)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $ie->date->format('d.M.Y') }}</td>
-                                        <td>{{ ucfirst($ie->category) }}</td>
-                                        <td>{{ $ie->head->name }}</td>
-                                        <td>{{ $ie->notes }}</td>
-                                        <td class="text-end">{{ number_format($ie->amount, 2) }}</td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                     @empty
                                     @endforelse
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-end fw-bold">Total</td>
-                                        <td class="text-end fw-bold text-info">{{ number_format($ies->sum('amount'), 2) }}</td>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>
