@@ -173,7 +173,7 @@ class ReportController extends Controller implements HasMiddleware
         $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
         $months = Month::pluck('name', 'id');
         $years = Year::pluck('name', 'id');
-        $days = 0;
+        $days = cal_days_in_month(CAL_GREGORIAN, $request->month, $request->year);
         $attendances = StudentBatch::leftJoin('students', 'students.id', 'student_batches.student_id')->selectRaw("student_batches.student_id, student_batches.batch_id")->where('student_batches.batch_id', $request->batch)->where('students.current_status', 'active')->get();
         return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'attendances'));
     }
