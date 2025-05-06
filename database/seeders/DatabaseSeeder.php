@@ -35,6 +35,7 @@ class DatabaseSeeder extends Seeder
             'branch-create',
             'branch-edit',
             'branch-delete',
+            'branch-switch',
             'student-list',
             'student-create',
             'student-edit',
