@@ -415,6 +415,15 @@ const editorConfig = {
 				data: "<h2>Introduction</h2><p>In today's fast-paced world, keeping up with the latest trends and insights is essential for both personal growth and professional development. This article aims to shed light on a topic that resonates with many, providing valuable information and actionable advice. Whether you're seeking to enhance your knowledge, improve your skills, or simply stay informed, our comprehensive analysis offers a deep dive into the subject matter, designed to empower and inspire our readers.</p>"
 			}
 		]
+	},
+	ckbox: {
+		defaultUploadCategories: {
+			Bitmaps: [ 'bmp' ],
+			Pictures: [ 'jpg', 'jpeg' ],
+			Scans: [ 'png', 'tiff' ],
+			// The category below is referenced by its ID.
+			'fdf2a647-b67f-4a6c-b692-5ba1dc1ed87b': [ 'gif' ]
+		}
 	}
 };
 
