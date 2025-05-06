@@ -68,8 +68,8 @@
                                         <th>Student Name</th>
                                         <th>Student ID</th>
                                         <th class="text-success">P</th>
-                                        <th class="text-danger">A</th>
-                                        <th class="text-warning">L</th>
+                                        <th class="text-warning">A</th>
+                                        <th class="text-danger">L</th>
                                         @for($i=1; $i<=$days; $i++)
                                             <th>{{ $i }}</th>
                                             @endfor
