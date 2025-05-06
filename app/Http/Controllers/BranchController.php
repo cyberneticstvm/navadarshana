@@ -104,9 +104,11 @@ class BranchController extends Controller implements HasMiddleware
             ->with('success', 'Branch deleted successfully');
     }
 
-    public function switchBranch($branch)
+    public function switchBranch($bid)
     {
-        Session::put('branch', decrypt($branch));
+        $branch = Branch::findOrFail(decrypt($bid));
+        Session::put('branch', $branch->id);
+        Session::put('bname', $branch->name);
         return redirect()->back()->with("success", "Branch switched successfully");
     }
 }
