@@ -28,6 +28,6 @@ class StudentBatch extends Model
 
     public function attendance($student, $batch, $day, $month, $year)
     {
-        return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereDay('attendance_date', $day)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->selectRaw('CASE WHEN present = 1 THEN "<span class="text-success">P</span>" WHEN `leave` = 1 THEN "L" ELSE "A" END AS atype')->first();
+        return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereDay('attendance_date', $day)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->selectRaw('CASE WHEN present = 1 THEN "<span class=text-success>P</span>" WHEN `leave` = 1 THEN "L" ELSE "A" END AS atype')->first();
     }
 }
