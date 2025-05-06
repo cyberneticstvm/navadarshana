@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Batch;
 use App\Models\Branch;
 use App\Models\Fee;
 use App\Models\Head;
@@ -36,7 +37,8 @@ class ReportController extends Controller implements HasMiddleware
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('report-daybook'), only: ['daybook', 'fetchDaybook']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('report-student'), only: ['student', 'fetchStudent']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('report-fee'), only: ['fee', 'fetchFee']),
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('report-ie'), only: ['ie', 'fetchIe'])
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('report-ie'), only: ['ie', 'fetchIe']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('report-attendance'), only: ['attendance', 'fetchAttendance']),
         ];
     }
 
@@ -144,5 +146,17 @@ class ReportController extends Controller implements HasMiddleware
             return $q->where('branch_id', $request->branch);
         })->get();
         return view('report.ie', compact('inputs', 'branches', 'category', 'ies', 'heads'));
+    }
+
+    function attendance(Request $request)
+    {
+        $inputs = array('', date('Y-m-d'));
+        $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
+        return view('report.attendance', compact('inputs', 'batches'));
+    }
+
+    function fetchAttendance(Request $request)
+    {
+        //
     }
 }

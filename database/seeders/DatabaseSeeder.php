@@ -112,6 +112,7 @@ class DatabaseSeeder extends Seeder
             'report-student',
             'report-fee',
             'report-ie',
+            'report-attendance',
         ];
 
         foreach ($permissions as $permission) {
