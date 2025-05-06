@@ -81,7 +81,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $stud->student->name }}</td>
                                         <td>{{ $stud->student->id }}</td>
-                                        <td>{{ attendanceCount($student, $batch, $month, $year, 'present')->count() }}</td>
+                                        <td>{{ $stud->attendanceCount($student, $batch, $month, $year, 'present')->count() }}</td>
                                         <td></td>
                                         <td></td>
                                         @for($i=1; $i<=$days; $i++)
