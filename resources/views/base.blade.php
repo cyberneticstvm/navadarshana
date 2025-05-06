@@ -297,7 +297,7 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                @forelse(branches()->where('branch_id', '!=', Session::get('branch')) as $key => $branch)
+                                                @forelse(branches()->where('id', '!=', Session::get('branch')) as $key => $branch)
                                                 <div class="d-flex align-items-center border-bottom py-3">
                                                     <div class="avatar avatar-md rounded d-flex align-items-center justify-content-center bg-white">
                                                         <img src="{{ asset('/assets/images/logo/google.png') }}" alt="">
