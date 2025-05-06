@@ -73,8 +73,8 @@
                                     @forelse($attendances as $key => $attendance)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $attendance->student->name }}</td>
+                                        <td>{{ $attendance->student->id }}</td>
                                     </tr>
                                     @empty
                                     @endforelse
