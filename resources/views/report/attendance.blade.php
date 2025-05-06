@@ -85,7 +85,7 @@
                                         <td></td>
                                         <td></td>
                                         @for($i=1; $i<=$days; $i++)
-                                            <td>{{ $stud->attendance($stud->student_id, $stud->batch_id, $i, $inputs[1], $inputs[2])?->atype ?? 0  }}</td>
+                                            <td>{!! $stud->attendance($stud->student_id, $stud->batch_id, $i, $inputs[1], $inputs[2])?->atype ?? 0 !!}</td>
                                             @endfor
                                     </tr>
                                     @empty
