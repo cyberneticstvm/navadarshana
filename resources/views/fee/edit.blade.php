@@ -82,7 +82,7 @@
                                     <small class="text-danger">{{ $errors->first('discount') }}</small>
                                     @enderror
                                 </div>
-                                @if($fee->category == 'monthly')
+                                @if($category != 'admission')
                                 <div class="col-md-2">
                                     <label class="form-label req">Payment Month</label>
                                     {{ html()->select($name = 'month', $value = $month->pluck('name', 'id'), $fee->month)->class('form-control single-select')->placeholder('Select') }}
