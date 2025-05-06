@@ -9,6 +9,7 @@ use App\Models\Head;
 use App\Models\IncomeExpense;
 use App\Models\Month;
 use App\Models\Student;
+use App\Models\StudentBatch;
 use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -173,7 +174,7 @@ class ReportController extends Controller implements HasMiddleware
         $months = Month::pluck('name', 'id');
         $years = Year::pluck('name', 'id');
         $days = 0;
-        $attendances = collect();
+        $attendances = StudentBatch::leftJoin('students', 'students.id', 'student_batches.student_id')->selectRaw("student_batches.student_id, student_batches.batch_id")->where('student_batches.batch_id', $request->batch)->where('students.current_status', 'active')->get();
         return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'attendances'));
     }
 }
