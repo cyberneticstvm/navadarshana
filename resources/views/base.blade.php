@@ -289,28 +289,26 @@
                                     </svg>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3">
-                                        <div class="card-body p-0">
-                                            <div class="dt-do-bx">
-                                                <div class="draggable-zone dropzoneContainer to-dodroup dz-scroll">
-                                                    @forelse(branches()->where('branch_id', '!=', Session::get('branch')) as $key => $branch)
-                                                    <div class="sub-card draggable-handle draggable">
-                                                        <div class="d-items">
-                                                            <div class="d-flex justify-content-between flex-wrap">
-                                                                <div class="d-items-3">
-                                                                    <div>
-                                                                        <div class="form-check custom-checkbox">
-                                                                            <label class="form-check-label"
-                                                                                for="customCheckBox1{{$key}}">{{ $branch->name }}</label>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                    <div id="DZ_W_Notification1" class="widget-media dz-scroll">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <div class="clearfix">
+                                                    <h4 class="card-title mb-0">Switch Branch</h4>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                @forelse(branches()->where('branch_id', '<>', Session::get('branch')) as $key => $branch)
+                                                    <div class="d-flex align-items-center border-bottom py-3">
+                                                        <div class="avatar avatar-md rounded d-flex align-items-center justify-content-center bg-white">
+                                                            <img src="{{ asset('/assets/images/logo/google.png') }}" alt="">
+                                                        </div>
+                                                        <div class="clearfix ms-2">
+                                                            <h6 class="mb-0 fw-semibold">{{ $branch->name }}</h6>
+                                                            <span class="fs-13">Switch to this branch</span>
                                                         </div>
                                                     </div>
                                                     @empty
                                                     @endforelse
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
