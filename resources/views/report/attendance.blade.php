@@ -81,6 +81,12 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $attendance->student->name }}</td>
                                         <td>{{ $attendance->student->id }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        @for($i=1; $i<=$days; $i++)
+                                            <td>0</td>
+                                            @endfor
                                     </tr>
                                     @empty
                                     @endforelse
