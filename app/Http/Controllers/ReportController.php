@@ -170,7 +170,10 @@ class ReportController extends Controller implements HasMiddleware
         ]);
         $inputs = array($request->batch, $request->month, $request->year);
         $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
+        $months = Month::pluck('name', 'id');
+        $years = Year::pluck('name', 'id');
+        $days = 0;
         $attendances = collect();
-        return view('report.attendance', compact('inputs', 'batches', 'attendances'));
+        return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'attendances'));
     }
 }
