@@ -158,8 +158,8 @@ class ReportController extends Controller implements HasMiddleware
         $months = Month::pluck('name', 'id');
         $years = Year::pluck('name', 'id');
         $days = 0;
-        $attendances = collect();
-        return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'attendances'));
+        $students = collect();
+        return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'students'));
     }
 
     function fetchAttendance(Request $request)
@@ -174,7 +174,7 @@ class ReportController extends Controller implements HasMiddleware
         $months = Month::pluck('name', 'id');
         $years = Year::pluck('name', 'id');
         $days = cal_days_in_month(CAL_GREGORIAN, $request->month, $request->year);
-        $attendances = StudentBatch::leftJoin('students', 'students.id', 'student_batches.student_id')->selectRaw("student_batches.student_id, student_batches.batch_id")->where('student_batches.batch_id', $request->batch)->where('students.current_status', 'active')->get();
-        return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'attendances'));
+        $students = StudentBatch::leftJoin('students', 'students.id', 'student_batches.student_id')->selectRaw("student_batches.student_id, student_batches.batch_id")->where('student_batches.batch_id', $request->batch)->where('students.current_status', 'active')->get();
+        return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'students'));
     }
 }

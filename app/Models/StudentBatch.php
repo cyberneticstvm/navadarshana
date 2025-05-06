@@ -25,4 +25,9 @@ class StudentBatch extends Model
     {
         return $this->belongsTo(Batch::class, 'batch_id', 'id');
     }
+
+    public function attendance($student, $batch, $day, $month, $year)
+    {
+        return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereDay('attendance_date', $day)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->selectRaw("CASE WHEN present = 1 THEN 'P' WHEN `leave` = 1 THEN 'L' ELSE 'A' END AS atype")->first();
+    }
 }

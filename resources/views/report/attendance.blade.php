@@ -76,16 +76,16 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse($attendances as $key => $attendance)
+                                    @forelse($students as $key => $stud)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
-                                        <td>{{ $attendance->student->name }}</td>
-                                        <td>{{ $attendance->student->id }}</td>
+                                        <td>{{ $stud->student->name }}</td>
+                                        <td>{{ $stud->student->id }}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                         @for($i=1; $i<=$days; $i++)
-                                            <td>0</td>
+                                            <td>{{ $stud->attendance?->atype }}</td>
                                             @endfor
                                     </tr>
                                     @empty
