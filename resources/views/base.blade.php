@@ -289,17 +289,17 @@
                                     </svg>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
-                                    <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3"
-                                        style="height:380px;">
+                                    <div id="DZ_W_Notification1" class="widget-media dz-scroll p-3">
                                         <ul class="timeline">
                                             @forelse(branches()->where('branch_id', '!=', Session::get('branch')) as $key => $branch)
                                             <li>
                                                 <div class="timeline-panel">
                                                     <div class="media me-2 media-info">
-                                                        {{ $branch->id }}
+                                                        KG
                                                     </div>
                                                     <div class="media-body">
                                                         <h6 class="mb-1">{{ $branch->name }}</h6>
+                                                        <small class="d-block">Switch to this brnch</small>
                                                     </div>
                                                 </div>
                                             </li>
@@ -307,8 +307,6 @@
                                             @endforelse
                                         </ul>
                                     </div>
-                                    <a class="all-notification" href="javascript:void(0);">See all notifications <i
-                                            class="ti-arrow-end"></i></a>
                                 </div>
                             </li>
                             <li class="nav-item dropdown notification_dropdown">
