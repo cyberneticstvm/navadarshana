@@ -20,17 +20,24 @@
                             {{ html()->form('POST', route('report.attendance.fetch'))->open() }}
                             <div class="row">
                                 <div class="mb-3 col-md-3">
-                                    <label class="form-label req">Date</label>
-                                    {{ html()->date('attendance_date', old('attendance_date') ?? $inputs[1])->class("form-control") }}
-                                    @error('attendance_date')
-                                    <small class="text-danger">{{ $errors->first('attendance_date') }}</small>
-                                    @enderror
-                                </div>
-                                <div class="mb-3 col-md-3">
                                     <label class="form-label req">Batch</label>
                                     {{ html()->select($name = 'batch', $value = $batches, old('batch') ?? $inputs[0])->class('form-control single-select') }}
                                     @error('batch')
                                     <small class="text-danger">{{ $errors->first('batch') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-2 col-md-2">
+                                    <label class="form-label req">Month</label>
+                                    {{ html()->select($name = 'month', $value = $months, old('month') ?? $inputs[1])->class('form-control single-select') }}
+                                    @error('month')
+                                    <small class="text-danger">{{ $errors->first('month') }}</small>
+                                    @enderror
+                                </div>
+                                <div class="mb-2 col-md-2">
+                                    <label class="form-label req">Year</label>
+                                    {{ html()->select($name = 'year', $value = $years, old('year') ?? $inputs[2])->class('form-control single-select') }}
+                                    @error('year')
+                                    <small class="text-danger">{{ $errors->first('year') }}</small>
                                     @enderror
                                 </div>
                             </div>

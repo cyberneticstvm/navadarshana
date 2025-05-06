@@ -7,7 +7,9 @@ use App\Models\Branch;
 use App\Models\Fee;
 use App\Models\Head;
 use App\Models\IncomeExpense;
+use App\Models\Month;
 use App\Models\Student;
+use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -150,19 +152,23 @@ class ReportController extends Controller implements HasMiddleware
 
     function attendance(Request $request)
     {
-        $inputs = array('', date('Y-m-d'));
+        $inputs = array('', Carbon::now()->month, Carbon::now()->year);
         $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
+        $months = Month::pluck('name', 'id');
+        $years = Year::pluck('name', 'id');
+        $days = 0;
         $attendances = collect();
-        return view('report.attendance', compact('inputs', 'batches', 'attendances'));
+        return view('report.attendance', compact('inputs', 'batches', 'months', 'years', 'days', 'attendances'));
     }
 
     function fetchAttendance(Request $request)
     {
         $request->validate([
-            'attendance_date' => 'required|date',
+            'month' => 'required',
+            'year' => 'required',
             'batch' => 'required',
         ]);
-        $inputs = array($request->batch, $request->attendance_date);
+        $inputs = array($request->batch, $request->month, $request->year);
         $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
         $attendances = collect();
         return view('report.attendance', compact('inputs', 'batches', 'attendances'));
