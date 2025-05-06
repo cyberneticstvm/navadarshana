@@ -177,7 +177,6 @@ const editorConfig = {
 		PageBreak,
 		Paragraph,
 		PasteFromOffice,
-		PasteFromOfficeEnhanced,
 		PictureEditing,
 		RemoveFormat,
 		SpecialCharacters,
