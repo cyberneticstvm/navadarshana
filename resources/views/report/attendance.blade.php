@@ -66,7 +66,8 @@
                                     <tr>
                                         <th>SL No</th>
                                         <th>Student Name</th>
-                                        <th>Student ID</th>
+                                        <th>sID</th>
+                                        <th>bID</th>
                                         <th class="text-success">P</th>
                                         <th class="text-warning">A</th>
                                         <th class="text-danger">L</th>
@@ -81,6 +82,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $stud->student->name }}</td>
                                         <td>{{ $stud->student->id }}</td>
+                                        <td>{{ $stud->batch->id }}</td>
                                         <td class="text-success">{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'present')->count() }}</td>
                                         <td class="text-warning">{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'absent')->count() }}</td>
                                         <td class="text-danger">{{ $stud->attendanceCount($stud->student_id, $stud->batch_id, $inputs[1], $inputs[2], 'leave')->count() }}</td>

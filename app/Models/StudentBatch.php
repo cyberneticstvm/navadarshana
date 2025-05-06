@@ -33,6 +33,6 @@ class StudentBatch extends Model
 
     public function attendanceCount($student, $batch, $month, $year, $type)
     {
-        return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->where('absent', 1)->get();
+        return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->where($type, 1)->get();
     }
 }
