@@ -30,4 +30,9 @@ class StudentBatch extends Model
     {
         return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereDay('attendance_date', $day)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->selectRaw('CASE WHEN present = 1 THEN "<span class=text-success>P</span>" WHEN `leave` = 1 THEN "<span class=text-warning>L</span>" ELSE "<span class=text-danger>A</span>" END AS atype')->first();
     }
+
+    public function attendanceCount($student, $batch, $month, $year, $type)
+    {
+        return Attendance::where('student_id', $student)->where('batch_id', $batch)->whereMonth('attendance_date', $month)->whereYear('attendance_date', $year)->where($type, 1)->get();
+    }
 }
