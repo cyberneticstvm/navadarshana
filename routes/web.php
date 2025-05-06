@@ -110,6 +110,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/edit/{id}', 'edit')->name('branch.edit');
         Route::post('/edit/{id}', 'update')->name('branch.update');
         Route::get('/delete/{id}', 'destroy')->name('branch.delete');
+        Route::get('/switch/{id}', 'switchBranch')->name('switch.branch');
     });
 
     Route::prefix('/student')->controller(StudentController::class)->group(function () {

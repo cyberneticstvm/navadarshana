@@ -6,6 +6,7 @@ use App\Models\Branch;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Session;
 
 class BranchController extends Controller implements HasMiddleware
 {
@@ -18,7 +19,8 @@ class BranchController extends Controller implements HasMiddleware
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('branch-list'), only: ['index']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('branch-create'), only: ['create', 'store']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('branch-edit'), only: ['edit', 'update']),
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('branch-delete'), only: ['destroy'])
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('branch-delete'), only: ['destroy']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('branch-switch'), only: ['switchBranch'])
         ];
     }
 
@@ -100,5 +102,11 @@ class BranchController extends Controller implements HasMiddleware
         Branch::findOrFail(decrypt($id))->delete();
         return redirect()->route('branch.register')
             ->with('success', 'Branch deleted successfully');
+    }
+
+    public function switchBranch($branch)
+    {
+        Session::put('branch', decrypt($branch));
+        return redirect()->back()->with("success", "Branch switched successfully");
     }
 }

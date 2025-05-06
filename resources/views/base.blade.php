@@ -303,7 +303,7 @@
                                                         <img src="{{ asset('/assets/images/blue-tick.png') }}" alt="">
                                                     </div>
                                                     <div class="clearfix ms-2">
-                                                        <h6 class="mb-0 fw-semibold">{{ $branch->name }}</h6>
+                                                        <h6 class="mb-0 fw-semibold"><a href="{{ route('switch.branch', encrypt($branch->id)) }}">{{ $branch->name }}</a></h6>
                                                         <span class="fs-13">Switch to this branch</span>
                                                     </div>
                                                 </div>
