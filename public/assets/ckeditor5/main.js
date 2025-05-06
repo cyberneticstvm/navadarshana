@@ -140,6 +140,7 @@ const editorConfig = {
 		BlockQuote,
 		Bold,
 		Bookmark,
+		CKBox,
 		CKBoxImageEdit,
 		CloudServices,
 		Code,
@@ -416,15 +417,6 @@ const editorConfig = {
 			}
 		]
 	},
-	ckbox: {
-		defaultUploadCategories: {
-			Bitmaps: [ 'bmp' ],
-			Pictures: [ 'jpg', 'jpeg' ],
-			Scans: [ 'png', 'tiff' ],
-			// The category below is referenced by its ID.
-			'fdf2a647-b67f-4a6c-b692-5ba1dc1ed87b': [ 'gif' ]
-		}
-	}
 };
 
 configUpdateAlert(editorConfig);
