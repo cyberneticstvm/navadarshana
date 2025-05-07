@@ -18,7 +18,6 @@
                     <div class="card-body">
                         <div class="basic-form">
                             {{ html()->form('POST', route('fee.update', encrypt($fee->id)))->open() }}
-                            <input type="hidden" name="category" value="{{ $fee->category }}" />
                             <div class="row">
                                 <div class="card profile-overview profile-overview-wide">
                                     <div class="card-body d-flex">
@@ -83,7 +82,7 @@
                                     <small class="text-danger">{{ $errors->first('discount') }}</small>
                                     @enderror
                                 </div>
-                                @if($category != 'admission')
+                                @if($fee->category != 'admission')
                                 <div class="col-md-2">
                                     <label class="form-label req">Payment Month</label>
                                     {{ html()->select($name = 'month', $value = $month->pluck('name', 'id'), $fee->month)->class('form-control single-select')->placeholder('Select') }}
