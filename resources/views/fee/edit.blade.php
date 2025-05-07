@@ -18,6 +18,7 @@
                     <div class="card-body">
                         <div class="basic-form">
                             {{ html()->form('POST', route('fee.update', encrypt($fee->id)))->open() }}
+                            <input type="hidden" name="category" value="{{ $fee->category }}" />
                             <div class="row">
                                 <div class="card profile-overview profile-overview-wide">
                                     <div class="card-body d-flex">
