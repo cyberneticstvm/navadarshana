@@ -33,6 +33,7 @@ return new class extends Migration
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
             $table->softDeletes();
+            //$table->unique(array('student_id', 'batch_id', 'category', 'month', 'year'));
         });
     }
 

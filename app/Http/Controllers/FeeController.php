@@ -62,11 +62,15 @@ class FeeController extends Controller implements HasMiddleware
             'payment_mode' => 'required',
         ]);
         $input = $request->all();
-        $input['student_id'] = decrypt($request->student_id);
-        $input['branch_id'] = Student::find(decrypt($request->student_id))->branch_id;
-        $input['created_by'] = $request->user()->id;
-        $input['updated_by'] = $request->user()->id;
-        Fee::create($input);
+        if (Fee::where('student_id', decrypt($request->student_id))->where('batch_id', $request->batch_id)->where('month', $request->month)->where('year', $request->year)->where('category', 'monthly')->exists()):
+            return redirect()->back()->with("error", "Fee already recorded!");
+        else:
+            $input['student_id'] = decrypt($request->student_id);
+            $input['branch_id'] = Student::find(decrypt($request->student_id))->branch_id;
+            $input['created_by'] = $request->user()->id;
+            $input['updated_by'] = $request->user()->id;
+            Fee::create($input);
+        endif;
         return redirect()->route('fee.register')->with("success", "Fee recorded successfully!");
     }
 
@@ -105,6 +109,7 @@ class FeeController extends Controller implements HasMiddleware
             'payment_mode' => 'required',
         ]);
         $input = $request->all();
+        $input['student_id'] = decrypt($request->student_id);
         $input['updated_by'] = $request->user()->id;
         Fee::findOrFail(decrypt($id))->update($input);
         return redirect()->route('fee.register')->with("success", "Fee updated successfully!");

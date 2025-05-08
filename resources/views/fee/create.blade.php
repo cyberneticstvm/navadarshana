@@ -17,7 +17,7 @@
                 <div class="card dz-card">
                     <div class="card-body">
                         <div class="basic-form">
-                            {{ html()->form('POST', route('fee.save'))->open() }}
+                            {{ html()->form('POST', route('fee.save'))->attribute('id', 'frmFee')->open() }}
                             <input type="hidden" name="category" value="{{ $category }}" />
                             <input type="hidden" name="student_id" value="{{ encrypt($student->id) }}" />
                             <div class="row">
@@ -118,7 +118,7 @@
                             <div class="row">
                                 <div class="col text-end">
                                     <a onClick="window.history.back()" class="btn btn-light btn-warning btn-link">Cancel</a>
-                                    {{ html()->submit("Save Fee")->class("btn btn-submit btn-outline-primary") }}
+                                    {{ html()->button("Save Fee")->attribute('onClick', "return validateFee(0)")->class("btn btn-submit btn-outline-primary") }}
                                 </div>
                             </div>
                             {{ html()->form()->close() }}

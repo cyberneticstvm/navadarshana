@@ -339,4 +339,33 @@ class AjaxController extends Controller implements HasMiddleware
         $op .= "<div class='container'><div class='row mt-3'><div class='col-md-12'><input type='hidden' name='fee_id' value='{$fee->id}' /><input type='text' class='form-control' name='name' value='" . $fee->student->name . "' placeholder='Student Name' required /></div><div class='col-md-12 mt-3'><input type='email' class='form-control' name='email' value='" . $fee->student->email . "' placeholder='Student Email' required /></div><div class='col-md-12 mt-3'><textarea class='form-control' name='body' placeholder='Email Body' rows='5' required></textarea></div><div class='col-md-12 mt-3 text-end'><button type='submit' class='btn btn-submit btn-success'>Send Email</button></div></div></div>";
         echo $op;
     }
+
+    function validateFee(Request $request)
+    {
+        $batch = Batch::findOrFail($request->batch_id);
+        if ($request->fid == 0):
+            if (Fee::where('student_id', decrypt($request->student_id))->where('batch_id', $request->batch_id)->where('month', $request->month)->where('year', $request->year)->where('category', 'monthly')->exists()):
+                return response()->json([
+                    "type" => "warning",
+                    "message" => "Fee already recorded!",
+                ]);
+            endif;
+        endif;
+        if ($request->amount > $batch->admission_fee && $request->category == 'admission'):
+            return response()->json([
+                "type" => "warning",
+                "message" => "Fee amount should not be greater than " . $batch->admission_fee
+            ]);
+        endif;
+        if ($request->amount > $batch->monthly_fee && $request->category == 'monthly'):
+            return response()->json([
+                "type" => "warning",
+                "message" => "Fee amount should not be greater than " . $batch->monthly_fee
+            ]);
+        endif;
+        return response()->json([
+            "type" => "success",
+            "message" => "success",
+        ]);
+    }
 }

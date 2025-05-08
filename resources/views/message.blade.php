@@ -74,6 +74,14 @@
         });
     }
 
+    function notify(msg) {
+        toast.fire({
+            icon: 'warning',
+            title: msg,
+            color: 'orange'
+        });
+    }
+
     $(document).on('click', '.dlt', function(e) {
         e.preventDefault();
         var link = $(this).attr("href");
@@ -130,5 +138,32 @@
             return false;
         }
         return true;
+    }
+
+    function validateFee(fid) {
+        var formData = $('#frmFee').serialize();
+        formData += "&fid=" + fid
+        console.log(formData)
+        $.ajax({
+            type: 'POST',
+            url: '/ajax/validate/fee',
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                console.log(response)
+                if (response.type == 'warning') {
+                    notify(response.message);
+                    return false;
+                }
+                if (response.type == 'success') {
+                    $('#frmFee').submit()
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown)
+                return false;
+            }
+        });
+        return false;
     }
 </script>

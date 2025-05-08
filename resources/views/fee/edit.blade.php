@@ -17,7 +17,9 @@
                 <div class="card dz-card">
                     <div class="card-body">
                         <div class="basic-form">
-                            {{ html()->form('POST', route('fee.update', encrypt($fee->id)))->open() }}
+                            {{ html()->form('POST', route('fee.update', encrypt($fee->id)))->attribute('id', 'frmFee')->open() }}
+                            <input type="hidden" name="category" value="{{ $fee->category }}" />
+                            <input type="hidden" name="student_id" value="{{ encrypt($fee->student_id) }}" />
                             <div class="row">
                                 <div class="card profile-overview profile-overview-wide">
                                     <div class="card-body d-flex">
@@ -116,7 +118,7 @@
                             <div class="row">
                                 <div class="col text-end">
                                     <a onClick="window.history.back()" class="btn btn-light btn-warning btn-link">Cancel</a>
-                                    {{ html()->submit("Update Fee")->class("btn btn-submit btn-outline-primary") }}
+                                    {{ html()->submit("Update Fee")->attribute('onClick', "return validateFee($fee->id)")->class("btn btn-submit btn-outline-primary") }}
                                 </div>
                             </div>
                             {{ html()->form()->close() }}
