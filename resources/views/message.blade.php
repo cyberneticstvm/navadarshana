@@ -153,7 +153,6 @@
                 console.log(response)
                 if (response.type == 'warning') {
                     notify(response.message);
-                    return false;
                 }
                 if (response.type == 'success') {
                     $('#frmFee').submit()
@@ -161,7 +160,6 @@
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown)
-                return false;
             }
         });
         return false;
