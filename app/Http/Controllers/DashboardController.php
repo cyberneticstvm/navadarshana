@@ -49,7 +49,7 @@ class DashboardController extends Controller implements HasMiddleware
             return $q->where('branch_id', Session::get('branch'));
         })->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
         return json_encode([
-            'income' => $fee->sum('admission') + $fee->sum('batch') + $ie->sum('income'),
+            'income' => $fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') + $ie->sum('income'),
             'expense' => $ie->sum('expense'),
         ]);
     }
@@ -61,7 +61,7 @@ class DashboardController extends Controller implements HasMiddleware
             $q->on('f.payment_date', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($type == 0, function ($q) {
                 return $q->where('f.branch_id', Session::get('branch'));
             });
-        })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, SUM(CASE WHEN f.category='admission' THEN f.amount-IFNULL(f.discount, 0) END) AS admission, SUM(CASE WHEN f.category='monthly' THEN f.amount-IFNULL(f.discount, 0) END) AS batch, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
+        })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, SUM(CASE WHEN f.category='admission' THEN f.amount-IFNULL(f.discount, 0) END) AS admission, SUM(CASE WHEN f.category='monthly' THEN f.amount-IFNULL(f.discount, 0) END) AS batch, SUM(CASE WHEN f.category='other' THEN f.amount-IFNULL(f.discount, 0) END) AS other, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
         return json_encode($students);
     }
 
