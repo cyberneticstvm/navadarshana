@@ -103,7 +103,7 @@
                                     </svg>
                                     Balance
                                 </p>
-                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') + $ie->sum('income'), 2) }}</span>
+                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $ie->sum('income') +  $ie->sum('other') - $ie->sum('expense'), 2) }}</span>
                             </div>
                         </div>
                     </div>
