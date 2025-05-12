@@ -97,7 +97,7 @@ class AttendanceController extends Controller implements HasMiddleware
                 'updated_at' => Carbon::now(),
             ];
         endforeach;
-        Attendance::where('batch_id', $batch->id)->forceDelete();
+        Attendance::where('batch_id', $batch->id)->whereDate('attendance_date', Carbon::today())->forceDelete();
         Attendance::insert($data);
         //} catch (Exception $e) {
         //return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
