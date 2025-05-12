@@ -80,28 +80,28 @@ class AttendanceController extends Controller implements HasMiddleware
         $request->validate([
             'batch_id' => 'required',
         ]);
-        //try {
-        $batch = Batch::findOrFail(decrypt($request->batch_id));
-        $data = [];
-        foreach ($request->student_ids as $key => $student):
-            $data[] = [
-                'student_id' => $student,
-                'batch_id' => $batch->id,
-                'attendance_date' => Carbon::today()->format('Y-m-d'),
-                'present' => $request->present[$key] ?? 0,
-                'absent' => $request->absent[$key] ?? 0,
-                'leave' => $request->leave[$key] ?? 0,
-                'created_by' => $request->user()->id,
-                'updated_by' => $request->user()->id,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ];
-        endforeach;
-        Attendance::where('batch_id', $batch->id)->whereDate('attendance_date', Carbon::today())->forceDelete();
-        Attendance::insert($data);
-        //} catch (Exception $e) {
-        //return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
-        //}
+        try {
+            $batch = Batch::findOrFail(decrypt($request->batch_id));
+            $data = [];
+            foreach ($request->student_ids as $key => $student):
+                $data[] = [
+                    'student_id' => $student,
+                    'batch_id' => $batch->id,
+                    'attendance_date' => Carbon::today()->format('Y-m-d'),
+                    'present' => $request->present[$key] ?? 0,
+                    'absent' => $request->absent[$key] ?? 0,
+                    'leave' => $request->leave[$key] ?? 0,
+                    'created_by' => $request->user()->id,
+                    'updated_by' => $request->user()->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ];
+            endforeach;
+            Attendance::where('batch_id', $batch->id)->whereDate('attendance_date', Carbon::today())->forceDelete();
+            Attendance::insert($data);
+        } catch (Exception $e) {
+            return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
+        }
         return redirect()->back()->with("success", "Attendance updated successfully");
     }
 
