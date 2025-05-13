@@ -141,7 +141,6 @@ const editorConfig = {
 		Bold,
 		Bookmark,
 		/*CKBoxImageEdit,*/
-		SimpleUploadAdapter,
 		CloudServices,
 		Code,
 		Emoji,
