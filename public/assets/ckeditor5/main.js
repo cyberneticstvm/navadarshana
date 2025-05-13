@@ -98,9 +98,6 @@ const CLOUD_SERVICES_TOKEN_URL =
 const editorConfig = {
 	toolbar: {
 		items: [
-			'insertMergeField',
-			'previewMergeFields',
-			'|',
 			'formatPainter',
 			'|',
 			'heading',
