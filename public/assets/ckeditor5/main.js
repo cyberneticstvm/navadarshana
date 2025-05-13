@@ -5,6 +5,7 @@
 
 const {
 	ClassicEditor,
+	SimpleUploadAdapter,
 	Alignment,
 	Autoformat,
 	AutoImage,
@@ -141,6 +142,7 @@ const editorConfig = {
 		Bold,
 		Bookmark,
 		/*CKBoxImageEdit,*/
+		SimpleUploadAdapter,
 		CloudServices,
 		Code,
 		Emoji,
