@@ -13,8 +13,8 @@ const {
 	BlockQuote,
 	Bold,
 	Bookmark,
-	CKBox,
-	CKBoxImageEdit,
+	/*CKBox,
+	CKBoxImageEdit,*/
 	CloudServices,
 	Code,
 	Emoji,
@@ -140,7 +140,8 @@ const editorConfig = {
 		BlockQuote,
 		Bold,
 		Bookmark,
-		CKBoxImageEdit,
+		/*CKBoxImageEdit,*/
+		SimpleUploadAdapter,
 		CloudServices,
 		Code,
 		Emoji,
