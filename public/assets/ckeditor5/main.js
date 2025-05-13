@@ -98,8 +98,6 @@ const CLOUD_SERVICES_TOKEN_URL =
 const editorConfig = {
 	toolbar: {
 		items: [
-			'formatPainter',
-			'|',
 			'heading',
 			'style',
 			'|',
@@ -122,7 +120,6 @@ const editorConfig = {
 			'|',
 			'bulletedList',
 			'numberedList',
-			'multiLevelList',
 			'todoList',
 			'outdent',
 			'indent'
