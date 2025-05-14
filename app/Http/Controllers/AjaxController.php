@@ -68,6 +68,7 @@ class AjaxController extends Controller implements HasMiddleware
             $op .= "<div class='row'><div class='col-md-12 ms-3'><h5 class='text-info'>Fee Details</h5></div></div>";
             $op .= "<div class='table-responsive ms-2' style='width:100%'><table class='display table'><thead><tr><th>Batch</th><th>Category</th><th>Amount</th><th>Date</th><th>MonthYear</th></tr></thead><tbody>";
             foreach ($fees as $key => $fee):
+                $feemy = ($fee?->category != 'admission') ? $fee?->getMonth?->name . '.' . $fee?->year : $fee?->payment_date?->format('d.M.Y');
                 switch ($fee->category):
                     case "monthly":
                         $cat = 'Batch';
@@ -83,7 +84,7 @@ class AjaxController extends Controller implements HasMiddleware
                 $op .= "<td>{$cat}</td>";
                 $op .= "<td>" . number_format($fee?->amount - $fee?->discount, 2) . "</td>";
                 $op .= "<td>" . $fee?->payment_date?->format('d.M.Y') . "</td>";
-                $op .= "<td>" . ($fee?->category != 'admission') ? $fee?->getMonth?->name . '.' . $fee?->year : $fee?->payment_date?->format('d.M.Y') . "</td>";
+                $op .= "<td>{$feemy}</td>";
                 $op .= "</tr>";
             endforeach;
             $op .= "</tbody>";
