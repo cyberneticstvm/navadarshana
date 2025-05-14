@@ -40,16 +40,16 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $fee->student->id }}</td>
-                                        <td title="{{ $fee->batch->name }}">{{ $fee->student->name }}</td>
+                                        <td title="{{ $fee?->batch?->name }}">{{ $fee?->student?->name }}</td>
                                         <td>{{ number_format($fee->amount - $fee->discount, 2) }}</td>
                                         <td>{{ number_format($fee->discount, 2) }}</td>
                                         <td>{{ ucfirst(($fee->category == 'monthly') ? 'Batch' : $fee->category) }}</td>
-                                        <td>{{ ($fee->category == 'monthly') ? $fee->getMonth->name.'.'.$fee->year : $fee->payment_date->format('d.M.Y') }}</td>
+                                        <td>{{ ($fee->category == 'monthly') ? $fee?->getMonth?->name.'.'.$fee->year : $fee->payment_date->format('d.M.Y') }}</td>
                                         <td>{{ ucfirst($fee->type) }}</td>
                                         <td class="text-center"><a href="{{ route('student.fee.receipt', ['id' => encrypt($fee->id)]) }}" target="_blank"><i class="fa-regular fa-file-pdf fa-xl text-danger"></i></a></td>
                                         <td class="text-center"><a href="javascript:void(0)" class="emailBox" data-fid="{{ $fee->id }}"><i class="fa-regular fa-envelope fa-xl text-success"></i></a></td>
                                         <td>{!! $fee->status() !!}</td>
-                                        <td>{{ $fee->user->name }}</td>
+                                        <td>{{ $fee?->user?->name }}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('fee.edit', encrypt($fee->id)) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('fee.delete', encrypt($fee->id)) }}" class="text-danger dlt">Delete</a></span></td>
                                     </tr>
