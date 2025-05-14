@@ -83,7 +83,7 @@ class AjaxController extends Controller implements HasMiddleware
                 $op .= "<td>{$cat}</td>";
                 $op .= "<td>" . number_format($fee->amount - $fee->discount, 2) . "</td>";
                 $op .= "<td>" . $fee->payment_date->format('d.M.Y') . "</td>";
-                $op .= "<td>" . ($fee->category != 'admission') ? $fee?->getMonth?->name . '.' . $fee?->year : $fee->payment_date->format('d.M.Y') . "</td>";
+                $op .= "<td>" . ($fee?->category != 'admission') ? $fee?->getMonth?->name . '.' . $fee?->year : $fee?->payment_date->format('d.M.Y') . "</td>";
                 $op .= "</tr>";
             endforeach;
             $op .= "</tbody>";
