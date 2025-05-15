@@ -59,7 +59,7 @@ class AttendanceController extends Controller implements HasMiddleware
         $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
         $students = Attendance::where('batch_id', $batch->id)->whereDate('attendance_date', Carbon::today())->get();
         if ($students->isEmpty()):
-            $students = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->where('student_batches.batch_id', $batch->id)->where('s.current_status', 'active')->selectRaw("student_batches.student_id, 0 AS `present`, 0 AS `absent`, 0 AS `leave`")->get();
+            $students = StudentBatch::leftJoin('students as s', 's.id', 'student_batches.student_id')->where('student_batches.batch_id', $batch->id)->where('s.current_status', 'active')->whereNull('student_batches.deleted_at')->selectRaw("student_batches.student_id, 0 AS `present`, 0 AS `absent`, 0 AS `leave`")->get();
         endif;
         return view('attendance.index', compact('students', 'batches', 'batch'));
     }
