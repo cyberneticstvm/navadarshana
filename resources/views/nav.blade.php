@@ -145,6 +145,7 @@
                     ->linkIfCan('report-fee', route('report.fee'), 'Fee Collection')
                     ->linkIfCan('report-ie', route('report.ie'), 'Income & Expenses')
                     ->linkIfCan('report-attendance', route('report.attendance'), 'Attendance')
+                    ->linkIfCan('report-fee-pending', route('report.fee.pending'), 'Fee Pending')
                 }}
             </li>
         </ul>

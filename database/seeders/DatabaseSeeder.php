@@ -114,6 +114,7 @@ class DatabaseSeeder extends Seeder
             'report-fee',
             'report-ie',
             'report-attendance',
+            'report-fee-pending',
         ];
 
         foreach ($permissions as $permission) {
