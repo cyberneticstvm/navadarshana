@@ -68,6 +68,7 @@
                                         <th>Student Name</th>
                                         <th>SId</th>
                                         <th>Contact Number</th>
+                                        <th>Fee Amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
