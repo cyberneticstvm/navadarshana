@@ -65,12 +65,18 @@
                                 <thead>
                                     <tr>
                                         <th>SL No</th>
+                                        <th>Student Name</th>
+                                        <th>SId</th>
+                                        <th>Contact Number</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @forelse($fee as $key => $item)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->student->name }}</td>
+                                        <td>{{ $item->student->id }}</td>
+                                        <td>{{ $item->student->mobile }}</td>
                                     </tr>
                                     @empty
                                     @endforelse
