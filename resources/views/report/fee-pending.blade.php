@@ -82,11 +82,13 @@
                                     </tr>
                                     @empty
                                     @endforelse
+                                </tbody>
+                                <tfoot>
                                     <tr>
                                         <td colspan="4" class="text-end fw-bold">Total</td>
                                         <td class="text-end fw-bold">{{ number_format($fee->sum('fees'), 2) }}</td>
                                     </tr>
-                                </tbody>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
