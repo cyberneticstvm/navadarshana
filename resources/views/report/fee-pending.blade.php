@@ -1,7 +1,7 @@
 @extends("base")
 @section("content")
 <div class="content-body">
-    <div class="container-fluid">
+    <div class="container">
         <div class="page-titles">
             <h5 class="dashboard_bar">Fee Pending</h5>
             <ul class="breadcrumb">
@@ -77,9 +77,14 @@
                                         <td>{{ $item->student->name }}</td>
                                         <td>{{ $item->student->id }}</td>
                                         <td>{{ $item->student->mobile }}</td>
+                                        <td class="text-end">{{ $item->fees }}</td>
                                     </tr>
                                     @empty
                                     @endforelse
+                                    <tr>
+                                        <td colspan="4" class="text-end fw-bold">Total</td>
+                                        <td class="text-end fw-bold">{{ number_format($fee->sum('fees'), 2) }}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
