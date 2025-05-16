@@ -200,7 +200,7 @@ class ReportController extends Controller implements HasMiddleware
         $batches = Batch::where('branch_id', Session::get('branch'))->pluck('name', 'id');
         $months = Month::pluck('name', 'id');
         $years = Year::pluck('name', 'name');
-        $fee = StudentBatch::whereNull('deleted_at')->where('batch_id', $request->batch)->whereNotIn('student_id', function ($q) use ($request) {
+        $fee = StudentBatch::where('batch_id', $request->batch)->whereNotIn('student_id', function ($q) use ($request) {
             return $q->select('student_id')->where('month', $request->month)->where('year', $request->year)->where('batch_id', $request->batch)->where('category', 'monthly')->from('fees');
         })->get();
         return view('report.fee-pending', compact('inputs', 'batches', 'months', 'years', 'fee'));
