@@ -28,7 +28,7 @@
     <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/vendor/summernote/summernote-bs5.css') }}" rel="stylesheet">
     @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
-
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.css" crossorigin>
     @endif
     <!-- Style css -->
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
@@ -485,8 +485,7 @@
                 plugins: [Essentials, Bold, Italic, Font, Paragraph],
                 toolbar: [
                     'undo', 'redo', '|', 'bold', 'italic', '|',
-                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                    'formatPainter'
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor',
                 ],
                 simpleUpload: {
                     // The URL that the images are uploaded to.
