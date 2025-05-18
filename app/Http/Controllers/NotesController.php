@@ -179,6 +179,16 @@ class NotesController extends Controller implements HasMiddleware
 
     public function upload(Request $request)
     {
-        //
+        if ($request->file('upload')):
+            $attachments = $request->file('upload');
+            foreach ($attachments as $key => $attachment):
+                $fname = time() . '_' . $attachment->getClientOriginalName();
+                $storeFile = $attachment->storeAs('/notes/uploads', $fname, 'gcs');
+                $url = Storage::disk('gcs')->url($storeFile);
+                $response = [
+                    'url' => $url
+                ];
+            endforeach;
+        endif;
     }
 }
