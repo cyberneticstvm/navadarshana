@@ -28,8 +28,7 @@
     <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/vendor/summernote/summernote-bs5.css') }}" rel="stylesheet">
     @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.css" crossorigin>
-    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5-premium-features/45.0.0/ckeditor5-premium-features.css" crossorigin>
+
     @endif
     <!-- Style css -->
     <link href="{{ asset('/assets/css/style.css') }}" rel="stylesheet">
@@ -471,9 +470,41 @@
     <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
     @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
     <script src="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.umd.js" crossorigin></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5-premium-features/45.0.0/ckeditor5-premium-features.umd.js" crossorigin></script>
-    <script src="https://cdn.ckbox.io/ckbox/2.6.1/ckbox.js" crossorigin></script>
-    <script src="{{ asset('/assets/ckeditor5/main.js') }}"></script>
+    <script>
+        const {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph
+        } = CKEDITOR;
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzkxNDg3OTksImp0aSI6Ijk3NDhjNWVhLTY2MDAtNDhmZi1hYjQ4LTNhOTg3MTA3ZGQwMyIsImxpY2Vuc2VkSG9zdHMiOlsiKi5uYXZhZGFyc2hhbmEuaW4iXSwidXNhZ2VFbmRwb2ludCI6Imh0dHBzOi8vcHJveHktZXZlbnQuY2tlZGl0b3IuY29tIiwiZGlzdHJpYnV0aW9uQ2hhbm5lbCI6WyJjbG91ZCIsImRydXBhbCJdLCJmZWF0dXJlcyI6WyJEUlVQIiwiRTJQIiwiRTJXIl0sInZjIjoiYzJjNzNhNzMifQ.UBsrkV90_OVr0sur3AfdvqTUG24HkrVdfyngVlrsTrDCZISwqQzf2_4dDsS7841CVLPAcm7rg7LwX9ZYhg5Y5A',
+                plugins: [Essentials, Bold, Italic, Font, Paragraph],
+                toolbar: [
+                    'undo', 'redo', '|', 'bold', 'italic', '|',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                    'formatPainter'
+                ],
+                simpleUpload: {
+                    // The URL that the images are uploaded to.
+                    uploadUrl: "{{ route('notes.upload') }}",
+
+                    // Enable the XMLHttpRequest.withCredentials property.
+                    withCredentials: true,
+
+                    // Headers sent along with the XMLHttpRequest to the upload server.
+                    headers: {
+                        'X-CSRF-TOKEN': 'CSRF-Token',
+                        Authorization: 'Bearer <JSON Web Token>'
+                    }
+                }
+            })
+            .then( /* ... */ )
+            .catch( /* ... */ );
+    </script>
     @endif
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
     <script src="{{ asset('/assets/js/deznav-init.js') }}"></script>

@@ -176,4 +176,9 @@ class NotesController extends Controller implements HasMiddleware
         return redirect()->route('notes.register')
             ->with('success', 'Note deleted successfully');
     }
+
+    public function upload(Request $request)
+    {
+        //
+    }
 }

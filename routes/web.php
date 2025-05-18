@@ -182,6 +182,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/delete/{id}', 'destroy')->name('notes.delete');
 
         Route::get('/view/{id}', 'show')->name('notes.show');
+        Route::get('/upload', 'upload')->name('notes.upload');
     });
 
     Route::prefix('/downloads')->controller(DownloadController::class)->group(function () {
