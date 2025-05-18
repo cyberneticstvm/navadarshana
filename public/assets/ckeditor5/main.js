@@ -1,6 +1,6 @@
 const {
             ClassicEditor,
-            SimpleUploadAdapter,
+            Base64UploadAdapter,
             Alignment,
             Autoformat,
             AutoImage,
@@ -79,7 +79,7 @@ const {
                     BlockQuote,
                     Bold,
                     Bookmark,
-                    SimpleUploadAdapter,
+                    Base64UploadAdapter,
                     CloudServices,
                     Code,
                     Emoji,
@@ -166,14 +166,14 @@ const {
                     'outdent',
                     'indent'
                 ],
-                simpleUpload: {
+                /*simpleUpload: {
                     // The URL that the images are uploaded to.
                     uploadUrl: "{{ route('notes.upload') }}",
                     // Headers sent along with the XMLHttpRequest to the upload server.
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     }
-                },
+                },*/
                 image: {
                     toolbar: [
                         'toggleImageCaption',
