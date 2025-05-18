@@ -177,7 +177,7 @@ class NotesController extends Controller implements HasMiddleware
             ->with('success', 'Note deleted successfully');
     }
 
-    public function upload(Request $request)
+    /*public function upload(Request $request)
     {
         if ($request->file('upload')):
             $attachments = $request->file('upload');
@@ -190,5 +190,5 @@ class NotesController extends Controller implements HasMiddleware
                 ];
             endforeach;
         endif;
-    }
+    }*/
 }
