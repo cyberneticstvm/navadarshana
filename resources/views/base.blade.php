@@ -661,8 +661,6 @@
                         'imageStyle:breakText',
                         '|',
                         'resizeImage',
-                        '|',
-                        'ckboxImageEdit'
                     ]
                 },
             })
