@@ -637,8 +637,7 @@
                     'numberedList',
                     'todoList',
                     'outdent',
-                    'indent',
-                    'image'
+                    'indent'
                 ],
                 simpleUpload: {
                     // The URL that the images are uploaded to.
@@ -651,7 +650,21 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     }
-                }
+                },
+                image: {
+                    toolbar: [
+                        'toggleImageCaption',
+                        'imageTextAlternative',
+                        '|',
+                        'imageStyle:inline',
+                        'imageStyle:wrapText',
+                        'imageStyle:breakText',
+                        '|',
+                        'resizeImage',
+                        '|',
+                        'ckboxImageEdit'
+                    ]
+                },
             })
             .then(editor => {
                 window.editor = editor;
