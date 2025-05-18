@@ -122,7 +122,8 @@ const editorConfig = {
 			'numberedList',
 			'todoList',
 			'outdent',
-			'indent'
+			'indent',
+			'image'
 		],
 		shouldNotGroupWhenFull: false
 	},
