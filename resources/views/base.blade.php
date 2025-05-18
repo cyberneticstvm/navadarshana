@@ -653,8 +653,12 @@
                     }
                 }
             })
-            .then( /* ... */ )
-            .catch( /* ... */ );
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch((error) => {
+                console.error(error.stack);
+            });
     </script>
     @endif
     <script src="{{ asset('/assets/js/custom.js') }}"></script>
