@@ -648,8 +648,7 @@
 
                     // Headers sent along with the XMLHttpRequest to the upload server.
                     headers: {
-                        'X-CSRF-TOKEN': 'CSRF-Token',
-                        Authorization: 'Bearer <JSON Web Token>'
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     }
                 }
             })
