@@ -637,7 +637,8 @@
                     'numberedList',
                     'todoList',
                     'outdent',
-                    'indent'
+                    'indent',
+                    'image'
                 ],
                 simpleUpload: {
                     // The URL that the images are uploaded to.

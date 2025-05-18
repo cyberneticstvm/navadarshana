@@ -136,7 +136,6 @@ const editorConfig = {
 		BlockQuote,
 		Bold,
 		Bookmark,
-		/*CKBoxImageEdit,*/
 		SimpleUploadAdapter,
 		CloudServices,
 		Code,
