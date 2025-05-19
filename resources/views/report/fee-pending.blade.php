@@ -67,6 +67,7 @@
                                         <th>SL No</th>
                                         <th>Student Name</th>
                                         <th>SId</th>
+                                        <th>Admission Date</th>
                                         <th>Contact Number</th>
                                         <th>Fee Amount</th>
                                     </tr>
@@ -77,6 +78,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $item->student->name }}</td>
                                         <td>{{ $item->student->id }}</td>
+                                        <td>{{ $item->student->date_of_admission->format('d.M.Y') }}</td>
                                         <td>{{ $item->student->mobile }}</td>
                                         <td class="text-end">{{ $item->fees }}</td>
                                     </tr>
