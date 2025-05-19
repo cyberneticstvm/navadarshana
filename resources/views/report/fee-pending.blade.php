@@ -59,7 +59,7 @@
                     <div class="card-body">
                         <div class="table-responsive active-projects">
                             <div class="tbl-caption">
-                                <h4 class="heading mb-0">Fee Pending Register {{ $dt }}</h4>
+                                <h4 class="heading mb-0">Fee Pending Register</h4>
                             </div>
                             <table class="display table" id="example">
                                 <thead>
