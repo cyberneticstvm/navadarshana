@@ -305,6 +305,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 Route::middleware(['web', 'auth', 'branch'])->group(function () {
     Route::prefix('student')->controller(StudentAreaController::class)->group(function () {
         Route::get('/notes', 'getStudentNotes')->name('student.notes.register');
+        Route::get('/notes/{id}', 'getStudentNote')->name('student.note');
     });
 });
 
