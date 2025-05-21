@@ -409,8 +409,11 @@
         <!--**********************************
             Header end ti-comment-alt
         ***********************************-->
-
+        @if(Auth::user()->roles->first()->name == 'Student')
+        @include("nav-student")
+        @else
         @include("nav")
+        @endif
 
         @yield("content")
         <!--**********************************

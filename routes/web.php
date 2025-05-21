@@ -20,6 +20,7 @@ use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\StudentAreaController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\StudentFeedbackController;
 use App\Http\Controllers\SubjectController;
@@ -298,6 +299,12 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::post('/attendance', 'fetchAttendance')->name('report.attendance.fetch');
         Route::get('/fee/pending', 'feePending')->name('report.fee.pending');
         Route::post('/fee/pending', 'feePendingFetch')->name('report.fee.pending.fetch');
+    });
+});
+
+Route::middleware(['web', 'auth', 'branch'])->group(function () {
+    Route::prefix('student')->controller(StudentAreaController::class)->group(function () {
+        Route::get('/notes', 'getStudentNotes')->name('student.notes.register');
     });
 });
 
