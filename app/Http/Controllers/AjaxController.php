@@ -346,7 +346,7 @@ class AjaxController extends Controller implements HasMiddleware
         $batch = Batch::findOrFail($request->batch_id);
         if ($request->fid == 0):
             $fee = Fee::where('student_id', decrypt($request->student_id))->where('batch_id', $request->batch_id)->where('month', $request->month)->where('year', $request->year)->first();
-            if ($fee?->category == 'monthly' && $request->category == 'monthly'):
+            if ($fee?->category == 'monthly' && $request->category == 'monthly' && $fee->type == 'full'):
                 return response()->json([
                     "type" => "warning",
                     "message" => "Fee already recorded!",
