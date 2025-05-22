@@ -38,4 +38,9 @@ table.dataTable tr.selected {
     font-family: MalluFontManjari !important;
     font-size: large !important;
     color: #000 !important;
+    text-align: left !important;
+}
+
+.studentNote p{
+    text-align: left !important;
 }
