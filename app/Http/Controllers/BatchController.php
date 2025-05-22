@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\Course;
+use App\Models\Student;
 use App\Models\StudentBatch;
 use Carbon\Carbon;
 use Exception;
@@ -155,5 +156,15 @@ class BatchController extends Controller implements HasMiddleware
         StudentBatch::withTrashed()->findOrFail(decrypt($id))->restore();
         return redirect()->route('batch.register')
             ->with('success', 'Student restored successfully');
+    }
+
+    public function test()
+    {
+        $students = StudentBatch::all();
+        foreach ($students as $key => $item):
+            Student::where('id', $item->student_id)->update([
+                'created_at' => $item->created_at,
+            ]);
+        endforeach;
     }
 }

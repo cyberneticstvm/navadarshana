@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Extra;
 use App\Models\Student;
+use App\Models\StudentBatch;
 use App\Models\User;
 use App\Models\UserBranch;
 use Carbon\Carbon;

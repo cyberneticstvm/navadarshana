@@ -207,6 +207,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::post('/student/save', 'save')->name('batch.student.save');
         Route::get('/student/remove/{id}', 'batchStudentRemove')->name('batch.student.remove');
         Route::get('/student/restore/{id}', 'batchStudentRestore')->name('batch.student.restore');
+
+        Route::post('/student/test', 'test')->name('batch.student.test');
     });
 
     Route::prefix('/fee')->controller(FeeController::class)->group(function () {
