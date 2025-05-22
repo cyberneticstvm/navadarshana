@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Batch;
 use App\Models\Course;
 use App\Models\StudentBatch;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -130,6 +131,8 @@ class BatchController extends Controller implements HasMiddleware
                 $data[] = [
                     'batch_id' => decrypt($request->batch_id),
                     'student_id' => $student,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
                 ];
             endforeach;
             StudentBatch::insert($data);
