@@ -1,5 +1,5 @@
 @font-face {
-    font-family: 'MalluFontManjari'; /* Choose a name for your font */
+    font-family: MalluFontManjari; /* Choose a name for your font */
     src: url('/storage/fonts/Manjari-Regular.ttf') format('truetype');
 }
 .req::after {
@@ -35,5 +35,5 @@ table.dataTable tr.selected {
 }
 
 .studentNote{
-    font-family: 'MalluFontManjari';
+    font-family: MalluFontManjari !important;
 }
