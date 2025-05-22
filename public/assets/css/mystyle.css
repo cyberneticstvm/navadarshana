@@ -36,4 +36,6 @@ table.dataTable tr.selected {
 
 .studentNote{
     font-family: MalluFontManjari !important;
+    font-size: large !important;
+    color: #000 !important;
 }
