@@ -157,14 +157,4 @@ class BatchController extends Controller implements HasMiddleware
         return redirect()->route('batch.register')
             ->with('success', 'Student restored successfully');
     }
-
-    public function test()
-    {
-        $students = Student::all();
-        foreach ($students as $key => $item):
-            StudentBatch::where('student_id', $item->id)->update([
-                'created_at' => $item->created_at,
-            ]);
-        endforeach;
-    }
 }
