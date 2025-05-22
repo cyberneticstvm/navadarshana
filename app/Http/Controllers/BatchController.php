@@ -160,9 +160,9 @@ class BatchController extends Controller implements HasMiddleware
 
     public function test()
     {
-        $students = StudentBatch::all();
+        $students = Student::all();
         foreach ($students as $key => $item):
-            Student::where('id', $item->student_id)->update([
+            StudentBatch::where('student_id', $item->id)->update([
                 'created_at' => $item->created_at,
             ]);
         endforeach;
