@@ -3,7 +3,7 @@
 <div class="content-body">
     <div class="container-fluid">
         <div class="page-titles">
-            <h5 class="dashboard_bar">Note Register</h5>
+            <h5 class="dashboard_bar">Note Register {{ Auth::user()->student_id }}</h5>
             <ul class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">
                         Home </a>
