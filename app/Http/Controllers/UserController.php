@@ -24,7 +24,7 @@ class UserController extends Controller implements HasMiddleware
     {
         $this->middleware(function ($request, $next) {
             $this->branches = Branch::when(!in_array(Auth::user()->roles->first()->name, ['Administrator']), function ($q) {
-                return $q->where('id', Session::get('branch'));
+                return $q->where('id', 1);
             })->pluck('name', 'id');
 
             return $next($request);
