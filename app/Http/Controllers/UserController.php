@@ -18,9 +18,18 @@ use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    protected $branches;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            $this->branches = Branch::when(!in_array(Auth::user()->roles->first()->name, ['Administrator']), function ($q) {
+                return $q->where('id', Session::get('branch'));
+            })->pluck('name', 'id');
+
+            return $next($request);
+        });
+    }
 
     public static function middleware(): array
     {
@@ -64,7 +73,7 @@ class UserController extends Controller implements HasMiddleware
     public function create()
     {
         $roles = Role::pluck('name', 'name')->all();
-        $branches = Branch::pluck('name', 'id');
+        $branches = $this->branches;
         return view('user.create', compact('roles', 'branches'));
     }
 
@@ -117,7 +126,7 @@ class UserController extends Controller implements HasMiddleware
         $user = User::findOrFail(decrypt($id));
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
-        $branches = Branch::pluck('name', 'id');
+        $branches = $this->branches;
         return view('user.edit', compact('user', 'roles', 'userRole', 'branches'));
     }
 
