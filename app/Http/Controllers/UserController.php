@@ -22,14 +22,9 @@ class UserController extends Controller implements HasMiddleware
     protected $branches;
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            $this->branches = Branch::when(!in_array(Auth::user()->roles->first()->name, ['Administrator']), function ($q) {
-                return $q->where('id', 1);
-            })->pluck('name', 'id');
-            dd(Auth::user()->roles->first()->name);
-            die;
-            return $next($request);
-        });
+        $this->branches = Branch::when(!in_array(Auth::user()->roles->first()->name, ['Administrator']), function ($q) {
+            return $q->where('id', Session::get('branch'));
+        })->pluck('name', 'id');
     }
 
     public static function middleware(): array
