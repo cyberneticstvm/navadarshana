@@ -22,7 +22,7 @@ class StudentAreaController extends Controller implements HasMiddleware
 
     function getStudentNotes()
     {
-        $notes = Note::whereIn('topic_id', CourseTopic::whereIn('course_id', Batch::whereIn('id', StudentBatch::where('student_id', Auth::user()->id)->pluck('batch_id'))->pluck('course_id'))->pluck('topic_id'))->get();
+        $notes = Note::whereIn('topic_id', CourseTopic::whereIn('course_id', Batch::whereIn('id', StudentBatch::where('student_id', Auth::user()->student_id)->pluck('batch_id'))->pluck('course_id'))->pluck('topic_id'))->get();
         return view('student.zone.notes', compact('notes'));
     }
 
