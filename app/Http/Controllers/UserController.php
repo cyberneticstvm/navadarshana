@@ -26,7 +26,8 @@ class UserController extends Controller implements HasMiddleware
             $this->branches = Branch::when(!in_array(Auth::user()->roles->first()->name, ['Administrator']), function ($q) {
                 return $q->where('id', 1);
             })->pluck('name', 'id');
-
+            dd(Auth::user()->roles->first()->name);
+            die;
             return $next($request);
         });
     }
@@ -74,8 +75,6 @@ class UserController extends Controller implements HasMiddleware
     {
         $roles = Role::pluck('name', 'name')->all();
         $branches = $this->branches;
-        dd($branches);
-        die;
         return view('user.create', compact('roles', 'branches'));
     }
 
