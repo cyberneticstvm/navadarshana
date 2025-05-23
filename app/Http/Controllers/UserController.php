@@ -74,6 +74,8 @@ class UserController extends Controller implements HasMiddleware
     {
         $roles = Role::pluck('name', 'name')->all();
         $branches = $this->branches;
+        dd($branches);
+        die;
         return view('user.create', compact('roles', 'branches'));
     }
 
