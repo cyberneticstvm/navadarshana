@@ -45,6 +45,7 @@ class Student extends Model
 
     public function notes()
     {
-        return Note::whereIn('topic_id', CourseTopic::whereIn('course_id', Course::whereIn('id', Batch::whereIn('id', $this->activeBatches()->pluck('batch_id'))->pluck('course_id')))->pluck('topic_id'));
+        //return Note::whereIn('topic_id', CourseTopic::whereIn('course_id', Course::whereIn('id', Batch::whereIn('id', $this->activeBatches()->pluck('batch_id'))->pluck('course_id')))->pluck('topic_id'));
+        return Course::whereIn('id', Batch::whereIn('id', $this->activeBatches()->pluck('batch_id')))->get();
     }
 }
