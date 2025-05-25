@@ -15,9 +15,4 @@ class Course extends Model
     {
         return ($this->deleted_at) ? "<span class='badge badge-danger'>Deleted</span>" : "<span class='badge badge-success'>Active</span>";
     }
-
-    public function syllabuses()
-    {
-        return $this->hasMany(CourseSyllabus::class, 'course_id', 'id');
-    }
 }

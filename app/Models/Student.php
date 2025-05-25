@@ -42,4 +42,9 @@ class Student extends Model
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
+
+    public function notes()
+    {
+        return Note::whereIn('topic_id', CourseTopic::whereIn('course_id', Course::whereIn('id', Batch::whereIn('id', $this->activeBatches()->pluck('batch_id'))->pluck('course_id')))->pluck('topic_id'));
+    }
 }
