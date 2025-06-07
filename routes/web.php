@@ -65,6 +65,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::post('/update/batch/topic/status', 'updateBatchTopicStatus')->name('update.batch.topic.status');
         Route::get('/note/detail/{id}', 'getNoteDetails')->name('get.note.details');
         Route::post('/validate/fee', 'validateFee')->name('fee.validate');
+        Route::post('/fee/pending', 'feePending')->name('fee.pending');
     });
 
     Route::prefix('/dashboard')->controller(DashboardController::class)->group(function () {

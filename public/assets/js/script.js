@@ -248,6 +248,13 @@ $(function(){
             }
         });   
     });
+
+    $(document).on("change", ".status-select", function(){
+        let month = $("#selectMonth1").val();
+        let year = $("#selectYear1").val();
+        let batch = 0;
+        feePending(month, year, batch);
+    });
 });
 
 function showFooter(action){    
@@ -256,4 +263,19 @@ function showFooter(action){
     }else{
         $('.card-footer').addClass('d-none');
     }
+}
+
+function feePending(month, year, batch){
+    $.ajax({
+            type: 'POST',
+            url: '/ajax/fee/pending',
+            data: {'month': month, 'year': year, 'batch': batch},
+            success: function (res) {
+                console.log(res.fee)
+                $(".feePending").html(res.fee)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
 }

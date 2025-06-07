@@ -247,6 +247,30 @@
             <div class="col-xl-4">
                 <div class="row">
                     <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header pb-0 border-0">
+                                <h4 class="card-title">Fee Pending</h4>
+                                <select class="default-select status-select normal-select" id="selectMonth1">
+                                    @forelse(months() as $key => $month)
+                                    <option value="{{ $month->id }}" {{ ($month->id == date('m')) ? 'selected' : '' }}>{{ $month->name }}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                                <select class="default-select status-select normal-select" id="selectYear1">
+                                    @forelse(years() as $key => $year)
+                                    <option value="{{ $year->name }}" {{ ($month->name == date('yyyy')) ? 'selected' : '' }}>{{ $year->name }}</option>
+                                    @empty
+                                    @endforelse
+                                </select>
+                            </div>
+                            <div class="card-body pb-3">
+                                <span class="data-value feePending">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
                         <div class="card saller">
                             <div class="card-header border-0 d-block text-white pb-0">
                                 <h4 class="text-white mb-0">Current Month Enrollments</h4>

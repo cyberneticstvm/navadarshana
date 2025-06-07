@@ -12,6 +12,7 @@ use App\Models\SyllabiModule;
 use App\Models\Syllabus;
 use App\Models\Topic;
 use App\Models\TopicComplete;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\DB;
@@ -368,6 +369,14 @@ class AjaxController extends Controller implements HasMiddleware
         return response()->json([
             "type" => "success",
             "message" => "success",
+        ]);
+    }
+
+    function feePending(Request $request)
+    {
+        $fee = getFeePending($request);
+        return response()->json([
+            "fee" => number_format($fee->sum('fees'), 2),
         ]);
     }
 }
