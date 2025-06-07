@@ -255,6 +255,8 @@ $(function(){
         let batch = 0;
         feePending(month, year, batch);
     });
+
+    feePending($("#selectMonth1").val(), $("#selectYear1").val(), 0)
 });
 
 function showFooter(action){    
@@ -271,7 +273,6 @@ function feePending(month, year, batch){
             url: '/ajax/fee/pending',
             data: {'month': month, 'year': year, 'batch': batch},
             success: function (res) {
-                console.log(res.fee)
                 $(".feePending").html(res.fee)
             },
             error: function (err) {

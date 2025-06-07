@@ -264,7 +264,7 @@
                                 </select>
                             </div>
                             <div class="card-body pb-3">
-                                <span class="data-value feePending">0.00</span>
+                                <span class="data-value feePending fw-bold">0.00</span>
                             </div>
                         </div>
                     </div>
