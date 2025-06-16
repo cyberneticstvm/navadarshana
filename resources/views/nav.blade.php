@@ -123,12 +123,19 @@
                     </div>
                     <span class="nav-text">Materials</span>
                 </a>
-                {{
-                    Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
-                    ->linkIfCan('notes-list', route('notes.register'), 'Notes Register')
-                    ->linkIfCan('video-recorded-list', route('video.recorded.register'), 'Recorded Video Register')
-                    ->linkIfCan('download-list', route('download.register'), 'Downloads');
-                }}
+                <ul aria-expanded="false">
+                    <li><a href="{{ route('notes.register') }}" aria-expanded="false">Notes Register</a></li>
+                    <li><a href="{{ route('video.recorded.register') }}" aria-expanded="false">Recorded Video Register</a></li>
+                    <li><a href="{{ route('download.register') }}" aria-expanded="false">Downloads</a></li>
+                    <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Question Register</a>
+                        <ul aria-expanded="false">
+                            @forelse(getMenuItems() as $key => $item)
+                            <li><a href="{{ route('question.register', encrypt($item->id)) }}">{{ $item->value }}</a></li>
+                            @empty
+                            @endforelse
+                        </ul>
+                    </li>
+                </ul>
             </li>
             <li><a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
                     <div class="menu-icon">

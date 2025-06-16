@@ -18,6 +18,7 @@ use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\PdfController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentAreaController;
@@ -185,6 +186,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
         Route::get('/view/{id}', 'show')->name('notes.show');
         Route::post('/upload', 'upload')->name('notes.upload');
+    });
+
+    Route::prefix('/question')->controller(QuestionController::class)->group(function () {
+        Route::get('/{type}', 'index')->name('question.register');
+        Route::get('/create/{type}', 'create')->name('question.create');
+        Route::post('/create/{type}', 'store')->name('question.save');
+        Route::get('/edit/{type}/{id}', 'edit')->name('question.edit');
+        Route::post('/edit/{type}/{id}', 'update')->name('question.update');
+        Route::get('/delete/{type}/{id}', 'destroy')->name('question.delete');
     });
 
     Route::prefix('/downloads')->controller(DownloadController::class)->group(function () {

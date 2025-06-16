@@ -143,14 +143,14 @@
     function validateFee(fid) {
         var formData = $('#frmFee').serialize();
         formData += "&fid=" + fid
-        console.log(formData)
+        //console.log(formData)
         $.ajax({
             type: 'POST',
             url: '/ajax/validate/fee',
             data: formData,
             dataType: "json",
             success: function(response) {
-                console.log(response)
+                //console.log(response)
                 if (response.type == 'warning') {
                     notify(response.message);
                 }

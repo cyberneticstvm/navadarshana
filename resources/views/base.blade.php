@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/vendor/select2/css/select2.min.css') }}">
     <link href="{{ asset('/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/assets/vendor/summernote/summernote-bs5.css') }}" rel="stylesheet">
-    @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
+    @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit', 'question.create', 'question.edit')))
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.css" crossorigin>
     @endif
     <!-- Style css -->
@@ -471,7 +471,7 @@
     <script src="{{ asset('/assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('/assets/vendor/select2/js/select2.full.min.js') }}"></script>
     <script src="{{ asset('/assets/js/plugins-init/select2-init.js') }}"></script>
-    @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit')))
+    @if(in_array(Route::current()->getName(), array('notes.create', 'notes.edit', 'question.create', 'question.edit')))
     <script src="https://cdn.ckeditor.com/ckeditor5/45.0.0/ckeditor5.umd.js" crossorigin></script>
     <script src="{{ asset('/assets/ckeditor5/main.js') }}"></script>
     @endif

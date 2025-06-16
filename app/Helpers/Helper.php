@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Branch;
+use App\Models\Extra;
 use App\Models\Fee;
 use App\Models\IncomeExpense;
 use App\Models\Month;
@@ -8,6 +9,7 @@ use App\Models\StudentBatch;
 use App\Models\Year;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Config;
+use Maatwebsite\Excel\Concerns\ToArray;
 
 function branches()
 {
@@ -32,6 +34,11 @@ function years()
 function gcsPrivateUrl()
 {
     return Config::get('myconfig.gcs_url_private');
+}
+
+function getMenuItems()
+{
+    return Extra::whereIn('name', ['qtype'])->get();
 }
 
 function uniqueRegistrationId()
