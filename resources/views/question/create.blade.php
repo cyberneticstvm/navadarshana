@@ -48,43 +48,47 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="mb-3 col-md-10">
-                                    <label class="form-label req">Option</label>
+                            <div class="row mt-3 optionEditorContainer">
+                                @for($i = 1; $i < 6; $i++)
+                                    <div class="mb-3 col-md-10">
+                                    <label class="form-label req">Option {{ $i }}</label>
                                     {{ html()->textarea('options[]', old('options'))->class("form-control editor") }}
                                     @error('options')
                                     <small class="text-danger">{{ $errors->first('options') }}</small>
                                     @enderror
-                                </div>
-                                <div class="mb-3 col-md-2 text-center">
-                                    <label class="form-check-label">Correct Option</label><br>
-                                    {{ html()->checkbox('correct_answer')->class("form-check-input") }}
-                                </div>
                             </div>
-                            <div class="row mt-3 optionEditorContainer">
-
+                            <div class="mb-3 col-md-2 text-center">
+                                <label class="form-check-label">Correct Option</label><br>
+                                {{ html()->checkbox('correct_answer')->class("form-check-input") }}
                             </div>
-                            <div class="row">
-                                <div class="mb-3 col-md-12">
-                                    <label class="form-label">Explanation</label>
-                                    {{ html()->textarea('explanation', old('explanation'))->rows(5)->class("form-control")->placeholder('Explanation') }}
-                                    @error('explanation')
-                                    <small class="text-danger">{{ $errors->first('explanation') }}</small>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col text-end">
-                                    <a onClick="window.history.back()" class="btn btn-light btn-warning btn-link">Cancel</a>
-                                    {{ html()->submit("Save Question")->class("btn btn-submit btn-outline-primary") }}
-                                </div>
-                            </div>
-                            {{ html()->form()->close() }}
+                            @endfor
                         </div>
+                        <!--<div class="row">
+                            <div class="col-md-12">
+                                <a href="javascript:void(0)" class="text-info fw-bold addOptionEditor">Add Option</a>
+                            </div>
+                        </div>-->
+                        <div class="row mt-3">
+                            <div class="mb-3 col-md-12">
+                                <label class="form-label">Explanation</label>
+                                {{ html()->textarea('explanation', old('explanation'))->rows(5)->class("form-control")->placeholder('Explanation') }}
+                                @error('explanation')
+                                <small class="text-danger">{{ $errors->first('explanation') }}</small>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-end">
+                                <a onClick="window.history.back()" class="btn btn-light btn-warning btn-link">Cancel</a>
+                                {{ html()->submit("Save Question")->class("btn btn-submit btn-outline-primary") }}
+                            </div>
+                        </div>
+                        {{ html()->form()->close() }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 @endsection

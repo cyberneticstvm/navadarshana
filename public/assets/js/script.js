@@ -255,7 +255,6 @@ $(function(){
         let batch = 0;
         feePending(month, year, batch);
     });
-
     feePending($("#selectMonth1").val(), $("#selectYear1").val(), 0)
 });
 
