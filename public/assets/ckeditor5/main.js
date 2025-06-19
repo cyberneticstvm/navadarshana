@@ -343,5 +343,5 @@ const {
             }
         })        
         editor.setData("");
-        $(".form-check-input").attr("checked", false);
+        $(".form-check-input").prop("checked", false);
     });
