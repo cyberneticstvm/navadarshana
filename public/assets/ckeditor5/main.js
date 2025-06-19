@@ -338,6 +338,8 @@ const {
             let dis = $(this);
             if(dis.find(".correct_answer").val() == 1){
                 dis.find('text-end').addClass('bg-success');
+            }else{
+                dis.find('text-end').removeClass('bg-success');
             }
         })        
         editor.setData("");
