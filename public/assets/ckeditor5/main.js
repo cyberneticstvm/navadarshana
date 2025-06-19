@@ -337,7 +337,7 @@ const {
         $('.optionsContainer').find(".row").each(function(){
             let dis = $(this);
             if(dis.find(".correct_answer").val() == 1){
-                dis.addClass('bg-success');
+                dis.find('text-end').addClass('bg-success');
             }
         })        
         editor.setData("");
