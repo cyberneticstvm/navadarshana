@@ -327,6 +327,7 @@ const {
 
         $(document).on("click", ".btnAddOption", function(){
         let data = editor.getData();
-        console.log(data);
-        $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
+        $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");
+        
+        editor.setData("");
     });
