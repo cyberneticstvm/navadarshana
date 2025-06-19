@@ -326,10 +326,14 @@ const {
         } );
 
         $(document).on("click", ".btnAddOption", function(){
-        let data = editor.getData();
-        $('.optionsContainer').append("<div class='row'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"'>"+data+"</div><div class='col-md-2 text-end'><a href='javascript:void(0)' onclick='$(this)parent().remove()'>Remove</a></div></div>");
+        let data = editor.getData(); let answer = 0;
         if($(".form-check-input").is(":checked")){
-            console.log("checked");
+            answer = 1;
+            $(".optionsContainer").find(".correct_answer").each(function(){
+                $(this).val(0);
+            });
         }
+        $('.optionsContainer').append("<div class='row'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div><div class='col-md-2 text-end'><a href='javascript:void(0)' onclick='$(this).parent().remove()'>Remove</a></div></div>");
+        
         editor.setData("");
     });
