@@ -255,7 +255,8 @@ $(function(){
 
     $(document).on("click", ".btnAddOption", function(){
         let data = $(".optionEditor").val();
-        $('.optionsContainer').append("<div class='col-md-12'>"+data.html()+"</div>");        
+        console.log(data);
+        $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
     });
 
     $(document).on("change", ".status-select", function(){
