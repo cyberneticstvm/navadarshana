@@ -326,16 +326,13 @@ const {
         } );
 
         $(document).on("click", ".btnAddOption", function(){
-        let data = editor.getData(); let answer = 0; let bgColor = '';
+        let data = editor.getData(); let answer = 0;
         if($(".form-check-input").is(":checked")){
             answer = 1;
-            bgColor = 'bg-success';
             $(".optionsContainer").find(".correct_answer").each(function(){
                 $(this).val(0);
-                bgColor = '';
             });
         }
-        $('.optionsContainer').append("<div class='row "+bgColor+"'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div><div class='col-md-2 text-end'><a href='javascript:void(0)' onclick='$(this).parent().parent().remove()'>Remove</a></div></div>");
-        
+        $('.optionsContainer').append("<div class='row'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div><div class='col-md-2 text-end'><a href='javascript:void(0)' onclick='$(this).parent().parent().remove()'>Remove</a></div></div>");        
         editor.setData("");
     });
