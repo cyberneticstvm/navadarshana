@@ -92,7 +92,7 @@
             <div class="row">
                 <div class="ms-3 me-3 col-md-12 mt-3">
                     <label class="form-label req">Option</label>
-                    {{ html()->textarea('option', old('option'))->class("form-control optionEditor")->required() }}
+                    {{ html()->textarea('option', old('option'))->class("form-control optionEditor editor")->required() }}
                     @error('option')
                     <small class="text-danger">{{ $errors->first('option') }}</small>
                     @enderror

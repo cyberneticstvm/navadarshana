@@ -253,21 +253,21 @@ $(function(){
         $('#questionOptionBox').addClass('active');        
     });
 
-    let editor;
+    // let editor;
 
-    ClassicEditor
-    .create( document.querySelector( '.optionEditor' ), {
-        licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzkxNDg3OTksImp0aSI6Ijk3NDhjNWVhLTY2MDAtNDhmZi1hYjQ4LTNhOTg3MTA3ZGQwMyIsImxpY2Vuc2VkSG9zdHMiOlsiKi5uYXZhZGFyc2hhbmEuaW4iXSwidXNhZ2VFbmRwb2ludCI6Imh0dHBzOi8vcHJveHktZXZlbnQuY2tlZGl0b3IuY29tIiwiZGlzdHJpYnV0aW9uQ2hhbm5lbCI6WyJjbG91ZCIsImRydXBhbCJdLCJmZWF0dXJlcyI6WyJEUlVQIiwiRTJQIiwiRTJXIl0sInZjIjoiYzJjNzNhNzMifQ.UBsrkV90_OVr0sur3AfdvqTUG24HkrVdfyngVlrsTrDCZISwqQzf2_4dDsS7841CVLPAcm7rg7LwX9ZYhg5Y5A', // Or 'GPL'.
-    } )
-    .then( newEditor => {
-        editor = newEditor;
-    } )
-    .catch( error => {
-        console.error( error );
-    } );
+    // ClassicEditor
+    // .create( document.querySelector( '.optionEditor' ), {
+    //     licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzkxNDg3OTksImp0aSI6Ijk3NDhjNWVhLTY2MDAtNDhmZi1hYjQ4LTNhOTg3MTA3ZGQwMyIsImxpY2Vuc2VkSG9zdHMiOlsiKi5uYXZhZGFyc2hhbmEuaW4iXSwidXNhZ2VFbmRwb2ludCI6Imh0dHBzOi8vcHJveHktZXZlbnQuY2tlZGl0b3IuY29tIiwiZGlzdHJpYnV0aW9uQ2hhbm5lbCI6WyJjbG91ZCIsImRydXBhbCJdLCJmZWF0dXJlcyI6WyJEUlVQIiwiRTJQIiwiRTJXIl0sInZjIjoiYzJjNzNhNzMifQ.UBsrkV90_OVr0sur3AfdvqTUG24HkrVdfyngVlrsTrDCZISwqQzf2_4dDsS7841CVLPAcm7rg7LwX9ZYhg5Y5A', // Or 'GPL'.
+    // } )
+    // .then( newEditor => {
+    //     editor = newEditor;
+    // } )
+    // .catch( error => {
+    //     console.error( error );
+    // } );
 
     $(document).on("click", ".btnAddOption", function(){
-        let data = editor.getData();
+        let data = editors.instance[0].getData();
         console.log(data);
         $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
     });
