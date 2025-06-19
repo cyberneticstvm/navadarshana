@@ -249,6 +249,10 @@ $(function(){
         });   
     });
 
+    $(document).on("click", ".addOptionEditor", function(){
+        $('#questionOptionBox').addClass('active');        
+    });
+
     $(document).on("change", ".status-select", function(){
         let month = $("#selectMonth1").val();
         let year = $("#selectYear1").val();

@@ -49,25 +49,14 @@
                                 </div>
                             </div>
                             <div class="row mt-3 optionEditorContainer">
-                                @for($i = 1; $i < 6; $i++)
-                                    <div class="mb-3 col-md-10">
-                                    <label class="form-label req">Option {{ $i }}</label>
-                                    {{ html()->textarea('options[]', old('options'))->class("form-control editor") }}
-                                    @error('options')
-                                    <small class="text-danger">{{ $errors->first('options') }}</small>
-                                    @enderror
+
                             </div>
-                            <div class="mb-3 col-md-2 text-center">
-                                <label class="form-check-label">Correct Option</label><br>
-                                {{ html()->checkbox('correct_answer')->class("form-check-input") }}
-                            </div>
-                            @endfor
                         </div>
-                        <!--<div class="row">
-                            <div class="col-md-12">
-                                <a href="javascript:void(0)" class="text-info fw-bold addOptionEditor">Add Option</a>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <a href="javascript:void(0)" class="btn btn-outline-info addOptionEditor">Add Options</a>
                             </div>
-                        </div>-->
+                        </div>
                         <div class="row mt-3">
                             <div class="mb-3 col-md-12">
                                 <label class="form-label">Explanation</label>
@@ -90,5 +79,34 @@
         </div>
     </div>
 </div>
+<!--**********************************
+            Chat box start
+        ***********************************-->
+<div class="chatbox" id="questionOptionBox">
+    <div class="chatbox-close"></div>
+    <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
+        <div class="card-header chat-list-header text-center">
+            <h5>Options</h5>
+        </div>
+        <div class="card-body contacts_body p-0 dz-scroll questionOptions" id="DZ_W_Contacts_Body">
+            <div class="row">
+                <div class="ms-3 me-3 col-md-12 mt-3">
+                    <label class="form-label req">Option</label>
+                    {{ html()->textarea('options[]', old('options'))->class("form-control editor") }}
+                    @error('options')
+                    <small class="text-danger">{{ $errors->first('options') }}</small>
+                    @enderror
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col text-end">
+                    {{ html()->button("Add")->class("btn btn-outline-info") }}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!--**********************************
+            Chat box End
+        ***********************************-->
 @endsection
