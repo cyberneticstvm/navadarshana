@@ -267,7 +267,7 @@ $(function(){
     // } );
 
     $(document).on("click", ".btnAddOption", function(){
-        let data = editors.instance[0].getData();
+        let data = editors.instance[1].getData();
         console.log(data);
         $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
     });
