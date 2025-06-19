@@ -68,10 +68,9 @@ const {
             TodoList,
             Underline
         } = CKEDITOR;
-        const editors = document.querySelectorAll('.editor');
-        editors.forEach((el) => {
+        const editor = document.querySelectorAll('.editor');
         ClassicEditor
-            .create(el, {
+            .create(editor, {
                 licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzkxNDg3OTksImp0aSI6Ijk3NDhjNWVhLTY2MDAtNDhmZi1hYjQ4LTNhOTg3MTA3ZGQwMyIsImxpY2Vuc2VkSG9zdHMiOlsiKi5uYXZhZGFyc2hhbmEuaW4iXSwidXNhZ2VFbmRwb2ludCI6Imh0dHBzOi8vcHJveHktZXZlbnQuY2tlZGl0b3IuY29tIiwiZGlzdHJpYnV0aW9uQ2hhbm5lbCI6WyJjbG91ZCIsImRydXBhbCJdLCJmZWF0dXJlcyI6WyJEUlVQIiwiRTJQIiwiRTJXIl0sInZjIjoiYzJjNzNhNzMifQ.UBsrkV90_OVr0sur3AfdvqTUG24HkrVdfyngVlrsTrDCZISwqQzf2_4dDsS7841CVLPAcm7rg7LwX9ZYhg5Y5A',
                 plugins: [Alignment,
                     Autoformat,
@@ -195,5 +194,4 @@ const {
             .catch((error) => {
                 console.log(error.stack);
             });
-        });
         
