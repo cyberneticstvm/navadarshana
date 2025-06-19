@@ -268,7 +268,7 @@ $(function(){
 
     $(document).on("click", ".btnAddOption", function(){
         let editor = document.querySelector('.optionEditor');
-        let data = ClassicEditor.instances[editor].getData();
+        let data = CKEDITOR.instances['option'].getData();
         console.log(data);
         $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
     });
