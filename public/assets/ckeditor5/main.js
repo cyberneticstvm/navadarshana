@@ -333,8 +333,8 @@ const {
                 $(this).val(0);
             });
         }
-        $('.optionsContainer').append("<div class='card'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div><div class='col-md-2 text-end'><a href='javascript:void(0)' onclick='$(this).parent().parent().remove()'>Remove</a></div></div>");
-        $('.optionsContainer').find(".row").each(function(){
+        $('.optionsContainer').append("<div class='card'><div class='card-header'><a href='javascript:void(0)' onclick='$(this).parent().parent().remove()'>Remove</a></div><div class='card-body'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div></div></div>");
+        $('.optionsContainer').find(".card").each(function(){
             let dis = $(this);
             if(dis.find(".correct_answer").val() == 1){
                 dis.find('.text-end').addClass('bg-success');
