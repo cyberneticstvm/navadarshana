@@ -197,3 +197,136 @@ const {
             });
         });
         
+        let editor;
+
+        ClassicEditor
+        .create( document.querySelector( '.optionEditor' ), {
+            licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NzkxNDg3OTksImp0aSI6Ijk3NDhjNWVhLTY2MDAtNDhmZi1hYjQ4LTNhOTg3MTA3ZGQwMyIsImxpY2Vuc2VkSG9zdHMiOlsiKi5uYXZhZGFyc2hhbmEuaW4iXSwidXNhZ2VFbmRwb2ludCI6Imh0dHBzOi8vcHJveHktZXZlbnQuY2tlZGl0b3IuY29tIiwiZGlzdHJpYnV0aW9uQ2hhbm5lbCI6WyJjbG91ZCIsImRydXBhbCJdLCJmZWF0dXJlcyI6WyJEUlVQIiwiRTJQIiwiRTJXIl0sInZjIjoiYzJjNzNhNzMifQ.UBsrkV90_OVr0sur3AfdvqTUG24HkrVdfyngVlrsTrDCZISwqQzf2_4dDsS7841CVLPAcm7rg7LwX9ZYhg5Y5A',
+            plugins: [Alignment,
+                    Autoformat,
+                    AutoImage,
+                    AutoLink,
+                    Autosave,
+                    BlockQuote,
+                    Bold,
+                    Bookmark,
+                    Base64UploadAdapter,
+                    CloudServices,
+                    Code,
+                    Emoji,
+                    Essentials,
+                    FindAndReplace,
+                    FontBackgroundColor,
+                    FontColor,
+                    FontFamily,
+                    FontSize,
+                    GeneralHtmlSupport,
+                    Heading,
+                    Highlight,
+                    HorizontalLine,
+                    ImageBlock,
+                    ImageCaption,
+                    ImageEditing,
+                    ImageInline,
+                    ImageInsert,
+                    ImageInsertViaUrl,
+                    ImageResize,
+                    ImageStyle,
+                    ImageTextAlternative,
+                    ImageToolbar,
+                    ImageUpload,
+                    ImageUtils,
+                    Indent,
+                    IndentBlock,
+                    Italic,
+                    Link,
+                    LinkImage,
+                    List,
+                    ListProperties,
+                    Mention,
+                    PageBreak,
+                    Paragraph,
+                    PasteFromOffice,
+                    PictureEditing,
+                    RemoveFormat,
+                    SpecialCharacters,
+                    SpecialCharactersArrows,
+                    SpecialCharactersCurrency,
+                    SpecialCharactersEssentials,
+                    SpecialCharactersLatin,
+                    SpecialCharactersMathematical,
+                    SpecialCharactersText,
+                    Strikethrough,
+                    Style,
+                    Subscript,
+                    Superscript,
+                    Table,
+                    TableCaption,
+                    TableCellProperties,
+                    TableColumnResize,
+                    TableProperties,
+                    TableToolbar,
+                    TextTransformation,
+                    TodoList,
+                    Underline
+                ],
+                toolbar: [
+                    'heading',
+                    'style',
+                    '|',
+                    'fontSize',
+                    'fontFamily',
+                    'fontColor',
+                    'fontBackgroundColor',
+                    '|',
+                    'bold',
+                    'italic',
+                    'underline',
+                    '|',
+                    'link',
+                    'insertImage',
+                    'insertTable',
+                    'highlight',
+                    'blockQuote',
+                    '|',
+                    'alignment',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    'todoList',
+                    'outdent',
+                    'indent'
+                ],
+                /*simpleUpload: {
+                    // The URL that the images are uploaded to.
+                    uploadUrl: "{{ route('notes.upload') }}",
+                    // Headers sent along with the XMLHttpRequest to the upload server.
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    }
+                },*/
+                image: {
+                    toolbar: [
+                        'toggleImageCaption',
+                        'imageTextAlternative',
+                        '|',
+                        'imageStyle:inline',
+                        'imageStyle:wrapText',
+                        'imageStyle:breakText',
+                        '|',
+                        'resizeImage',
+                    ]
+                }, // Or 'GPL'.
+        } )
+        .then( newEditor => {
+            editor = newEditor;
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+
+        $(document).on("click", ".btnAddOption", function(){
+        let data = editor.getData();
+        console.log(data);
+        $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
+    });
