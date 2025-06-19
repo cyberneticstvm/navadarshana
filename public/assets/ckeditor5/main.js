@@ -328,7 +328,7 @@ const {
         $(document).on("click", ".btnAddOption", function(){
         let data = editor.getData();
         $('.optionsContainer').append("<div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"'>"+data+"</div><div class='col-md-2'>Remove</div>");
-        if(input['name="correct"'].is(":checked")){
+        if($(".form-check-input").is(":checked")){
             console.log("checked");
         }
         editor.setData("");
