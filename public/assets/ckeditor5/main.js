@@ -337,9 +337,9 @@ const {
         $('.optionsContainer').find(".card").each(function(key, el){
             let dis = $(this);
             if(dis.find(".correct_answer").val() == 1){
-                dis.find('.card-header').html('Option' + key + 1).addClass('text-success');
+                dis.find('.card-header').html('Option').addClass('text-success');
             }else{
-                dis.find('.card-header').html('Option' + key + 1).removeClass('text-success');
+                dis.find('.card-header').html('Option').removeClass('text-success');
             }
         })        
         editor.setData("");
