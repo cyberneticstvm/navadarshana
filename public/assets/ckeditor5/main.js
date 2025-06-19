@@ -333,7 +333,7 @@ const {
                 $(this).val(0);
             });
         }
-        $('.optionsContainer').append("<div class='card'><div class='card-header'></div><div class='card-body'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div></div><div class='card-footer text-end'><a href='javascript:void(0)' class='fw-bold text-danger' onclick='$(this).parent().parent().remove()'>Remove</a></div></div>");
+        $('.optionsContainer').append("<div class='card'><div class='card-header'></div><div class='card-body'><div class='col-md-12'><input type='hidden' name='options[]' value='"+data+"' /><input type='hidden' name='correct_answer' class='correct_answer' value='"+answer+"' />"+data+"</div></div><div class='card-footer text-end'><a href='javascript:void(0)' class='fw-bold text-danger' onclick='$(this).parent().parent().remove()'>Remove</a></div></div>");
         $('.optionsContainer').find(".card").each(function(key, el){
             let dis = $(this);
             if(dis.find(".correct_answer").val() == 1){
