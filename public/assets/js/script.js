@@ -253,6 +253,11 @@ $(function(){
         $('#questionOptionBox').addClass('active');        
     });
 
+    $(document).on("click", ".btnAddOption", function(){
+        let data = $(".optionEditor").val();
+        $('.optionsContainer').append("<div class='col-md-12'>"+data+"</div>");        
+    });
+
     $(document).on("change", ".status-select", function(){
         let month = $("#selectMonth1").val();
         let year = $("#selectYear1").val();

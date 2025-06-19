@@ -48,7 +48,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mt-3 optionEditorContainer">
+                            <div class="row mt-3 optionsContainer">
 
                             </div>
                         </div>
@@ -92,15 +92,19 @@
             <div class="row">
                 <div class="ms-3 me-3 col-md-12 mt-3">
                     <label class="form-label req">Option</label>
-                    {{ html()->textarea('options[]', old('options'))->class("form-control editor") }}
+                    {{ html()->textarea('options[]', old('options'))->class("form-control optionEditor editor") }}
                     @error('options')
                     <small class="text-danger">{{ $errors->first('options') }}</small>
                     @enderror
                 </div>
+                <div class="ms-3 col-md-12 col-4 mt-3">
+                    <label class="form-check-label" for="">Correct Answer</label><br />
+                    {{ html()->checkbox($name = 'correct', false, 1)->class('ms-3 form-check-input') }}
+                </div>
             </div>
-            <div class="row mt-3">
+            <div class="row">
                 <div class="col text-end">
-                    {{ html()->button("Add")->class("btn btn-outline-info") }}
+                    {{ html()->button("Add")->class("btn btn-outline-info btnAddOption") }}
                 </div>
             </div>
         </div>
