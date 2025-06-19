@@ -327,7 +327,7 @@ const {
 
         $(document).on("click", ".btnAddOption", function(){
         let data = editor.getData();
-        $('.optionsContainer').append("<div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"'>"+data+"</div><div class='col-md-2'>Remove</div>");
+        $('.optionsContainer').append("<div class='row'><div class='col-md-10'><input type='hidden' name='options[]' value='"+data+"'>"+data+"</div><div class='col-md-2 text-end'><a href='javascript:void(0)' onclick='$(this)parent().remove()'>Remove</a></div></div>");
         if($(".form-check-input").is(":checked")){
             console.log("checked");
         }

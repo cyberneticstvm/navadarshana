@@ -48,7 +48,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="row mt-3 optionsContainer">
+                            <div class="mt-3 optionsContainer">
 
                             </div>
                         </div>
