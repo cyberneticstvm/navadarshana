@@ -100,7 +100,7 @@ class QuestionController extends Controller implements HasMiddleware
      */
     public function edit(string $type, string $id)
     {
-        $type = Extra::findOrFail(decrypt($type));
+        $type = Extra::findOrFail($type);
         $question = Question::findOrFail(decrypt($id));
         $syllabuses = Syllabus::pluck('name', 'id');
         $modules = Module::where('syllabus_id', $question->syllabus_id)->pluck('name', 'id');
