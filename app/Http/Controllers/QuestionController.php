@@ -83,7 +83,7 @@ class QuestionController extends Controller implements HasMiddleware
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
-        return redirect()->route('question.register', $type->id)
+        return redirect()->route('question.register', $type)
             ->with('success', 'Question created successfully');
     }
 
@@ -143,7 +143,7 @@ class QuestionController extends Controller implements HasMiddleware
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
-        return redirect()->route('question.register', $type)
+        return redirect()->route('question.register', $type->id)
             ->with('success', 'Question updated successfully');
     }
 
