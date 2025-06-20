@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Extra;
+use App\Models\Module;
 use App\Models\Question;
 use App\Models\QuestionOption;
 use App\Models\Syllabus;
+use App\Models\Topic;
 use Carbon\Carbon;
 use Exception;
 use GPBMetadata\Google\Protobuf\Type;
@@ -99,6 +101,11 @@ class QuestionController extends Controller implements HasMiddleware
     public function edit(string $type, string $id)
     {
         $type = Extra::findOrFail(decrypt($type));
+        $question = Question::findOrFail(decrypt($id));
+        $syllabuses = Syllabus::pluck('name', 'id');
+        $modules = Module::where('syllabus_id', $question->syllabus_id)->pluck('name', 'id');
+        $topics = Topic::where('module_id', $question->module_id)->pluck('name', 'id');
+        return view('question.edit ', compact('type', 'question', 'syllabuses', 'modules', 'topics'));
     }
 
     /**
