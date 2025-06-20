@@ -33,6 +33,8 @@ class QuestionController extends Controller implements HasMiddleware
      */
     public function index(string $type)
     {
+        dd($type, decrypt($type));
+        die;
         $questions = Question::withTrashed()->where('type_id', decrypt($type))->latest()->get();
         $type = Extra::findOrFail(decrypt($type));
         return view('question.index ', compact('questions', 'type'));
