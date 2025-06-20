@@ -97,7 +97,7 @@
 <!--**********************************
             Chat box start
         ***********************************-->
-<!--<div class="chatbox" id="questionOptionBox">
+<div class="chatbox" id="questionOptionBox">
     <div class="chatbox-close"></div>
     <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box">
         <div class="card-header chat-list-header text-center">
@@ -124,7 +124,7 @@
             </div>
         </div>
     </div>
-</div>-->
+</div>
 <!--**********************************
             Chat box End
         ***********************************-->
