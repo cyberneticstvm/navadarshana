@@ -17,7 +17,7 @@
                 <div class="card dz-card">
                     <div class="card-body">
                         <div class="basic-form">
-                            {{ html()->form('POST', route('question.update', encrypt($type->id)))->acceptsFiles()->open() }}
+                            {{ html()->form('POST', route('question.update', ['type' => encrypt($type->id), 'id' => encrypt($question->id)]))->acceptsFiles()->open() }}
                             <div class="row">
                                 <div class="col-md-4">
                                     <label class="form-label req">Syllabus</label>
