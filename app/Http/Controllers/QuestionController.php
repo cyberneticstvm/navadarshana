@@ -60,6 +60,7 @@ class QuestionController extends Controller implements HasMiddleware
         ]);
         try {
             $input = $request->except(array('options', 'correct_answer'));
+            $input['type_id'] = $type->id;
             $input['created_by'] = $request->user()->id;
             $input['updated_by'] = $request->user()->id;
             DB::transaction(function () use ($input, $request) {
