@@ -153,5 +153,9 @@ class QuestionController extends Controller implements HasMiddleware
     public function destroy(string $type, string $id)
     {
         $type = Extra::findOrFail(decrypt($type));
+        Question::findOrFail(decrypt($id))->delete();
+        QuestionOption::where('question_id', decrypt($id))->delete();
+        return redirect()->route('question.register', encrypt($type->id))
+            ->with('success', 'Question deleted successfully');
     }
 }
