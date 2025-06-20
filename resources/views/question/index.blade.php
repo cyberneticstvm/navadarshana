@@ -36,7 +36,7 @@
                                         <td>{{ $q?->syllabus?->name }}</td>
                                         <td>{{ $q?->module?->name }}</td>
                                         <td>{{ $q?->topic?->name }}</td>
-                                        <td>{{ $q->name }}</td>
+                                        <td>{!! $q->name !!}</td>
                                         <td>{!! $q->status() !!}</td>
                                         <td><span class="badge badge-lg light badge-warning"><a href="{{ route('question.edit', ['type' => $type->id, 'id' => encrypt($q->id)]) }}" class="text-warning">Edit</a></span></td>
                                         <td><span class="badge badge-lg light badge-danger"><a href="{{ route('question.delete', ['type' => $type->id, 'id' => encrypt($q->id)]) }}" class="text-danger dlt">Delete</a></span></td>
