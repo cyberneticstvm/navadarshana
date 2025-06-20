@@ -8,6 +8,7 @@
         });
 
         $('form').submit(function() {
+            alert("oks")
             $(this).find(".btn-submit").attr("disabled", true);
             $(this).find(".btn-submit").html("Loading...<span class='spinner-border spinner-border-sm' role='status' aria-hidden='true'></span>");
         });
