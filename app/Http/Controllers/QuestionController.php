@@ -33,8 +33,6 @@ class QuestionController extends Controller implements HasMiddleware
      */
     public function index(string $type)
     {
-        dd($type);
-        die;
         $questions = Question::withTrashed()->where('type_id', decrypt($type))->latest()->get();
         $type = Extra::findOrFail(decrypt($type));
         return view('question.index ', compact('questions', 'type'));
@@ -145,7 +143,7 @@ class QuestionController extends Controller implements HasMiddleware
         } catch (Exception $e) {
             return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
         }
-        return redirect()->route('question.register', $type->id)
+        return redirect()->route('question.register', encrypt($type->id))
             ->with('success', 'Question updated successfully');
     }
 
