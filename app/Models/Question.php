@@ -30,4 +30,9 @@ class Question extends Model
     {
         return $this->belongsTo(Syllabus::class, 'syllabus_id', 'id');
     }
+
+    public function options()
+    {
+        return $this->hasMany(QuestionOption::class, 'question_id', 'id');
+    }
 }

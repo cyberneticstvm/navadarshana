@@ -49,7 +49,22 @@
                                 </div>
                             </div>
                             <div class="mt-3 optionsContainer">
-
+                                @forelse($question->options as $key => $option)
+                                <div class='card'>
+                                    <div class='card-header' {{ ($option->correct_answer == 1) ? 'text-success' : '' }}>Option</div>
+                                    <div class='card-body'>
+                                        <div class='col-md-12'>
+                                            {!! $option->name !!}
+                                        </div>
+                                        <div class='col-md-12'>
+                                            <input type='hidden' name='options[]' value="{{ $option->name }}" />
+                                            <input type='hidden' name='correct_answer[]' class='correct_answer' value="{{ $option->correct_answer }}" />
+                                        </div>
+                                    </div>
+                                    <div class='card-footer text-end'><a href='javascript:void(0)' class='fw-bold text-danger' onclick='$(this).parent().parent().remove()'>Remove</a></div>
+                                </div>
+                                @empty
+                                @endforelse
                             </div>
                         </div>
                         <div class="row">
@@ -69,7 +84,7 @@
                         <div class="row">
                             <div class="col text-end">
                                 <a onClick="window.history.back()" class="btn btn-light btn-warning btn-link">Cancel</a>
-                                {{ html()->submit("Save Question")->class("btn btn-submit btn-outline-primary") }}
+                                {{ html()->submit("Update Question")->class("btn btn-submit btn-outline-primary") }}
                             </div>
                         </div>
                         {{ html()->form()->close() }}
