@@ -114,6 +114,37 @@ class QuestionController extends Controller implements HasMiddleware
     public function update(Request $request, string $type, string $id)
     {
         $type = Extra::findOrFail(decrypt($type));
+        $question = Question::findOrFail(decrypt($id));
+        $request->validate([
+            'name' => 'required',
+            'syllabus_id' => 'required',
+            'module_id' => 'required',
+            'topic_id' => 'required',
+        ]);
+        try {
+            $input = $request->except(array('options', 'correct_answer'));
+            $input['updated_by'] = $request->user()->id;
+            DB::transaction(function () use ($input, $request, $question) {
+                $options = [];
+                $question->update($input);
+                foreach ($request->options as $key => $op):
+                    $options[] = [
+                        'question_id' => $question->id,
+                        'option_id' => $key + 1,
+                        'correct_answer' => $request->correct_answer[$key],
+                        'name' => $op,
+                        'created_at' => $question->created_at,
+                        'updated_at' => Carbon::now(),
+                    ];
+                endforeach;
+                QuestionOption::where('question_id', $question->id)->forceDelete();
+                QuestionOption::insert($options);
+            });
+        } catch (Exception $e) {
+            return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
+        }
+        return redirect()->route('question.register', $type)
+            ->with('success', 'Question updated successfully');
     }
 
     /**
