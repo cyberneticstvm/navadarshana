@@ -51,7 +51,7 @@
                             <div class="mt-3 optionsContainer">
                                 @forelse($question->options as $key => $option)
                                 <div class='card'>
-                                    <div class='card-header' {{ ($option->correct_answer == 1) ? 'text-success' : '' }}>Option</div>
+                                    <div class="card-header {{ ($option->correct_answer == 1) ? 'text-success' : '' }}">Option</div>
                                     <div class='card-body'>
                                         <div class='col-md-12'>
                                             {!! $option->name !!}
