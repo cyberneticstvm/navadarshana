@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('question_id');
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->char('option_id', 3)->nullable();
+            $table->char('correct_answer', 3)->nullable();
             $table->longText('name')->nullable();
             $table->timestamps();
             $table->softDeletes();

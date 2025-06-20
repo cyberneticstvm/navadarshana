@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('type_id')->references('id')->on('extras')->onDelete('cascade');
             $table->longText('name')->nullable();
             $table->longText('explanation')->nullable();
-            $table->char('correct_answer', 3)->nullable();
             $table->unsignedBigInteger('syllabus_id');
             $table->unsignedBigInteger('module_id');
             $table->unsignedBigInteger('topic_id');

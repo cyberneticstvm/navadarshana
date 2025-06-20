@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Extra;
 use App\Models\Question;
+use App\Models\QuestionOption;
 use App\Models\Syllabus;
+use Carbon\Carbon;
+use Exception;
 use GPBMetadata\Google\Protobuf\Type;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller implements HasMiddleware
 {
@@ -48,6 +52,36 @@ class QuestionController extends Controller implements HasMiddleware
     public function store(Request $request, string $type)
     {
         $type = Extra::findOrFail(decrypt($type));
+        $request->validate([
+            'name' => 'required',
+            'syllabus_id' => 'required',
+            'module_id' => 'required',
+            'topic_id' => 'required',
+        ]);
+        try {
+            $input = $request->except(array('options', 'correct_answer'));
+            $input['created_by'] = $request->user()->id;
+            $input['updated_by'] = $request->user()->id;
+            DB::transaction(function () use ($input, $request) {
+                $options = [];
+                $question = Question::create($input);
+                foreach ($request->options as $key => $op):
+                    $options[] = [
+                        'question_id' => $question->id,
+                        'option_id' => $key + 1,
+                        'correct_answer' => $request->correct_answer[$key],
+                        'name' => $op,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+                endforeach;
+                QuestionOption::insert($options);
+            });
+        } catch (Exception $e) {
+            return redirect()->back()->with("error", $e->getMessage())->withInput($request->all());
+        }
+        return redirect()->route('question.register')
+            ->with('success', 'Question created successfully');
     }
 
     /**
