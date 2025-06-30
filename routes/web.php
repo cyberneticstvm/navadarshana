@@ -293,8 +293,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/', 'index')->name('student.feedback.register');
     });
 
-    Route::prefix('/student')->controller(PdfController::class)->group(function () {
-        Route::get('/fee/receipt', 'feeReceipt')->name('student.fee.receipt');
+    Route::prefix('/pdf')->controller(PdfController::class)->group(function () {
+        Route::get('/student/fee/receipt', 'feeReceipt')->name('student.fee.receipt');
+        Route::get('/daybook/{from_date}/{to_date}/{branch}', 'dayBook')->name('daybook.pdf');
     });
 
     Route::prefix('/report')->controller(ReportController::class)->group(function () {

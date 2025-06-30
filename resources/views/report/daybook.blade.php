@@ -59,7 +59,22 @@
                     <div class="card-body p-0">
                         <div class="table-responsive active-projects">
                             <div class="tbl-caption">
-                                <h4 class="heading mb-0">Daybook</h4>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4 class="heading mb-0">Daybook</h4>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        @csrf
+                                        <div class="btn-group mb-1">
+                                            <button type="button" class="btn ">Export</button>
+                                            <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ route('daybook.pdf', ['from_date' => $inputs[0], 'to_date' => $inputs[1], 'branch' => $inputs[2]]) }}" target="_blank">Pdf</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <table class="table">
                                 <thead>

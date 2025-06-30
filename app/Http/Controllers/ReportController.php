@@ -70,14 +70,8 @@ class ReportController extends Controller implements HasMiddleware
         $inputs = array($request->from_date, $request->to_date, $request->branch);
         $branches = $this->branches;
         $opening_balance = getOpeningBalance($inputs[0], $inputs[1], $inputs[2]);
-
-        $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) END AS admission_fee, CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) END AS batch_fee, CASE WHEN category='other' THEN amount-IFNULL(discount, 0) END AS material_fee, IFNULL(discount, 0) AS discount")->whereBetween('payment_date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->branch > 0, function ($q) use ($request) {
-            return $q->where('branch_id', $request->branch);
-        })->get();
-
-        $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->whereBetween('date', [Carbon::parse($inputs[0])->startOfDay(), Carbon::parse($inputs[1])->endOfDay()])->when($request->branch > 0, function ($q) use ($request) {
-            return $q->where('branch_id', $request->branch);
-        })->get();
+        $fee = getFee($request, $inputs);
+        $ie = getIe($request, $inputs);
 
         return view('report.daybook', compact('inputs', 'branches', 'fee', 'ie', 'opening_balance'));
     }
