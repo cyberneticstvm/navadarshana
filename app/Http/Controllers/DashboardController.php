@@ -33,7 +33,12 @@ class DashboardController extends Controller implements HasMiddleware
     {
         $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) END AS admission, CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) END AS batch, CASE WHEN category='other' THEN amount-IFNULL(discount, 0) END AS other")->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
-        })->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year)->get();
+        })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
+            return $q->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year);
+        })->when(Auth::user()->roles->first()->name != 'Administrator', function ($q) {
+            return $q->whereDay('payment_date', Carbon::now()->day)->whereMonth('payment_date', Carbon::now()->month)->wherewhereYear('payment_date', Carbon::now()->year);
+        })->get();
+        //whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year)->get();
         $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
         })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
