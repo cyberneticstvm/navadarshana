@@ -12,6 +12,7 @@ use App\Models\StudentBatch;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -35,7 +36,12 @@ class DashboardController extends Controller implements HasMiddleware
         })->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year)->get();
         $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->when($request->type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
-        })->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
+        })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
+            return $q->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
+        })->when(Auth::user()->roles->first()->name != 'Administrator', function ($q) {
+            return $q->whereDay('date', Carbon::now()->day)->whereMonth('date', Carbon::now()->month)->wherewhereYear('date', Carbon::now()->year);
+        })->get();
+        //whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
         $type = $request->type;
         return view('dashboards.finance', compact('fee', 'ie', 'type'));
     }
