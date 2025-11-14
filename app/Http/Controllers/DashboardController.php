@@ -36,7 +36,7 @@ class DashboardController extends Controller implements HasMiddleware
         })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
             return $q->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year);
         })->when(Auth::user()->roles->first()->name != 'Administrator', function ($q) {
-            return $q->whereDay('payment_date', Carbon::now()->day)->whereMonth('payment_date', Carbon::now()->month)->wherewhereYear('payment_date', Carbon::now()->year);
+            return $q->whereDay('payment_date', Carbon::now()->day)->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year);
         })->get();
         //whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year)->get();
         $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->when($request->type == 0, function ($q) {
@@ -44,7 +44,7 @@ class DashboardController extends Controller implements HasMiddleware
         })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
             return $q->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
         })->when(Auth::user()->roles->first()->name != 'Administrator', function ($q) {
-            return $q->whereDay('date', Carbon::now()->day)->whereMonth('date', Carbon::now()->month)->wherewhereYear('date', Carbon::now()->year);
+            return $q->whereDay('date', Carbon::now()->day)->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
         })->get();
         //whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
         $type = $request->type;
