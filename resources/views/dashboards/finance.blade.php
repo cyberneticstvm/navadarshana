@@ -36,7 +36,9 @@
                                 </ul>
                             </div>
                             <div class="card-body p-0">
+                                @if(Auth::user()->roles->first()->name == 'Administrator')
                                 <div id="chartBarRunning1" class="pt-0"></div>
+                                @endif
                                 <div class="ttl-project">
                                     <div class="pr-data">
                                         <h5>{{ number_format($fee->sum('admission'), 2) }}</h5>
