@@ -19,12 +19,12 @@
                                             role="tab" aria-selected="true">Week</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" data-series="month" id="pills-month-tab"
+                                        <button class="nav-link active" data-series="month" id="pills-month-tab"
                                             data-bs-toggle="pill" data-bs-target="#pills-month" type="button"
                                             role="tab" aria-selected="false">Month</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" data-series="year" id="pills-year-tab"
+                                        <button class="nav-link" data-series="year" id="pills-year-tab"
                                             data-bs-toggle="pill" data-bs-target="#pills-year" type="button"
                                             role="tab" aria-selected="false">Year</button>
                                     </li>
