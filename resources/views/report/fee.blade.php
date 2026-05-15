@@ -51,6 +51,7 @@
                             <div class="row">
                                 <div class="col text-end">
                                     <a onClick="window.history.back()" class="btn btn-light btn-warning btn-link">Cancel</a>
+                                    <a href="{{ route('report.fee.export', ['from_date' => $inputs[0], 'to_date' => $inputs[1], 'category' => $inputs[2], 'branch' => $inputs[3]]) }}" class="btn btn-submit btn-outline-success me-2">Export Excel</a>
                                     {{ html()->submit("Fetch")->class("btn btn-submit btn-outline-primary") }}
                                 </div>
                             </div>

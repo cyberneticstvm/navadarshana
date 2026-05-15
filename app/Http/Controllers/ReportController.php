@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\IeExport;
+use App\Exports\FeeExport;
 
 class ReportController extends Controller implements HasMiddleware
 {
@@ -120,6 +121,13 @@ class ReportController extends Controller implements HasMiddleware
             return $q->where('branch_id', $request->branch);
         })->selectRaw("id, payment_date, student_id, batch_id, CASE WHEN category='monthly' THEN 'Batch' WHEN category='admission' THEN 'Admission' ELSE remarks END AS category, payment_mode, amount, discount, amount - IFNULL(discount, 0) AS fee")->havingRaw('fee > ?', [0])->get();
         return view('report.fee', compact('inputs', 'branches', 'category', 'fees'));
+    }
+
+    function exportFee(Request $request)
+    {
+        $inputs = array($request->from_date, $request->to_date, $request->category, $request->branch);
+        $fileName = 'fee-collection_' . ($request->from_date ?? date('Ymd')) . '_' . ($request->to_date ?? date('Ymd')) . '.xlsx';
+        return Excel::download(new FeeExport($inputs), $fileName);
     }
 
     function ie(Request $request)
