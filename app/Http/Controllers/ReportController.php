@@ -17,6 +17,8 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\IeExport;
 
 class ReportController extends Controller implements HasMiddleware
 {
@@ -144,6 +146,13 @@ class ReportController extends Controller implements HasMiddleware
             return $q->where('branch_id', $request->branch);
         })->get();
         return view('report.ie', compact('inputs', 'branches', 'category', 'ies', 'heads'));
+    }
+
+    function exportIe(Request $request)
+    {
+        $inputs = array($request->from_date, $request->to_date, $request->category, $request->branch, $request->head);
+        $fileName = 'income-expense_' . ($request->from_date ?? date('Ymd')) . '_' . ($request->to_date ?? date('Ymd')) . '.xlsx';
+        return Excel::download(new IeExport($inputs), $fileName);
     }
 
     function attendance(Request $request)

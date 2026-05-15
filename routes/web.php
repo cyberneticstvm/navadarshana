@@ -307,6 +307,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::post('/fee', 'fetchFee')->name('report.fee.fetch');
         Route::get('/ie', 'ie')->name('report.ie');
         Route::post('/ie', 'fetchIe')->name('report.ie.fetch');
+        Route::get('/ie/export', 'exportIe')->name('report.ie.export');
         Route::get('/attendance', 'attendance')->name('report.attendance');
         Route::post('/attendance', 'fetchAttendance')->name('report.attendance.fetch');
         Route::get('/fee/pending', 'feePending')->name('report.fee.pending');
