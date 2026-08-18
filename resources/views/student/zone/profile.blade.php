@@ -16,7 +16,7 @@
                     <div class="card-body p-0">
                         <div class="bg-primary" style="height: 115px; opacity: .92;"></div>
                         <div class="px-4 px-md-5 pb-4">
-                            <div class="d-flex flex-column flex-md-row align-items-md-end" style="margin-top: -32px;">
+                            <div class="d-flex flex-column flex-md-row align-items-md-end" style="margin-top: -7px;">
                                 <div class="rounded-circle bg-white p-1 shadow-sm flex-shrink-0" style="width: 116px; height: 116px;">
                                     @if($photoUrl)
                                         <img src="{{ $photoUrl }}" alt="{{ $student->name }}" class="rounded-circle w-100 h-100" style="object-fit: cover;">
