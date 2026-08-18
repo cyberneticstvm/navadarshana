@@ -33,6 +33,9 @@
                 </a>
                 {{
                     Menu::new()->addClass('')->setAttribute('aria-expanded', 'false')
+                    ->link(route('student.profile'), 'My Profile')
+                    ->link(route('student.class.schedule'), 'Class Schedule')
+                    ->link(route('student.fee.details'), 'Fee Details')
                     ->linkIfCan('student-notes-register', route('student.notes.register'), 'Notes');
                 }}
             </li>

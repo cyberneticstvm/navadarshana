@@ -318,6 +318,10 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
 Route::middleware(['web', 'auth', 'branch'])->group(function () {
     Route::prefix('student')->controller(StudentAreaController::class)->group(function () {
+        Route::get('/my-profile', 'showProfile')->name('student.profile');
+        Route::get('/class-schedule', 'getClassSchedules')->name('student.class.schedule');
+        Route::get('/fee-details', 'getFeeDetails')->name('student.fee.details');
+        Route::get('/fee-details/export', 'exportFeeDetails')->name('student.fee.details.export');
         Route::get('/notes', 'getStudentNotes')->name('student.notes.register');
         Route::get('/notes/{id}', 'getStudentNote')->name('student.note');
     });

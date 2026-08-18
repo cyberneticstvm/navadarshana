@@ -28,6 +28,11 @@ class Student extends Model
         return $this->belongsTo(Extra::class, 'id_type', 'id');
     }
 
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id', 'id');
+    }
+
     public function activeBatches()
     {
         return $this->hasMany(StudentBatch::class, 'student_id', 'id');
