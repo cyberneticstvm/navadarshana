@@ -27,8 +27,10 @@ class StudentAreaController extends Controller implements HasMiddleware
 
     function showProfile()
     {
-        $student = Student::with(['idType', 'branch'])
+        $student = Student::with(['idType', 'branch', 'activeBatches.batch.course'])
             ->findOrFail(Auth::user()->student_id);
+        $activeBatches = $student->activeBatches
+            ->filter(fn ($enrollment) => $enrollment->batch !== null);
 
         $photoUrl = null;
         if ($student->photo) {
@@ -37,7 +39,7 @@ class StudentAreaController extends Controller implements HasMiddleware
                 : gcsPublicUrl() . $student->photo;
         }
 
-        return view('student.zone.profile', compact('student', 'photoUrl'));
+        return view('student.zone.profile', compact('student', 'activeBatches', 'photoUrl'));
     }
 
     function getClassSchedules(Request $request)

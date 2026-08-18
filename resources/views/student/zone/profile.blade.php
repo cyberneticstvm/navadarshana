@@ -149,6 +149,56 @@
                 </div>
             </div>
         </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0 pb-0">
+                        <div>
+                            <h4 class="card-title mb-1">Active Batches</h4>
+                            <p class="text-muted mb-0">Your current batch enrollments</p>
+                        </div>
+                        <span class="badge badge-primary light">{{ $activeBatches->count() }} Active</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            @forelse($activeBatches as $enrollment)
+                                <div class="col-xl-4 col-md-6">
+                                    <div class="border rounded p-4 h-100">
+                                        <div class="d-flex align-items-start justify-content-between gap-3 mb-3">
+                                            <div class="bg-primary light text-primary rounded p-3">
+                                                <i class="fa fa-users fs-5"></i>
+                                            </div>
+                                            <span class="badge badge-success light">Active</span>
+                                        </div>
+                                        <h4 class="mb-1">{{ $enrollment->batch->name }}</h4>
+                                        <p class="text-muted mb-3">{{ $enrollment->batch->course?->name ?? 'Course not specified' }}</p>
+                                        <div class="d-flex justify-content-between py-2 border-top">
+                                            <span class="text-muted">Mode</span>
+                                            <span class="fw-medium text-dark text-capitalize">{{ $enrollment->batch->category }}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between pt-2">
+                                            <span class="text-muted">Started On</span>
+                                            <span class="fw-medium text-dark">{{ $enrollment->batch->start_date?->format('d M Y') ?? 'Not provided' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="col-12">
+                                    <div class="text-center py-4">
+                                        <div class="bg-primary light text-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                                            <i class="fa fa-users fs-4"></i>
+                                        </div>
+                                        <h5>No active batch assigned</h5>
+                                        <p class="text-muted mb-0">Your active batch details will appear here after enrollment.</p>
+                                    </div>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
