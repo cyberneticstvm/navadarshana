@@ -41,11 +41,11 @@
                 <div class="card ic-chart-card">
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
-                            <span class="text-muted d-block mb-2">Total Fee Paid</span>
-                            <h2 class="mb-0 fw-semibold text-success">₹{{ number_format($summary->paid, 2) }}</h2>
+                            <span class="text-muted d-block mb-2">Pending Fee Total</span>
+                            <h2 class="mb-0 fw-semibold text-danger">₹{{ number_format($pendingFeeTotal, 2) }}</h2>
                         </div>
-                        <div class="bg-success light text-success rounded p-3">
-                            <i class="fa fa-check-circle fs-4"></i>
+                        <div class="bg-danger light text-danger rounded p-3">
+                            <i class="fa fa-exclamation-circle fs-4"></i>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                         <div>
                             <h4 class="card-title mb-1">{{ $student->show_all_fees ? 'Payment History' : 'Pending Fee Details' }}</h4>
                             <p class="text-muted mb-0">
-                                {{ $student->show_all_fees ? 'All fee payments recorded against your account' : 'Advance and balance fee records currently available for your account' }}
+                                {{ $student->show_all_fees ? 'All fee payments recorded against your account' : 'Outstanding advance fee records that have not been settled' }}
                             </p>
                         </div>
                         @if($fees->total() > 0)
@@ -75,7 +75,7 @@
                                     <i class="fa fa-receipt fs-3"></i>
                                 </div>
                                 <h4>{{ $student->show_all_fees ? 'No fee payments found' : 'No pending fee details found' }}</h4>
-                                <p class="text-muted mb-0">{{ $student->show_all_fees ? 'Your recorded fee payments will appear here.' : 'There are no advance or balance fee records to display.' }}</p>
+                                <p class="text-muted mb-0">{{ $student->show_all_fees ? 'Your recorded fee payments will appear here.' : 'There are no unsettled advance fee records to display.' }}</p>
                             </div>
                         @else
                             <div class="table-responsive active-projects">

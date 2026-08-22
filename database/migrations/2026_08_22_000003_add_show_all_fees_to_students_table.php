@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-            $table->boolean('show_all_fees')->default(true)->after('current_status');
+            $table->boolean('show_all_fees')->default(false)->after('current_status');
         });
     }
 

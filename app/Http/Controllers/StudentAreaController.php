@@ -98,7 +98,26 @@ class StudentAreaController extends Controller implements HasMiddleware
             ->selectRaw('COUNT(*) AS payments, COALESCE(SUM(amount), 0) AS amount, COALESCE(SUM(discount), 0) AS discount, COALESCE(SUM(amount - COALESCE(discount, 0)), 0) AS paid')
             ->first();
 
-        return view('student.zone.fee-details', compact('student', 'fees', 'summary'));
+        $pendingFeeTotal = $this->pendingFeeQuery($student)
+            ->get()
+            ->groupBy(function ($fee) {
+                return implode(':', [
+                    $fee->batch_id,
+                    $fee->category,
+                    $fee->month ?? 0,
+                    $fee->year ?? 0,
+                ]);
+            })
+            ->sum(function ($feeGroup) {
+                $fee = $feeGroup->first();
+                $applicableFee = $fee->category === 'admission'
+                    ? ($fee->batch?->admission_fee ?? 0)
+                    : ($fee->batch?->monthly_fee ?? 0);
+
+                return max($applicableFee - $feeGroup->sum('amount'), 0);
+            });
+
+        return view('student.zone.fee-details', compact('student', 'fees', 'summary', 'pendingFeeTotal'));
     }
 
     function exportFeeDetails()
@@ -122,9 +141,26 @@ class StudentAreaController extends Controller implements HasMiddleware
 
     private function studentFeeQuery(Student $student)
     {
+        return $student->show_all_fees
+            ? $this->feeQuery($student)
+            : $this->pendingFeeQuery($student);
+    }
+
+    private function pendingFeeQuery(Student $student)
+    {
         return $this->feeQuery($student)
-            ->when(!$student->show_all_fees, function ($query) {
-                return $query->whereIn('type', ['advance', 'balance']);
+            ->where('fees.type', 'advance')
+            ->whereIn('fees.category', ['admission', 'monthly'])
+            ->whereNotExists(function ($query) {
+                $query->selectRaw('1')
+                    ->from('fees as settled_fees')
+                    ->whereColumn('settled_fees.student_id', 'fees.student_id')
+                    ->whereColumn('settled_fees.batch_id', 'fees.batch_id')
+                    ->whereColumn('settled_fees.category', 'fees.category')
+                    ->whereRaw('COALESCE(settled_fees.month, 0) = COALESCE(fees.month, 0)')
+                    ->whereRaw('COALESCE(settled_fees.year, 0) = COALESCE(fees.year, 0)')
+                    ->whereIn('settled_fees.type', ['balance', 'full'])
+                    ->whereNull('settled_fees.deleted_at');
             });
     }
 
