@@ -11,7 +11,11 @@ class Student extends Model
 
     protected $guarded = [];
 
-    protected $casts = ['dob' => 'datetime', 'date_of_admission' => 'datetime'];
+    protected $casts = [
+        'dob' => 'datetime',
+        'date_of_admission' => 'datetime',
+        'show_all_fees' => 'boolean',
+    ];
 
     public function status()
     {

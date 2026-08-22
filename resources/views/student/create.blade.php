@@ -117,6 +117,13 @@
                                     <small class="text-danger">{{ $errors->first('id_number') }}</small>
                                     @enderror
                                 </div>
+                                <div class="mb-3 col-md-3 d-flex align-items-center">
+                                    <div class="form-check form-switch mt-4">
+                                        <input type="checkbox" name="show_all_fees" value="1" id="show_all_fees" class="form-check-input" @checked(old('show_all_fees', false))>
+                                        <label class="form-check-label fw-medium" for="show_all_fees">Show All Fees</label>
+                                        <small class="text-muted d-block">Allow the student to view complete payment history.</small>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col text-end">

@@ -90,10 +90,10 @@ class StudentAreaController extends Controller implements HasMiddleware
     {
         $student = Student::findOrFail(Auth::user()->student_id);
 
-        $fees = $this->feeQuery($student)
+        $fees = $this->studentFeeQuery($student)
             ->paginate(20);
 
-        $summary = Fee::where('student_id', $student->id)
+        $summary = $this->studentFeeQuery($student)
             ->selectRaw('COUNT(*) AS payments, COALESCE(SUM(amount), 0) AS amount, COALESCE(SUM(discount), 0) AS discount, COALESCE(SUM(amount - COALESCE(discount, 0)), 0) AS paid')
             ->first();
 
@@ -103,7 +103,7 @@ class StudentAreaController extends Controller implements HasMiddleware
     function exportFeeDetails()
     {
         $student = Student::with('branch')->findOrFail(Auth::user()->student_id);
-        $fees = $this->feeQuery($student)->get();
+        $fees = $this->studentFeeQuery($student)->get();
 
         $pdf = Pdf::loadView('pdf.student-fee-details', compact('student', 'fees'))
             ->setPaper('a4', 'landscape');
@@ -117,6 +117,14 @@ class StudentAreaController extends Controller implements HasMiddleware
             ->where('student_id', $student->id)
             ->orderByDesc('payment_date')
             ->orderByDesc('id');
+    }
+
+    private function studentFeeQuery(Student $student)
+    {
+        return $this->feeQuery($student)
+            ->when(!$student->show_all_fees, function ($query) {
+                return $query->whereIn('type', ['advance', 'balance']);
+            });
     }
 
     function getFeedbacks()

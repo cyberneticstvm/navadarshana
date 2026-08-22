@@ -6,7 +6,7 @@
             <img src="{{ public_path('assets/images/logo/pdf-logo1.png') }}" width="230" alt="Navadarshana Educations">
         </td>
         <td class="no-border text-end">
-            <h2 style="margin: 0 0 6px;">FEE STATEMENT</h2>
+            <h2 style="margin: 0 0 6px;">{{ $student->show_all_fees ? 'FEE STATEMENT' : 'PENDING FEE STATEMENT' }}</h2>
             <span>Generated: {{ now()->format('d M Y, h:i A') }}</span>
         </td>
     </tr>
@@ -64,7 +64,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="9" class="text-center">No fee payments found.</td>
+                <td colspan="9" class="text-center">{{ $student->show_all_fees ? 'No fee payments found.' : 'No pending fee details found.' }}</td>
             </tr>
         @endforelse
     </tbody>

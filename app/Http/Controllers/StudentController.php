@@ -67,9 +67,11 @@ class StudentController extends Controller implements HasMiddleware
             'enrollment_type' => 'required',
             'id_type' => 'required',
             'id_number' => 'required|unique:students,id_number',
+            'show_all_fees' => 'nullable|boolean',
         ]);
         try {
             $input = $request->all();
+            $input['show_all_fees'] = $request->boolean('show_all_fees');
             $input['photo'] = null;
             $input['branch_id'] = Session::get('branch');
             $input['current_status'] = 'active';
@@ -147,10 +149,12 @@ class StudentController extends Controller implements HasMiddleware
             'enrollment_type' => 'required',
             'id_type' => 'required',
             'id_number' => 'required|unique:students,id_number,' . decrypt($id),
+            'show_all_fees' => 'nullable|boolean',
         ]);
         try {
             $student = Student::findOrFail(decrypt($id));
             $input = $request->all();
+            $input['show_all_fees'] = $request->boolean('show_all_fees');
             $input['updated_by'] = $request->user()->id;
             if ($request->file('photo')):
                 $photo = $request->file('photo');
