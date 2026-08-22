@@ -94,6 +94,7 @@ class StudentAreaController extends Controller implements HasMiddleware
             ->paginate(20);
 
         $summary = $this->studentFeeQuery($student)
+            ->reorder()
             ->selectRaw('COUNT(*) AS payments, COALESCE(SUM(amount), 0) AS amount, COALESCE(SUM(discount), 0) AS discount, COALESCE(SUM(amount - COALESCE(discount, 0)), 0) AS paid')
             ->first();
 
