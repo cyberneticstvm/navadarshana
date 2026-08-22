@@ -291,6 +291,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
 
     Route::prefix('/student/feedback')->controller(StudentFeedbackController::class)->group(function () {
         Route::get('/', 'index')->name('student.feedback.register');
+        Route::get('/reply/{id}', 'replyForm')->name('student.feedback.reply');
+        Route::post('/reply/{id}', 'reply')->name('student.feedback.reply.save');
     });
 
     Route::prefix('/pdf')->controller(PdfController::class)->group(function () {
@@ -322,6 +324,8 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/class-schedule', 'getClassSchedules')->name('student.class.schedule');
         Route::get('/fee-details', 'getFeeDetails')->name('student.fee.details');
         Route::get('/fee-details/export', 'exportFeeDetails')->name('student.fee.details.export');
+        Route::get('/my-feedback', 'getFeedbacks')->name('student.feedback');
+        Route::post('/my-feedback', 'submitFeedback')->name('student.feedback.submit');
         Route::get('/notes', 'getStudentNotes')->name('student.notes.register');
         Route::get('/notes/{id}', 'getStudentNote')->name('student.note');
     });

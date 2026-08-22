@@ -36,6 +36,7 @@
                     ->link(route('student.profile'), 'My Profile')
                     ->link(route('student.class.schedule'), 'Class Schedule')
                     ->link(route('student.fee.details'), 'Fee Details')
+                    ->link(route('student.feedback'), 'Feedback')
                     ->linkIfCan('student-notes-register', route('student.notes.register'), 'Notes');
                 }}
             </li>

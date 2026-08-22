@@ -9,6 +9,7 @@ use App\Models\Fee;
 use App\Models\Note;
 use App\Models\Student;
 use App\Models\StudentBatch;
+use App\Models\StudentFeedback;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -21,7 +22,7 @@ class StudentAreaController extends Controller implements HasMiddleware
     {
         return [
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('student-notes-register'), only: ['getStudentNotes']),
-            new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('Student'), only: ['showProfile', 'getClassSchedules', 'getFeeDetails', 'exportFeeDetails']),
+            new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('Student'), only: ['showProfile', 'getClassSchedules', 'getFeeDetails', 'exportFeeDetails', 'getFeedbacks', 'submitFeedback']),
         ];
     }
 
@@ -109,6 +110,35 @@ class StudentAreaController extends Controller implements HasMiddleware
             ->where('student_id', $student->id)
             ->orderByDesc('payment_date')
             ->orderByDesc('id');
+    }
+
+    function getFeedbacks()
+    {
+        $student = Student::findOrFail(Auth::user()->student_id);
+        $feedbacks = StudentFeedback::with('responder')
+            ->where('student_id', $student->id)
+            ->latest()
+            ->paginate(10);
+
+        return view('student.zone.feedback', compact('feedbacks'));
+    }
+
+    function submitFeedback(Request $request)
+    {
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'feedback' => 'required|string|max:5000',
+        ]);
+
+        $student = Student::findOrFail(Auth::user()->student_id);
+        StudentFeedback::create([
+            'student_id' => $student->id,
+            'subject' => $request->subject,
+            'feedback' => $request->feedback,
+        ]);
+
+        return redirect()->route('student.feedback')
+            ->with('success', 'Feedback submitted successfully.');
     }
 
     function getStudentNotes()
