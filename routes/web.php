@@ -326,6 +326,9 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/fee-details/export', 'exportFeeDetails')->name('student.fee.details.export');
         Route::get('/my-feedback', 'getFeedbacks')->name('student.feedback');
         Route::post('/my-feedback', 'submitFeedback')->name('student.feedback.submit');
+        Route::get('/recorded-videos', 'getRecordedVideos')->name('student.recorded.videos');
+        Route::get('/downloads', 'getDownloads')->name('student.downloads');
+        Route::get('/questions', 'getQuestions')->name('student.questions');
         Route::get('/notes', 'getStudentNotes')->name('student.notes.register');
         Route::get('/notes/{id}', 'getStudentNote')->name('student.note');
     });

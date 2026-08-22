@@ -37,6 +37,9 @@
                     ->link(route('student.class.schedule'), 'Class Schedule')
                     ->link(route('student.fee.details'), 'Fee Details')
                     ->link(route('student.feedback'), 'Feedback')
+                    ->link(route('student.recorded.videos'), 'Recorded Videos')
+                    ->link(route('student.downloads'), 'Downloads')
+                    ->link(route('student.questions'), 'Question Register')
                     ->linkIfCan('student-notes-register', route('student.notes.register'), 'Notes');
                 }}
             </li>

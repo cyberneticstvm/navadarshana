@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Batch;
 use App\Models\ClassSchedule;
+use App\Models\Course;
 use App\Models\CourseTopic;
+use App\Models\Download;
+use App\Models\Extra;
 use App\Models\Fee;
 use App\Models\Note;
+use App\Models\Question;
 use App\Models\Student;
 use App\Models\StudentBatch;
 use App\Models\StudentFeedback;
+use App\Models\Syllabus;
+use App\Models\VideoRecord;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -22,7 +28,7 @@ class StudentAreaController extends Controller implements HasMiddleware
     {
         return [
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('student-notes-register'), only: ['getStudentNotes']),
-            new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('Student'), only: ['showProfile', 'getClassSchedules', 'getFeeDetails', 'exportFeeDetails', 'getFeedbacks', 'submitFeedback']),
+            new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('Student'), only: ['showProfile', 'getClassSchedules', 'getFeeDetails', 'exportFeeDetails', 'getFeedbacks', 'submitFeedback', 'getRecordedVideos', 'getDownloads', 'getQuestions']),
         ];
     }
 
@@ -139,6 +145,127 @@ class StudentAreaController extends Controller implements HasMiddleware
 
         return redirect()->route('student.feedback')
             ->with('success', 'Feedback submitted successfully.');
+    }
+
+    function getRecordedVideos(Request $request)
+    {
+        $student = Student::findOrFail(Auth::user()->student_id);
+
+        $courseIds = Batch::where('branch_id', $student->branch_id)
+            ->whereIn('id', StudentBatch::where('student_id', $student->id)->pluck('batch_id'))
+            ->pluck('course_id');
+
+        $syllabusIds = CourseTopic::join('topics as topics', 'course_topics.topic_id', '=', 'topics.id')
+            ->join('modules as modules', 'topics.module_id', '=', 'modules.id')
+            ->whereIn('course_topics.course_id', $courseIds)
+            ->whereNull('topics.deleted_at')
+            ->whereNull('modules.deleted_at')
+            ->whereNotNull('modules.syllabus_id')
+            ->distinct()
+            ->pluck('modules.syllabus_id');
+
+        $syllabi = Syllabus::whereIn('id', $syllabusIds)
+            ->orderBy('name')
+            ->get();
+
+        $selectedSyllabus = $request->integer('syllabus');
+        if ($selectedSyllabus && !$syllabi->pluck('id')->contains($selectedSyllabus)) {
+            $selectedSyllabus = 0;
+        }
+
+        $videos = VideoRecord::with('syllabus')
+            ->whereIn('syllabus_id', $syllabusIds)
+            ->when($selectedSyllabus, fn ($query) => $query->where('syllabus_id', $selectedSyllabus))
+            ->latest()
+            ->paginate(12)
+            ->withQueryString();
+
+        return view('student.zone.recorded-videos', compact(
+            'syllabi',
+            'videos',
+            'selectedSyllabus'
+        ));
+    }
+
+    function getDownloads(Request $request)
+    {
+        $student = Student::findOrFail(Auth::user()->student_id);
+        $courseIds = $this->studentCourseIds($student);
+
+        $courses = Course::whereIn('id', $courseIds)
+            ->orderBy('name')
+            ->get();
+
+        $selectedCourse = $request->integer('course');
+        if ($selectedCourse && !$courses->pluck('id')->contains($selectedCourse)) {
+            $selectedCourse = 0;
+        }
+
+        $downloads = Download::with('course')
+            ->whereIn('course_id', $courseIds)
+            ->when($selectedCourse, fn ($query) => $query->where('course_id', $selectedCourse))
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
+
+        return view('student.zone.downloads', compact('courses', 'downloads', 'selectedCourse'));
+    }
+
+    function getQuestions(Request $request)
+    {
+        $student = Student::findOrFail(Auth::user()->student_id);
+        $courseIds = $this->studentCourseIds($student);
+
+        $courseContent = CourseTopic::join('topics as topics', 'course_topics.topic_id', '=', 'topics.id')
+            ->join('modules as modules', 'topics.module_id', '=', 'modules.id')
+            ->whereIn('course_topics.course_id', $courseIds)
+            ->whereNull('topics.deleted_at')
+            ->whereNull('modules.deleted_at')
+            ->select('course_topics.topic_id', 'modules.syllabus_id')
+            ->distinct()
+            ->get();
+
+        $topicIds = $courseContent->pluck('topic_id');
+        $syllabusIds = $courseContent->pluck('syllabus_id')->filter()->unique()->values();
+        $syllabi = Syllabus::whereIn('id', $syllabusIds)->orderBy('name')->get();
+        $questionTypes = Extra::where('name', 'qtype')->orderBy('value')->get();
+
+        $selectedSyllabus = $request->integer('syllabus');
+        if ($selectedSyllabus && !$syllabi->pluck('id')->contains($selectedSyllabus)) {
+            $selectedSyllabus = 0;
+        }
+
+        $selectedType = $request->integer('type');
+        if ($selectedType && !$questionTypes->pluck('id')->contains($selectedType)) {
+            $selectedType = 0;
+        }
+
+        $questions = Question::with(['syllabus', 'module', 'topic', 'options'])
+            ->whereIn('topic_id', $topicIds)
+            ->whereIn('syllabus_id', $syllabusIds)
+            ->when($selectedSyllabus, fn ($query) => $query->where('syllabus_id', $selectedSyllabus))
+            ->when($selectedType, fn ($query) => $query->where('type_id', $selectedType))
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('student.zone.questions', compact(
+            'syllabi',
+            'questionTypes',
+            'questions',
+            'selectedSyllabus',
+            'selectedType'
+        ));
+    }
+
+    private function studentCourseIds(Student $student)
+    {
+        return Batch::where('branch_id', $student->branch_id)
+            ->whereIn('id', StudentBatch::where('student_id', $student->id)->pluck('batch_id'))
+            ->pluck('course_id')
+            ->filter()
+            ->unique()
+            ->values();
     }
 
     function getStudentNotes()
