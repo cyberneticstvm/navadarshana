@@ -120,10 +120,14 @@ class DatabaseSeeder extends Seeder
             'report-attendance',
             'report-fee-pending',
             'student-notes-register',
+            'current-affairs-list',
+            'current-affairs-create',
+            'current-affairs-edit',
+            'current-affairs-delete',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission, 'guard_name' => 'web']);
+            Permission::firstOrCreate(['name' => $permission, 'guard_name' => 'web']);
         }
 
         $user = User::create([

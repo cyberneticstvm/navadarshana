@@ -127,6 +127,9 @@
                     <li><a href="{{ route('notes.register') }}" aria-expanded="false">Notes Register</a></li>
                     <li><a href="{{ route('video.recorded.register') }}" aria-expanded="false">Recorded Video Register</a></li>
                     <li><a href="{{ route('download.register') }}" aria-expanded="false">Downloads</a></li>
+                    @can('current-affairs-list')
+                    <li><a href="{{ route('current.affairs.register') }}" aria-expanded="false">Daily Current Affairs</a></li>
+                    @endcan
                     <li><a class="has-arrow" href="javascript:void(0);" aria-expanded="false">Question Register</a>
                         <ul aria-expanded="false">
                             @forelse(getMenuItems() as $key => $item)

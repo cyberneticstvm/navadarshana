@@ -6,6 +6,7 @@ use App\Models\Batch;
 use App\Models\ClassSchedule;
 use App\Models\Course;
 use App\Models\CourseTopic;
+use App\Models\DailyCurrentAffair;
 use App\Models\Download;
 use App\Models\Extra;
 use App\Models\Fee;
@@ -28,7 +29,7 @@ class StudentAreaController extends Controller implements HasMiddleware
     {
         return [
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using('student-notes-register'), only: ['getStudentNotes']),
-            new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('Student'), only: ['showProfile', 'getClassSchedules', 'getFeeDetails', 'exportFeeDetails', 'getFeedbacks', 'submitFeedback', 'getRecordedVideos', 'getDownloads', 'getQuestions']),
+            new Middleware(\Spatie\Permission\Middleware\RoleMiddleware::using('Student'), only: ['showProfile', 'getClassSchedules', 'getFeeDetails', 'exportFeeDetails', 'getFeedbacks', 'submitFeedback', 'getRecordedVideos', 'getDownloads', 'getQuestions', 'getCurrentAffairs']),
         ];
     }
 
@@ -266,6 +267,14 @@ class StudentAreaController extends Controller implements HasMiddleware
             ->filter()
             ->unique()
             ->values();
+    }
+
+    function getCurrentAffairs()
+    {
+        $currentAffairs = DailyCurrentAffair::latest()
+            ->paginate(10);
+
+        return view('student.zone.current-affairs', compact('currentAffairs'));
     }
 
     function getStudentNotes()

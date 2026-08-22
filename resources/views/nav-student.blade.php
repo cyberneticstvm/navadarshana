@@ -40,6 +40,7 @@
                     ->link(route('student.recorded.videos'), 'Recorded Videos')
                     ->link(route('student.downloads'), 'Downloads')
                     ->link(route('student.questions'), 'Question Register')
+                    ->link(route('student.current.affairs'), 'Daily Current Affairs')
                     ->linkIfCan('student-notes-register', route('student.notes.register'), 'Notes');
                 }}
             </li>

@@ -6,6 +6,7 @@ use App\Http\Controllers\BatchController;
 use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ClassScheduleController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DailyCurrentAffairController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\EmailController;
@@ -207,6 +208,15 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/restore/{id}', 'restore')->name('download.restore');
     });
 
+    Route::prefix('/daily-current-affairs')->controller(DailyCurrentAffairController::class)->group(function () {
+        Route::get('/', 'index')->name('current.affairs.register');
+        Route::get('/create', 'create')->name('current.affairs.create');
+        Route::post('/create', 'store')->name('current.affairs.save');
+        Route::get('/edit/{id}', 'edit')->name('current.affairs.edit');
+        Route::post('/edit/{id}', 'update')->name('current.affairs.update');
+        Route::get('/delete/{id}', 'destroy')->name('current.affairs.delete');
+    });
+
     Route::prefix('/batch')->controller(BatchController::class)->group(function () {
         Route::get('/', 'index')->name('batch.register');
         Route::get('/create', 'create')->name('batch.create');
@@ -329,6 +339,7 @@ Route::middleware(['web', 'auth', 'branch'])->group(function () {
         Route::get('/recorded-videos', 'getRecordedVideos')->name('student.recorded.videos');
         Route::get('/downloads', 'getDownloads')->name('student.downloads');
         Route::get('/questions', 'getQuestions')->name('student.questions');
+        Route::get('/daily-current-affairs', 'getCurrentAffairs')->name('student.current.affairs');
         Route::get('/notes', 'getStudentNotes')->name('student.notes.register');
         Route::get('/notes/{id}', 'getStudentNote')->name('student.note');
     });
