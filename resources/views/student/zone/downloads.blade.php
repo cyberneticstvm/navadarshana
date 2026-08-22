@@ -52,13 +52,14 @@
             <div class="row">
                 @foreach($downloads as $download)
                     @php
-                        $attachmentUrl = str_starts_with((string) $download->attachment, 'http')
-                            ? $download->attachment
-                            : gcsPublicUrl() . $download->attachment;
-                        $validAttachment = filled($download->attachment)
-                            && filter_var($attachmentUrl, FILTER_VALIDATE_URL)
-                            && in_array(strtolower(parse_url($attachmentUrl, PHP_URL_SCHEME)), ['http', 'https'], true);
-                        $extension = strtoupper(pathinfo(parse_url((string) $download->attachment, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
+                        $storedAttachment = trim(html_entity_decode((string) $download->attachment));
+                        $isAbsoluteUrl = preg_match('#^https?://#i', $storedAttachment) === 1;
+                        $attachmentUrl = $isAbsoluteUrl
+                            ? $storedAttachment
+                            : rtrim(gcsPublicUrl(), '/') . '/' . ltrim($storedAttachment, '/');
+                        $validAttachment = $storedAttachment !== ''
+                            && preg_match('#^https?://#i', $attachmentUrl) === 1;
+                        $extension = strtoupper(pathinfo(parse_url($attachmentUrl, PHP_URL_PATH) ?? '', PATHINFO_EXTENSION));
                     @endphp
                     <div class="col-xl-4 col-md-6 mb-4">
                         <div class="card h-100 border-start border-primary border-4">
