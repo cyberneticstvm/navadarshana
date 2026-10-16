@@ -68,11 +68,20 @@
             </div>
             <div class="col-xl-4 col-lg-6">
                 <div class="card">
-                    <div class="card-header pb-0 border-0">
+                    <div class="card-header pb-0 border-0 flex-wrap gap-2">
                         <h4 class="card-title">Income & Expense Chart</h4>
-                        <select class="default-select status-select normal-select">
-                            <option value="Month">Current Month</option>
-                        </select>
+                        <div class="d-flex gap-2">
+                            <select id="ieMonthFilter" class="default-select status-select normal-select" aria-label="Income and expense month">
+                                @foreach($months as $month)
+                                    <option value="{{ $month->id }}" @selected((int) $month->id === now()->month)>{{ $month->name }}</option>
+                                @endforeach
+                            </select>
+                            <select id="ieYearFilter" class="default-select status-select normal-select" aria-label="Income and expense year">
+                                @foreach($years as $year)
+                                    <option value="{{ $year }}" @selected((int) $year === now()->year)>{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="card-body pb-3">
                         <div id="projectChart" class="project-chart"></div>
@@ -85,7 +94,7 @@
                                     </svg>
                                     Income
                                 </p>
-                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') + $ie->sum('income'), 2) }}</span>
+                                <span id="ieIncomeTotal">{{ number_format($fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') + $ie->sum('income'), 2) }}</span>
                             </div>
                             <div class="project-media">
                                 <p class="mb-0">
@@ -95,7 +104,7 @@
                                     </svg>
                                     Expense
                                 </p>
-                                <span>{{ number_format($ie->sum('expense'), 2) }}</span>
+                                <span id="ieExpenseTotal">{{ number_format($ie->sum('expense'), 2) }}</span>
                             </div>
                             <div class="project-media">
                                 <p class="mb-0">
@@ -105,7 +114,7 @@
                                     </svg>
                                     Balance
                                 </p>
-                                <span>{{ number_format($fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') +  $ie->sum('income') - $ie->sum('expense'), 2) }}</span>
+                                <span id="ieBalanceTotal">{{ number_format($fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') +  $ie->sum('income') - $ie->sum('expense'), 2) }}</span>
                             </div>
                         </div>
                     </div>

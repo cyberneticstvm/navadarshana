@@ -24,7 +24,7 @@ class DashboardController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-finance', 'dashboard-finance-all']), only: ['financeDashboard']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-finance', 'dashboard-finance-all']), only: ['financeDashboard', 'ieTotal']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-student', 'dashboard-student-all']), only: ['studentDashboard']),
         ];
     }
@@ -48,26 +48,53 @@ class DashboardController extends Controller implements HasMiddleware
         })->get();
         //whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->get();
         $type = $request->type;
-        return view('dashboards.finance', compact('fee', 'ie', 'type'));
+        $months = Month::orderBy('id')->get();
+        $years = collect([Carbon::now()->year])
+            ->merge(
+                Fee::when($request->type == 0, function ($q) {
+                    return $q->where('branch_id', Session::get('branch'));
+                })->selectRaw('YEAR(payment_date) AS finance_year')->distinct()->pluck('finance_year')
+            )
+            ->merge(
+                IncomeExpense::when($request->type == 0, function ($q) {
+                    return $q->where('branch_id', Session::get('branch'));
+                })->selectRaw('YEAR(date) AS finance_year')->distinct()->pluck('finance_year')
+            )
+            ->filter()
+            ->unique()
+            ->sortDesc()
+            ->values();
+
+        return view('dashboards.finance', compact('fee', 'ie', 'type', 'months', 'years'));
     }
 
-    function ieTotal($type)
+    function ieTotal(Request $request, $type)
     {
+        abort_unless(in_array((int) $type, [0, 1], true), 404);
+
+        if ((int) $type === 1) {
+            abort_unless($request->user()->can('dashboard-finance-all'), 403);
+        } else {
+            abort_unless($request->user()->can('dashboard-finance') || $request->user()->can('dashboard-finance-all'), 403);
+        }
+
+        $validated = $request->validate([
+            'month' => ['required', 'integer', 'between:1,12'],
+            'year' => ['required', 'integer', 'between:2000,2100'],
+        ]);
+
         $fee = Fee::selectRaw("CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) END AS admission, CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) END AS batch, CASE WHEN category='other' THEN amount-IFNULL(discount, 0) END AS other")->when($type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
-        })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
-            return $q->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year);
-        })->when(Auth::user()->roles->first()->name != 'Administrator', function ($q) {
-            return $q->whereDay('payment_date', Carbon::now()->day)->whereMonth('payment_date', Carbon::now()->month)->whereYear('payment_date', Carbon::now()->year);
-        })->get();
+        })->whereMonth('payment_date', $validated['month'])
+            ->whereYear('payment_date', $validated['year'])
+            ->get();
         $ie = IncomeExpense::selectRaw("CASE WHEN category='income' THEN amount END AS income, CASE WHEN category='expense' THEN amount END AS expense")->when($type == 0, function ($q) {
             return $q->where('branch_id', Session::get('branch'));
-        })->when(Auth::user()->roles->first()->name == 'Administrator', function ($q) {
-            return $q->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
-        })->when(Auth::user()->roles->first()->name != 'Administrator', function ($q) {
-            return $q->whereDay('date', Carbon::now()->day)->whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year);
-        })->get();
-        return json_encode([
+        })->whereMonth('date', $validated['month'])
+            ->whereYear('date', $validated['year'])
+            ->get();
+
+        return response()->json([
             'income' => $fee->sum('admission') + $fee->sum('batch') + $fee->sum('other') + $ie->sum('income'),
             'expense' => $ie->sum('expense'),
         ]);

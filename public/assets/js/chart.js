@@ -431,10 +431,39 @@
 
 		}
 
-        var projectChart = function () {
-            $.getJSON('/dashboard/finance/ie/' + type, function (response) {
+        var projectChartInstance = null;
+        var projectChartRequest = null;
+
+        var formatFinanceAmount = function (amount) {
+            return Number(amount || 0).toLocaleString('en-IN', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+        };
+
+        var loadProjectChart = function () {
+            var month = $('#ieMonthFilter').val();
+            var year = $('#ieYearFilter').val();
+
+            if (projectChartRequest) {
+                projectChartRequest.abort();
+            }
+
+            projectChartRequest = $.getJSON('/dashboard/finance/ie/' + type, {
+                month: month,
+                year: year,
+            }, function (response) {
+                var income = parseFloat(response['income']) || 0;
+                var expense = parseFloat(response['expense']) || 0;
+                var balance = income - expense;
+                var isProfit = balance >= 0;
+
+                $('#ieIncomeTotal').text(formatFinanceAmount(income));
+                $('#ieExpenseTotal').text(formatFinanceAmount(expense));
+                $('#ieBalanceTotal').text(formatFinanceAmount(balance));
+
 			var options = {
-				series: [response['income'], response['expense']],
+				series: [income, expense],
 				chart: {
 					type: 'donut',
 					width: 250,
@@ -461,15 +490,11 @@
 									fontSize: '11px',
 									fontWeight: '500',
 									fontFamily: 'Arial',
-                                    color: (parseFloat(response['income']) - parseFloat(response['expense']) > 0) ? '#3AC977' : '#FF5E5E',
-									label: (parseFloat(response['income']) - parseFloat(response['expense']) > 0) ? 'Profit' : 'Loss',
-
-									/*formatter: function (w) {
-										return w.globals.seriesTotals.reduce((a, b) => {
-											return a + b
-										}, 0)
-									}*/
-                                    formatter: () => parseFloat(response['income']) - parseFloat(response['expense']),
+                                    color: isProfit ? '#3AC977' : '#FF5E5E',
+									label: isProfit ? 'Profit' : 'Loss',
+                                    formatter: function (w) {
+                                        return formatFinanceAmount((w.globals.seriesTotals[0] || 0) - (w.globals.seriesTotals[1] || 0));
+                                    },
 								}
 							}
 						}
@@ -484,9 +509,26 @@
 					enabled: false,
 				},
 			};
-			var chartBar1 = new ApexCharts(document.querySelector("#projectChart"), options);
-			chartBar1.render();
-        });
+			if (!projectChartInstance) {
+                projectChartInstance = new ApexCharts(document.querySelector("#projectChart"), options);
+                projectChartInstance.render();
+            } else {
+                projectChartInstance.updateOptions({
+                    plotOptions: options.plotOptions,
+                });
+                projectChartInstance.updateSeries([income, expense]);
+            }
+        }).always(function () {
+                projectChartRequest = null;
+            });
+
+		}
+
+        var projectChart = function () {
+            loadProjectChart();
+            $('#ieMonthFilter, #ieYearFilter')
+                .off('change.incomeExpenseChart')
+                .on('change.incomeExpenseChart', loadProjectChart);
 
 		}
 
