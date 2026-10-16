@@ -262,174 +262,175 @@
             });	
 	    }
 
-        var chartBarRunning1 = function () {            
-            $.getJSON('/dashboard/student/fee/collection/' + type, function (response) {
-                var options = {
-                    series: [
-                        {
-                            name: 'Admission',
-                            data: [response[0]['admission'], response[1]['admission'], response[2]['admission'], response[3]['admission'], response[4]['admission'], response[5]['admission'], response[6]['admission'], response[7]['admission'], response[8]['admission'], response[9]['admission'], response[10]['admission'], response[11]['admission']]
-                        },
-                        {
-                            name: 'Batch',
-                            data: [response[0]['batch'], response[1]['batch'], response[2]['batch'], response[3]['batch'], response[4]['batch'], response[5]['batch'], response[6]['batch'], response[7]['batch'], response[8]['batch'], response[9]['batch'], response[10]['batch'], response[11]['batch']]
-                        },
-    
-                    ],
-                    chart: {
-                        type: 'bar',
-                        height: 300,
-    
-    
-                        toolbar: {
-                            show: false,
-                        },
-    
+        var feeCollectionChartInstance = null;
+        var feeCollectionRequest = null;
+
+        var loadFeeCollectionChart = function (period) {
+            if (feeCollectionRequest) {
+                feeCollectionRequest.abort();
+            }
+
+            feeCollectionRequest = $.getJSON('/dashboard/student/fee/collection/' + type, {
+                period: period,
+            }, function (response) {
+                var series = [
+                    {
+                        name: 'Admission',
+                        data: response.admission,
                     },
-                    plotOptions: {
-                        bar: {
-                            horizontal: false,
-                            endingShape: 'rounded',
-                            columnWidth: '45%',
-                            borderRadius: 3,
-    
+                    {
+                        name: 'Batch',
+                        data: response.batch,
+                    },
+                ];
+
+                if (!feeCollectionChartInstance) {
+                    var options = {
+                        series: series,
+                        chart: {
+                            type: 'bar',
+                            height: 300,
+                            toolbar: {
+                                show: false,
+                            },
                         },
-                    },
-                    colors: ['#0074FF', '#77248B'],
-                    dataLabels: {
-                        enabled: false,
-                    },
-    
-                    legend: {
-                        show: true,
-                        fontSize: '13px',
-                        labels: {
-                            colors: '#888888',
-    
+                        plotOptions: {
+                            bar: {
+                                horizontal: false,
+                                endingShape: 'rounded',
+                                columnWidth: '45%',
+                                borderRadius: 3,
+                            },
                         },
-                        markers: {
-                            width: 10,
-                            height: 10,
-                            strokeWidth: 0,
-                            strokeColor: '#fff',
-                            fillColors: ['var(--primary)', '#1c2430'],
-                            radius: 30,
-                        }
-                    },
-                    stroke: {
-                        show: true,
-                        width: 6,
-                        colors: ['transparent']
-                    },
-                    grid: {
-                        show: true,
-                        borderColor: '#EEF0F7',
-                        strokeDashArray: 3,
+                        colors: ['#0074FF', '#77248B'],
+                        dataLabels: {
+                            enabled: false,
+                        },
+                        legend: {
+                            show: true,
+                            fontSize: '13px',
+                            labels: {
+                                colors: '#888888',
+                            },
+                            markers: {
+                                width: 10,
+                                height: 10,
+                                strokeWidth: 0,
+                                strokeColor: '#fff',
+                                fillColors: ['var(--primary)', '#1c2430'],
+                                radius: 30,
+                            },
+                        },
+                        stroke: {
+                            show: true,
+                            width: 6,
+                            colors: ['transparent'],
+                        },
+                        grid: {
+                            show: true,
+                            borderColor: '#EEF0F7',
+                            strokeDashArray: 3,
+                            xaxis: {
+                                lines: {
+                                    show: false,
+                                },
+                            },
+                            yaxis: {
+                                lines: {
+                                    show: true,
+                                },
+                            },
+                        },
                         xaxis: {
-                            lines: {
-                                show: false
-                            }
+                            categories: response.labels,
+                            labels: {
+                                style: {
+                                    colors: ['#1C2430'],
+                                    fontSize: '13px',
+                                    fontFamily: 'poppins',
+                                    fontWeight: 100,
+                                    cssClass: 'apexcharts-xaxis-label',
+                                },
+                            },
+                            axisBorder: {
+                                show: false,
+                            },
+                            axisTicks: {
+                                show: false,
+                            },
+                            crosshairs: {
+                                show: true,
+                            },
                         },
                         yaxis: {
-                            lines: {
-                                show: true
-                            }
-                        },
-                    },
-                    xaxis: {
-                        categories: [response[0]['month'], response[1]['month'], response[2]['month'], response[3]['month'], response[4]['month'], response[5]['month'], response[6]['month'], response[7]['month'], response[8]['month'], response[9]['month'], response[10]['month'], response[11]['month']],
-                        labels: {
-                            style: {
-                                colors: ['#1C2430'],
-                                fontSize: '13px',
-                                fontFamily: 'poppins',
-                                fontWeight: 100,
-                                cssClass: 'apexcharts-xaxis-label',
-                            },
-                        },
-                        axisBorder: {
-                            show: false,
-                        },
-                        axisTicks: {
-                            show: false,
-                            borderType: 'solid',
-                            color: '#1C2430',
-                            height: 6,
-                            offsetX: 0,
-                            offsetY: 0
-                        },
-                        crosshairs: {
-                            show: true,
-                        }
-                    },
-                    yaxis: {
-                        labels: {
-                            offsetX: -16,
-                            style: {
-                                colors: ['#1C2430'],
-                                fontSize: '15px',
-                                fontFamily: 'poppins',
-                                fontWeight: 100,
-                                cssClass: 'apexcharts-xaxis-label',
-                            },
-                        },
-                    },
-                    fill: {
-                        opacity: 1,
-                        colors: ['var(--primary)', '#1C2430'],
-                    },
-                    tooltip: {
-                        y: {
-                            formatter: function (val) {
-                                return "" + val + ""
-                            }
-                        }
-                    },
-                    responsive: [{
-                        breakpoint: 575,
-                        options: {
-                            plotOptions: {
-                                bar: {
-                                    columnWidth: '1%',
-                                    borderRadius: -1,
+                            labels: {
+                                offsetX: -16,
+                                formatter: function (value) {
+                                    return Number(value || 0).toLocaleString('en-IN');
+                                },
+                                style: {
+                                    colors: ['#1C2430'],
+                                    fontSize: '15px',
+                                    fontFamily: 'poppins',
+                                    fontWeight: 100,
+                                    cssClass: 'apexcharts-xaxis-label',
                                 },
                             },
-                            chart: {
-                                height: 250,
+                        },
+                        fill: {
+                            opacity: 1,
+                            colors: ['var(--primary)', '#1C2430'],
+                        },
+                        tooltip: {
+                            y: {
+                                formatter: function (value) {
+                                    return Number(value || 0).toLocaleString('en-IN', {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2,
+                                    });
+                                },
                             },
-                            series: [
-                                {
-                                    name: 'Projects',
-                                    data: [31, 40, 28, 31, 40, 28, 31, 40]
+                        },
+                        responsive: [{
+                            breakpoint: 575,
+                            options: {
+                                plotOptions: {
+                                    bar: {
+                                        columnWidth: '55%',
+                                        borderRadius: 2,
+                                    },
                                 },
-                                {
-                                    name: 'Projects',
-                                    data: [11, 32, 45, 31, 40, 28, 31, 40]
+                                chart: {
+                                    height: 250,
                                 },
-    
-                            ],
-                        }
-                    }]
-                };
-                if (jQuery("#chartBarRunning1").length > 0) {
+                            },
+                        }],
+                    };
 
-                    var chart1 = new ApexCharts(document.querySelector("#chartBarRunning1"), options);
-                    chart1.render();
-    
-                    jQuery('#dzIncomeSeries').on('change', function () {
-                        jQuery(this).toggleClass('disabled');
-                        chart1.toggleSeries('Income');
+                    feeCollectionChartInstance = new ApexCharts(document.querySelector("#chartBarRunning1"), options);
+                    feeCollectionChartInstance.render();
+                } else {
+                    feeCollectionChartInstance.updateOptions({
+                        xaxis: {
+                            categories: response.labels,
+                        },
                     });
-    
-                    jQuery('#dzExpenseSeries').on('change', function () {
-                        jQuery(this).toggleClass('disabled');
-                        chart1.toggleSeries('Expense');
-                    });
-    
+                    feeCollectionChartInstance.updateSeries(series);
                 }
-            });	
+            }).always(function () {
+                feeCollectionRequest = null;
+            });
+        };
 
-		}
+        var chartBarRunning1 = function () {
+            loadFeeCollectionChart('month');
+
+            $('#pills-tab .nav-link[data-series]')
+                .off('click.feeCollectionChart')
+                .on('click.feeCollectionChart', function () {
+                    loadFeeCollectionChart($(this).data('series'));
+                });
+		};
 
         var projectChartInstance = null;
         var projectChartRequest = null;

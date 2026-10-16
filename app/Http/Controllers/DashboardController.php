@@ -24,7 +24,7 @@ class DashboardController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-finance', 'dashboard-finance-all']), only: ['financeDashboard', 'ieTotal']),
+            new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-finance', 'dashboard-finance-all']), only: ['financeDashboard', 'ieTotal', 'studentFeeCollectionChart']),
             new Middleware(\Spatie\Permission\Middleware\PermissionMiddleware::using(['dashboard-student', 'dashboard-student-all']), only: ['studentDashboard']),
         ];
     }
@@ -100,15 +100,110 @@ class DashboardController extends Controller implements HasMiddleware
         ]);
     }
 
-    function studentFeeCollectionChart($type)
+    function studentFeeCollectionChart(Request $request, $type)
     {
-        $students = Month::leftJoin('fees as f', function ($q) use ($type) {
-            $q->on('f.payment_date', '>=', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH'));
-            $q->on('f.payment_date', '<', DB::raw('LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH + INTERVAL 1 MONTH'))->when($type == 0, function ($q) {
-                return $q->where('f.branch_id', Session::get('branch'));
+        abort_unless(in_array((int) $type, [0, 1], true), 404);
+
+        if ((int) $type === 1) {
+            abort_unless($request->user()->can('dashboard-finance-all'), 403);
+        } else {
+            abort_unless($request->user()->can('dashboard-finance') || $request->user()->can('dashboard-finance-all'), 403);
+        }
+
+        $validated = $request->validate([
+            'period' => ['required', 'in:week,month,year,all'],
+        ]);
+
+        $period = $validated['period'];
+        $now = Carbon::now();
+        $feeQuery = Fee::query()->when((int) $type === 0, function ($query) {
+            return $query->where('branch_id', Session::get('branch'));
+        });
+        $sumColumns = "COALESCE(SUM(CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS admission, COALESCE(SUM(CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS batch";
+
+        if ($period === 'week') {
+            $start = $now->copy()->subDays(6)->startOfDay();
+            $end = $now->copy()->endOfDay();
+            $rows = $feeQuery->whereBetween('payment_date', [$start->toDateString(), $end->toDateString()])
+                ->selectRaw("DATE(payment_date) AS period_key, {$sumColumns}")
+                ->groupBy('period_key')
+                ->get()
+                ->keyBy('period_key');
+            $points = collect();
+
+            for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+                $key = $date->format('Y-m-d');
+                $row = $rows->get($key);
+                $points->push([
+                    'label' => $date->format('D d'),
+                    'admission' => (float) ($row->admission ?? 0),
+                    'batch' => (float) ($row->batch ?? 0),
+                ]);
+            }
+        } elseif ($period === 'month') {
+            $start = $now->copy()->startOfMonth();
+            $end = $now->copy()->endOfDay();
+            $rows = $feeQuery->whereBetween('payment_date', [$start->toDateString(), $end->toDateString()])
+                ->selectRaw("DATE(payment_date) AS period_key, {$sumColumns}")
+                ->groupBy('period_key')
+                ->get()
+                ->keyBy('period_key');
+            $points = collect();
+
+            for ($date = $start->copy(); $date->lte($end); $date->addDay()) {
+                $key = $date->format('Y-m-d');
+                $row = $rows->get($key);
+                $points->push([
+                    'label' => $date->format('d M'),
+                    'admission' => (float) ($row->admission ?? 0),
+                    'batch' => (float) ($row->batch ?? 0),
+                ]);
+            }
+        } elseif ($period === 'year') {
+            $rows = $feeQuery->whereYear('payment_date', $now->year)
+                ->selectRaw("MONTH(payment_date) AS period_key, {$sumColumns}")
+                ->groupBy('period_key')
+                ->get()
+                ->keyBy('period_key');
+            $points = collect();
+
+            for ($month = 1; $month <= 12; $month++) {
+                $row = $rows->get($month);
+                $points->push([
+                    'label' => Carbon::create($now->year, $month, 1)->format('M'),
+                    'admission' => (float) ($row->admission ?? 0),
+                    'batch' => (float) ($row->batch ?? 0),
+                ]);
+            }
+        } else {
+            $rows = $feeQuery->selectRaw("YEAR(payment_date) AS period_key, {$sumColumns}")
+                ->groupBy('period_key')
+                ->orderBy('period_key')
+                ->get();
+
+            $points = $rows->map(function ($row) {
+                return [
+                    'label' => (string) $row->period_key,
+                    'admission' => (float) $row->admission,
+                    'batch' => (float) $row->batch,
+                ];
             });
-        })->select(DB::raw("LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH AS date, SUM(CASE WHEN f.category='admission' THEN f.amount-IFNULL(f.discount, 0) END) AS admission, SUM(CASE WHEN f.category='monthly' THEN f.amount-IFNULL(f.discount, 0) END) AS batch, SUM(CASE WHEN f.category='other' THEN f.amount-IFNULL(f.discount, 0) END) AS other, CONCAT_WS('.', DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%b'), DATE_FORMAT(LAST_DAY(CURRENT_DATE) + INTERVAL 1 DAY - INTERVAL months.id MONTH, '%y')) AS month"))->groupBy('date', 'months.id')->orderByDesc('date')->get();
-        return json_encode($students);
+
+            if ($points->isEmpty()) {
+                $points->push([
+                    'label' => (string) $now->year,
+                    'admission' => 0,
+                    'batch' => 0,
+                ]);
+            }
+        }
+
+        return response()->json([
+            'period' => $period,
+            'labels' => $points->pluck('label')->values(),
+            'admission' => $points->pluck('admission')->values(),
+            'batch' => $points->pluck('batch')->values(),
+        ]);
     }
 
     function studentDashboard(Request $request)

@@ -16,12 +16,12 @@
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" data-series="week" id="pills-week-tab"
                                             data-bs-toggle="pill" data-bs-target="#pills-week" type="button"
-                                            role="tab" aria-selected="true">Week</button>
+                                            role="tab" aria-selected="false">Week</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link active" data-series="month" id="pills-month-tab"
                                             data-bs-toggle="pill" data-bs-target="#pills-month" type="button"
-                                            role="tab" aria-selected="false">Month</button>
+                                            role="tab" aria-selected="true">Month</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" data-series="year" id="pills-year-tab"
