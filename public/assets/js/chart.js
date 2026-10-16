@@ -273,6 +273,13 @@
             feeCollectionRequest = $.getJSON('/dashboard/student/fee/collection/' + type, {
                 period: period,
             }, function (response) {
+                var totals = response.totals || {};
+                $('#feeAdmissionTotal').text(formatFinanceAmount(totals.admission));
+                $('#feeBatchTotal').text(formatFinanceAmount(totals.batch));
+                $('#feeOtherTotal').text(formatFinanceAmount(totals.other));
+                $('#feeIncomeOtherTotal').text(formatFinanceAmount(totals.income));
+                $('#feeExpenseTotal').text(formatFinanceAmount(totals.expense));
+
                 var series = [
                     {
                         name: 'Admission',

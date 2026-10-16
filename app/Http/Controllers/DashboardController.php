@@ -119,7 +119,7 @@ class DashboardController extends Controller implements HasMiddleware
         $feeQuery = Fee::query()->when((int) $type === 0, function ($query) {
             return $query->where('branch_id', Session::get('branch'));
         });
-        $sumColumns = "COALESCE(SUM(CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS admission, COALESCE(SUM(CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS batch";
+        $sumColumns = "COALESCE(SUM(CASE WHEN category='admission' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS admission, COALESCE(SUM(CASE WHEN category='monthly' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS batch, COALESCE(SUM(CASE WHEN category='other' THEN amount-IFNULL(discount, 0) ELSE 0 END), 0) AS other";
 
         if ($period === 'week') {
             $start = $now->copy()->subDays(6)->startOfDay();
@@ -138,6 +138,7 @@ class DashboardController extends Controller implements HasMiddleware
                     'label' => $date->format('D d'),
                     'admission' => (float) ($row->admission ?? 0),
                     'batch' => (float) ($row->batch ?? 0),
+                    'other' => (float) ($row->other ?? 0),
                 ]);
             }
         } elseif ($period === 'month') {
@@ -157,6 +158,7 @@ class DashboardController extends Controller implements HasMiddleware
                     'label' => $date->format('d M'),
                     'admission' => (float) ($row->admission ?? 0),
                     'batch' => (float) ($row->batch ?? 0),
+                    'other' => (float) ($row->other ?? 0),
                 ]);
             }
         } elseif ($period === 'year') {
@@ -173,6 +175,7 @@ class DashboardController extends Controller implements HasMiddleware
                     'label' => Carbon::create($now->year, $month, 1)->format('M'),
                     'admission' => (float) ($row->admission ?? 0),
                     'batch' => (float) ($row->batch ?? 0),
+                    'other' => (float) ($row->other ?? 0),
                 ]);
             }
         } else {
@@ -186,6 +189,7 @@ class DashboardController extends Controller implements HasMiddleware
                     'label' => (string) $row->period_key,
                     'admission' => (float) $row->admission,
                     'batch' => (float) $row->batch,
+                    'other' => (float) $row->other,
                 ];
             });
 
@@ -194,15 +198,37 @@ class DashboardController extends Controller implements HasMiddleware
                     'label' => (string) $now->year,
                     'admission' => 0,
                     'batch' => 0,
+                    'other' => 0,
                 ]);
             }
         }
+
+        $incomeExpenseQuery = IncomeExpense::query()->when((int) $type === 0, function ($query) {
+            return $query->where('branch_id', Session::get('branch'));
+        });
+
+        if (in_array($period, ['week', 'month'], true)) {
+            $incomeExpenseQuery->whereBetween('date', [$start->toDateString(), $end->toDateString()]);
+        } elseif ($period === 'year') {
+            $incomeExpenseQuery->whereYear('date', $now->year);
+        }
+
+        $incomeExpenseTotals = $incomeExpenseQuery
+            ->selectRaw("COALESCE(SUM(CASE WHEN category='income' THEN amount ELSE 0 END), 0) AS income, COALESCE(SUM(CASE WHEN category='expense' THEN amount ELSE 0 END), 0) AS expense")
+            ->first();
 
         return response()->json([
             'period' => $period,
             'labels' => $points->pluck('label')->values(),
             'admission' => $points->pluck('admission')->values(),
             'batch' => $points->pluck('batch')->values(),
+            'totals' => [
+                'admission' => (float) $points->sum('admission'),
+                'batch' => (float) $points->sum('batch'),
+                'other' => (float) $points->sum('other'),
+                'income' => (float) ($incomeExpenseTotals->income ?? 0),
+                'expense' => (float) ($incomeExpenseTotals->expense ?? 0),
+            ],
         ]);
     }
 

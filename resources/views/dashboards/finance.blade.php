@@ -41,23 +41,23 @@
                                 @endif
                                 <div class="ttl-project">
                                     <div class="pr-data">
-                                        <h5>{{ number_format($fee->sum('admission'), 2) }}</h5>
+                                        <h5 id="feeAdmissionTotal">{{ number_format($fee->sum('admission'), 2) }}</h5>
                                         <span>Admission Fee</span>
                                     </div>
                                     <div class="pr-data">
-                                        <h5 class="text-primary">{{ number_format($fee->sum('batch'), 2) }}</h5>
+                                        <h5 id="feeBatchTotal" class="text-primary">{{ number_format($fee->sum('batch'), 2) }}</h5>
                                         <span>Batch Fee</span>
                                     </div>
                                     <div class="pr-data">
-                                        <h5 class="text-info">{{ number_format($fee->sum('other'), 2) }}</h5>
+                                        <h5 id="feeOtherTotal" class="text-info">{{ number_format($fee->sum('other'), 2) }}</h5>
                                         <span>Other Fee</span>
                                     </div>
                                     <div class="pr-data">
-                                        <h5 class="text-success">{{ number_format($ie->sum('income'), 2) }}</h5>
+                                        <h5 id="feeIncomeOtherTotal" class="text-success">{{ number_format($ie->sum('income'), 2) }}</h5>
                                         <span>Income Other</span>
                                     </div>
                                     <div class="pr-data">
-                                        <h5 class="text-danger">{{ number_format($ie->sum('expense'), 2) }}</h5>
+                                        <h5 id="feeExpenseTotal" class="text-danger">{{ number_format($ie->sum('expense'), 2) }}</h5>
                                         <span>Expenses</span>
                                     </div>
                                 </div>
